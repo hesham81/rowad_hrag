@@ -1,6 +1,10 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
 import '../widget/biggest_inf.dart';
 import '../widget/rate_us.dart';
 import '../widget/about.dart';
@@ -131,6 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<HomeCubit>();
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
@@ -316,17 +321,28 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ).hPadding(0.02.width),
             0.01.height.hSpace,
-            SizedBox(
-              height: 0.15.height,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => Categories(
-                  path: categories[index]['image'],
-                  text: categories[index]['title'],
-                ),
-                separatorBuilder: (context, index) => 0.01.width.vSpace,
-                itemCount: 10,
-              ),
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                var handler = state as Handling;
+                if (state is HomeLoading || state is HomeInitial) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (handler is HomeLoaded) {
+                  return SizedBox(
+                    height: 0.15.height,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => Categories(
+                        imageUrl: handler.categories[index].icon,
+                        text: handler.categories[index].name,
+                      ),
+                      separatorBuilder: (context, index) => 0.01.width.vSpace,
+                      itemCount: 10,
+                    ),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              },
             ),
             CarouselSlider(
               items: ads.map((e) => Image.asset(e)).toList(),
@@ -367,8 +383,6 @@ class _HomeScreenState extends State<HomeScreen> {
             0.01.height.hSpace,
             BiggestInf().hPadding(0.03.width),
             0.01.height.hSpace,
-
-
           ],
         ),
       ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rowad_hrag/features/auth/presentation/manager/auth_cubit.dart';
-import 'package:rowad_hrag/features/layout/presentation/pages/home_screen.dart';
+import '../../features/layout/presentation/manager/home_cubit.dart';
+import '/features/auth/presentation/manager/auth_cubit.dart';
+import '/features/layout/presentation/pages/home_screen.dart';
 import '../../features/auth/presentation/pages/sign_in.dart';
 import '../../features/auth/presentation/pages/sign_up/pages/sign_up.dart';
 import '/core/route/route_names.dart';
@@ -18,7 +19,10 @@ abstract class OnGenerateRoute {
         );
       case RouteNames.home:
         return MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => BlocProvider<HomeCubit>(
+            create: (context) => HomeCubit()..getAllCategories(),
+            child: HomeScreen(),
+          ),
         );
       case RouteNames.signUp:
         return MaterialPageRoute(
