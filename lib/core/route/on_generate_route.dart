@@ -28,7 +28,7 @@ abstract class OnGenerateRoute {
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             child: SignUp(),
-            create: (context) => AuthCubit(),
+            create: (context) => AuthCubit()..getAllCities(),
           ),
         );
       default:

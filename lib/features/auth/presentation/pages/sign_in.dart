@@ -129,12 +129,14 @@ class _SignInState extends State<SignIn> {
                 ),
                 borderRadius: 50,
                 onPressed: () async {
-                  var reseponse = await cubit.signIn();
-                  if (reseponse) {
-                    Navigator.pushNamed(
-                      context,
-                      RouteNames.home,
-                    );
+                  if (_formKey.currentState!.validate()) {
+                    var reseponse = await cubit.signIn();
+                    if (reseponse) {
+                      Navigator.pushNamed(
+                        context,
+                        RouteNames.home,
+                      );
+                    }
                   }
                 },
                 child: Text(

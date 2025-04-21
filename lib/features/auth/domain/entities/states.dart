@@ -1,23 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class States extends Equatable {
-  final String id;
+  final int id;
 
-  final String countryId;
+  final int stateId;
 
   final String name;
 
-  const States({
+  States({
     required this.id,
-    required this.countryId,
+    required this.stateId,
     required this.name,
   });
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [
-        id,
-        countryId,
-        name,
-      ];
+  List<Object?> get props => [name, id];
 }

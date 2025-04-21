@@ -27,10 +27,24 @@ class RemoteAuthDataSource implements AuthInterfaceDataSource {
   }
 
   @override
-  Future<Response> signUp(SignUpDataModel data)  async{
+  Future<Response> signUp(SignUpRequest data) async {
     return await _dio.post(
       ApiEndPoints.login,
       data: data.toJson(),
+    );
+  }
+
+  @override
+  Future<Response> getAllCities() async {
+    return await _dio.get(
+      ApiEndPoints.states,
+    );
+  }
+
+  @override
+  Future<Response> getStateById(int cityId) async {
+    return await _dio.get(
+      "${ApiEndPoints.cityByStateId}/$cityId",
     );
   }
 }

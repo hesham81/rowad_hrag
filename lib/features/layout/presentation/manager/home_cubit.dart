@@ -19,11 +19,10 @@ class HomeCubit extends Cubit<HomeState> {
   late GetAllCategoriesUseCase _getAllCategoriesUseCase;
   late HomeInterfaceDataSource _interfaceDataSource;
   late HomeReposatory _homeReposatory;
-  WebServices _services = WebServices();
+  late WebServices _services ;
 
   Future<bool> getAllCategories() async {
     try {
-      emit(HomeLoading());
       _services = WebServices();
       _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
       _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
