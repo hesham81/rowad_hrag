@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rowad_hrag/core/services/cash_helper.dart';
 import 'package:rowad_hrag/core/validations/validations.dart';
 import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
+import '../../../../data/models/states_data_model.dart';
 import '../../../manager/auth_cubit.dart';
 import '/core/widget/custom_elevated_button.dart';
 import '/core/widget/custom_text_button.dart';
@@ -113,9 +114,42 @@ class _SignUpState extends State<SignUp> {
                     },
                   ),
                   0.01.height.hSpace,
-                  CustomTextFormField(
-                    hintText: "المنطقة",
-                    controller: TextEditingController(),
+                  BlocBuilder<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      var handler = state as HandlingAuth;
+                      switch (handler) {
+                        case CompletedStateLoaded():
+                          return CustomDropdown<String>(
+                            decoration: CustomDropdownDecoration(
+                              closedBorder: Border.all(
+                                color: AppColors.secondaryColor,
+                                width: 1.5,
+                              ),
+                            ),
+                            hintText: "اختر المنطقه",
+                            items: handler.states.map((e) => e.name).toList(),
+                            onChanged: (p0) {
+                              StatesDataModel state = handler.states
+                                  .where(
+                                    (element) => element.name == p0!,
+                                  )
+                                  .first;
+                              cubit.setSelectedState(state);
+                            },
+                          );
+                      }
+                      return CustomDropdown<String>(
+                        decoration: CustomDropdownDecoration(
+                          closedBorder: Border.all(
+                            color: AppColors.secondaryColor,
+                            width: 1.5,
+                          ),
+                        ),
+                        hintText: "اختر المنطقه",
+                        items: [],
+                        onChanged: (p0) {},
+                      );
+                    },
                   ),
                   0.01.height.hSpace,
                   Row(

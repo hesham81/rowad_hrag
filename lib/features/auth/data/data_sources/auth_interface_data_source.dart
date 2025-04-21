@@ -12,4 +12,7 @@ abstract class AuthInterfaceDataSource {
   Future<Response> forgetPassword();
 
   Future<Response> getAllCities();
+
+  Future<Response> getStateById(int cityId);
+
 }

@@ -40,4 +40,11 @@ class RemoteAuthDataSource implements AuthInterfaceDataSource {
       ApiEndPoints.states,
     );
   }
+
+  @override
+  Future<Response> getStateById(int cityId) async {
+    return await _dio.get(
+      "${ApiEndPoints.cityByStateId}/$cityId",
+    );
+  }
 }

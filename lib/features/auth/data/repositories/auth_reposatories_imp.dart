@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:rowad_hrag/features/auth/data/models/sign_up_data_model.dart';
 import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
 import 'package:rowad_hrag/features/auth/domain/entities/sign_up_request.dart';
+import '../models/states_data_model.dart';
 import '/core/failures/failures.dart';
 import '/features/auth/data/data_sources/auth_interface_data_source.dart';
 import '/features/auth/data/models/sign_in_model.dart';
@@ -107,8 +108,32 @@ class AuthReposatoriesImp implements AuthReposatories {
   }
 
   @override
-  Future<Either<Failure, List<String>>> getState(String stateId) {
-    // TODO: implement getCity
-    throw UnimplementedError();
+  Future<Either<Failure, List<StatesDataModel>>> getState(
+      int stateId) async {
+    try {
+      final response = await _authInterfaceDataSource.getStateById(stateId);
+      if (response.statusCode == 200 && response.data["sucess"] != false) {
+        final List<dynamic> jsonData = response.data["data"];
+        final List<StatesDataModel> data =
+            jsonData.map((json) => StatesDataModel.fromJson(json)).toList();
+        return Right(
+          data,
+        );
+      } else {
+        return Left(
+          ServerFailure(
+            statusCode: response.statusCode.toString(),
+            message: response.data["message"],
+          ),
+        );
+      }
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response!.statusCode!.toString(),
+          message: error.response!.data["message"],
+        ),
+      );
+    }
   }
 }
