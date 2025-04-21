@@ -1,5 +1,11 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rowad_hrag/core/services/cash_helper.dart';
+import 'package:rowad_hrag/core/validations/validations.dart';
+import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
+import '../../../manager/auth_cubit.dart';
 import '/core/widget/custom_elevated_button.dart';
 import '/core/widget/custom_text_button.dart';
 import '/core/constant/app_assets.dart';
@@ -17,16 +23,10 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController zoneController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var cubit = context.read<AuthCubit>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -60,22 +60,62 @@ class _SignUpState extends State<SignUp> {
                   0.02.height.hSpace,
                   CustomTextFormField(
                     hintText: "الاسم بالكامل",
-                    controller: nameController,
+                    controller: cubit.signUpNameController,
+                    validate: (value) => value!.isEmpty ? "ادخل الاسم" : null,
                   ),
                   0.01.height.hSpace,
                   CustomTextFormField(
                     hintText: "البريد الالكتروني",
-                    controller: emailController,
+                    controller: cubit.signUpEmailController,
+                    validate: (value) => (Validations.isEmailValid(value!)),
+                  ),
+                  0.01.height.hSpace,
+                  BlocBuilder<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      List<String> list = [];
+                      CashHelper.getStringList("Cities").then(
+                        (value) => list = value ?? [],
+                      );
+                      return (state is CompletedCityLoaded)
+                          ? CustomDropdown<String>(
+                              decoration: CustomDropdownDecoration(
+                                closedBorder: Border.all(
+                                  color: AppColors.secondaryColor,
+                                  width: 1.5,
+                                ),
+                              ),
+                              hintText: "اختر المدينة",
+                              items: state.cities
+                                  .map(
+                                    (e) => e.name,
+                                  )
+                                  .toList(),
+                              onChanged: (p0) {
+                                CityDataModel city = state.cities
+                                    .where(
+                                      (element) => element.name == p0!,
+                                    )
+                                    .first;
+                                cubit.setSelectedCity(city);
+                              },
+                            )
+                          : CustomDropdown<String>(
+                              decoration: CustomDropdownDecoration(
+                                closedBorder: Border.all(
+                                  color: AppColors.secondaryColor,
+                                  width: 1.5,
+                                ),
+                              ),
+                              hintText: "اختر المدينة",
+                              items: list,
+                              onChanged: (p0) {},
+                            );
+                    },
                   ),
                   0.01.height.hSpace,
                   CustomTextFormField(
                     hintText: "المنطقة",
-                    controller: zoneController,
-                  ),
-                  0.01.height.hSpace,
-                  CustomTextFormField(
-                    hintText: "المدينة",
-                    controller: cityController,
+                    controller: TextEditingController(),
                   ),
                   0.01.height.hSpace,
                   Row(
@@ -125,13 +165,13 @@ class _SignUpState extends State<SignUp> {
                   0.01.height.hSpace,
                   CustomTextFormField(
                     hintText: "كلمة المرور",
-                    controller: passwordController,
+                    controller: cubit.signUpPasswordController,
                     isPassword: true,
                   ),
                   0.01.height.hSpace,
                   CustomTextFormField(
                     hintText: "تأكيد كلمة المرور",
-                    controller: confirmPasswordController,
+                    controller: cubit.signUpConfirmPasswordController,
                     isPassword: true,
                   ),
                   0.01.height.hSpace,
@@ -209,7 +249,9 @@ class _SignUpState extends State<SignUp> {
                           horizontal: 0.1.width,
                           vertical: 0.02.height,
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await cubit.signUp();
+                        },
                         borderRadius: 50,
                         child: Text(
                           "إنشاء حساب",

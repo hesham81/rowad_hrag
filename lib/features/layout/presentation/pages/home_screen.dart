@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,64 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  List<Map<String, dynamic>> categories = [
-    {
-      'title': 'سيارات',
-      'image': 'assets/images/categories/cars.svg',
-    },
-    {
-      'title': 'عقارات',
-      'image': 'assets/images/categories/3ekarat.svg',
-    },
-    {
-      'title': 'أثاث',
-      'image': 'assets/images/categories/asas.svg',
-    },
-    {
-      'title': 'أطعمه ومشروبات',
-      'image': 'assets/images/categories/drinks.svg',
-    },
-    {
-      'title': 'كل الحراج',
-      'image': 'assets/images/categories/all_7erag.svg',
-    },
-    {
-      'title': 'ملابس',
-      'image': 'assets/images/categories/clothes.svg',
-    },
-    {
-      'title': 'إكسسوارات ',
-      'image': 'assets/images/categories/accessories.svg',
-    },
-    {
-      'title': 'خدمات ',
-      'image': 'assets/images/categories/services.svg',
-    },
-    {
-      'title': 'نظافة ',
-      'image': 'assets/images/categories/cleaning.svg',
-    },
-    {
-      'title': 'برمجة وتصميم ',
-      'image': 'assets/images/categories/programing.svg',
-    },
-    {
-      'title': 'الاجهزة',
-      'image': 'assets/images/categories/devices.svg',
-    },
-    {
-      'title': 'مكتبة وفنون',
-      'image': 'assets/images/categories/libraries.svg',
-    },
-    {
-      'title': 'الوظائف',
-      'image': 'assets/images/categories/jobs.svg',
-    },
-    {
-      'title': 'مستلزمات شخصية',
-      'image': 'assets/images/categories/personal.svg',
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {

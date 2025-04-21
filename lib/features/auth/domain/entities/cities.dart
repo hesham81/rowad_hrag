@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-class States extends Equatable {
-  final String id;
+class City extends Equatable {
+  final int id;
 
-  final String countryId;
+  final int countryId;
 
   final String name;
 
-  const States({
+  const City({
     required this.id,
     required this.countryId,
     required this.name,

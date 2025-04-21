@@ -1,14 +1,14 @@
-import 'package:rowad_hrag/features/auth/domain/entities/states.dart';
+import 'package:rowad_hrag/features/auth/domain/entities/cities.dart';
 
-class StatesDataModel extends States {
-  const StatesDataModel({
+class CityDataModel extends City {
+  const CityDataModel({
     required super.id,
     required super.countryId,
     required super.name,
   });
 
-  factory StatesDataModel.fromJson(Map<String, dynamic> json) =>
-      StatesDataModel(
+  factory CityDataModel.fromJson(Map<String, dynamic> json) =>
+      CityDataModel(
         id: json["id"],
         countryId: json["country_id"],
         name: json["name"],

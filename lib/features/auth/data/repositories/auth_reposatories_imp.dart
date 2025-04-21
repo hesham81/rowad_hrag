@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:rowad_hrag/features/auth/data/models/sign_up_data_model.dart';
+import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
 import 'package:rowad_hrag/features/auth/domain/entities/sign_up_request.dart';
 import '/core/failures/failures.dart';
 import '/features/auth/data/data_sources/auth_interface_data_source.dart';
@@ -49,13 +50,13 @@ class AuthReposatoriesImp implements AuthReposatories {
   }
 
   @override
-  signUp(SignUpDataModel data) async {
+  Future<Either<Failure, SignInResponse>> signUp(SignUpRequest data) async {
     try {
       final response = await _authInterfaceDataSource.signUp(data);
       if (response.statusCode == 200) {
         return Right(
           SignInModel.fromJson(
-            response.data,
+            response.data["user"],
           ),
         );
       } else {
@@ -74,5 +75,40 @@ class AuthReposatoriesImp implements AuthReposatories {
         ),
       );
     }
+  }
+
+  @override
+  Future<Either<Failure, List<CityDataModel>>> getAllCities() async {
+    try {
+      final response = await _authInterfaceDataSource.getAllCities();
+      if (response.statusCode == 200 && response.data["sucess"] != false) {
+        final List<dynamic> jsonData = response.data["data"];
+        final List<CityDataModel> data =
+            jsonData.map((json) => CityDataModel.fromJson(json)).toList();
+        return Right(
+          data,
+        );
+      } else {
+        return Left(
+          ServerFailure(
+            statusCode: response.statusCode.toString(),
+            message: response.data["message"],
+          ),
+        );
+      }
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response!.statusCode!.toString(),
+          message: error.response!.data["message"],
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getState(String stateId) {
+    // TODO: implement getCity
+    throw UnimplementedError();
   }
 }

@@ -12,4 +12,6 @@ class SignInUseCase {
   Future<Either<Failure, SignInResponse>> call(SignInRequest data) async {
     return _authReposatoriesImp.signIn(data);
   }
+
+
 }

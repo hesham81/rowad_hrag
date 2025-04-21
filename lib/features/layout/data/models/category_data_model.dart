@@ -12,7 +12,7 @@ class CategoryDataModel extends Category {
     return CategoryDataModel(
       id: json['id'],
       name: json['name'],
-      icon: json['icon'],
+      icon: json['banner'],
       numberOfChildren: json['number_of_children'],
     );
   }

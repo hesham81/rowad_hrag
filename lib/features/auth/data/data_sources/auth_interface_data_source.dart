@@ -7,7 +7,9 @@ import '../../domain/entities/sign_up_request.dart';
 abstract class AuthInterfaceDataSource {
   Future<Response> signIn(SignInRequest data);
 
-  Future<Response> signUp(SignUpDataModel data) ;
+  Future<Response> signUp(SignUpRequest data) ;
 
   Future<Response> forgetPassword();
+
+  Future<Response> getAllCities();
 }
