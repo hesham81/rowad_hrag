@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,15 +33,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   TextEditingController searchController = TextEditingController();
   List<String> labels = [
-    "تسجيل خروج",
-    "حسابي",
-    "تواصل مع الدعم",
-    "الخطط",
-    "أضف اعلان",
-    "رفع ايصالات التحويل",
-    "جميع الفئات",
-    "المدونات",
     "الصفحة الرئيسية",
+    "المدونات",
+    "جميع الفئات",
+    "رفع ايصالات التحويل",
+    "أضف اعلان",
+    "الخطط",
+    "تواصل مع الدعم",
+    "حسابي",
+    "تسجيل خروج"
   ];
   List<String> ads = [
     "assets/images/adds/1.png",
@@ -138,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     if (index != 0) {
                       slideLeftWidget(
-                        newPage: Blogs(),
+                        newPage: cubit.pages[index],
                         context: context,
                       );
                     }
