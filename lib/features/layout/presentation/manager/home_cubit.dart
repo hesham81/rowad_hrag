@@ -3,9 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:rowad_hrag/features/adds/presentation/pages/adds_page.dart';
 import 'package:rowad_hrag/features/bills/presentation/pages/upload_bills_page.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
+import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import '/core/services/web_services.dart';
 import '/features/layout/data/data_sources/remote_home_data_source.dart';
 import '/features/layout/data/repositories/home_reposatories_implementation.dart';
@@ -37,10 +39,10 @@ class HomeCubit extends Cubit<HomeState> {
     Blogs(),
     Blogs(),
     UploadBillsPage(),
+    AddsPage(),
     Blogs(),
     Blogs(),
-    Blogs(),
-    Blogs(),
+    Profile(),
     Blogs(),
   ];
 

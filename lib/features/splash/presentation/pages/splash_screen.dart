@@ -5,6 +5,7 @@ import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/constant/app_assets.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/services/cash_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,14 +15,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  String? _token;
+
+  Future<void> _getToken() async {
+    _token = await CashHelper.getString("token");
+    setState(() {});
+  }
+
   @override
   void initState() {
+    Future.wait([_getToken()]);
     // TODO: implement initState
     super.initState();
     Future.delayed(
       Duration(seconds: 3),
       () => pushNamedWhileRemove(
-        newPage: RouteNames.signIn,
+        newPage: (_token != null) ? RouteNames.home : RouteNames.signIn,
         context: context,
       ),
     );
