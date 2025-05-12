@@ -98,6 +98,7 @@ class AuthCubit extends Cubit<AuthState> {
       (success) {
         EasyLoading.dismiss();
         _services.myToken = success.accessToken;
+        CashHelper.setString("token", success.accessToken);
         return Future.value(true);
       },
     );

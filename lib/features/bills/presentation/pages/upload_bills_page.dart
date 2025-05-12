@@ -43,6 +43,8 @@ class _UploadBillsPageState extends State<UploadBillsPage> {
         child: Column(
           children: [
             0.01.height.hSpace,
+            Image.asset("assets/images/bills.jpg"),
+            0.01.height.hSpace,
             CustomTextFormField(
               hintText: "اسم المستخدم",
               controller: nameController,
@@ -97,7 +99,8 @@ class _UploadBillsPageState extends State<UploadBillsPage> {
                 ],
               ),
               onPressed: () {},
-            )
+            ),
+            0.01.height.hSpace,
           ],
         ).hPadding(0.03.width),
       ),
