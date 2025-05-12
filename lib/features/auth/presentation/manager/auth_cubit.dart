@@ -146,14 +146,16 @@ class AuthCubit extends Cubit<AuthState> {
         cityId: "4001",
         password: signUpPasswordController.text,
         confirmPassword: signUpConfirmPasswordController.text,
+        loginBy: "email",
       );
       var response = await _signUpUseCase.call(data);
-      EasyLoading.dismiss();
       return response.fold(
         (l) {
+          EasyLoading.dismiss();
           return false;
         },
         (r) {
+          EasyLoading.dismiss();
           navigationKey.currentState!.pushNamed(
             RouteNames.home,
           );
@@ -162,6 +164,7 @@ class AuthCubit extends Cubit<AuthState> {
         },
       );
     } catch (error) {
+      EasyLoading.dismiss();
       return false;
     }
   }

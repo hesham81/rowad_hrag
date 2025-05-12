@@ -52,7 +52,7 @@ class _SignInState extends State<SignIn> {
                       ).center,
                       0.01.height.hSpace,
                       Text(
-                        "Welcome To Rowad Hrag",
+                        "مرحبا بك في رواد حراج",
                         style: theme.textTheme.titleMedium!.copyWith(
                           color: AppColors.secondaryColor,
                           fontWeight: FontWeight.bold,
@@ -61,7 +61,7 @@ class _SignInState extends State<SignIn> {
                       ).center,
                       0.01.height.hSpace,
                       Text(
-                        "Login",
+                        "تسجيل الدخول",
                         style: theme.textTheme.titleMedium!.copyWith(
                           color: AppColors.blueColor,
                           fontWeight: FontWeight.w600,
@@ -70,7 +70,7 @@ class _SignInState extends State<SignIn> {
                       ).center,
                       0.01.height.hSpace,
                       CustomTextFormField(
-                        hintText: "Email",
+                        hintText: "البريد الالكتروني",
                         controller: cubit.signInController,
                         validate: (value) {
                           return Validations.isEmailValid(value!);
@@ -78,7 +78,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       0.03.height.hSpace,
                       CustomTextFormField(
-                        hintText: "Password",
+                        hintText: "كلمه المرور",
                         controller: cubit.signInPasswordController,
                         isPassword: true,
                         suffixIcon: Icons.remove_red_eye_outlined,
@@ -90,7 +90,7 @@ class _SignInState extends State<SignIn> {
                       Row(
                         children: [
                           CustomTextButton(
-                            text: " Did you forget password ? ",
+                            text: " نسيت كلمه السر؟ ",
                             onPressed: () {},
                           ),
                           Spacer(),
@@ -153,7 +153,7 @@ class _SignInState extends State<SignIn> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CustomTextButton(
-                    text: "Register Now",
+                    text: "انشاء حساب",
                     btnColor: AppColors.secondaryColor,
                     onPressed: () {
                       Navigator.pushNamed(
@@ -164,7 +164,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   0.01.width.vSpace,
                   Text(
-                    "Don't Have An Account ?",
+                    "ليس لديك حساب ؟ ",
                     style: theme.textTheme.titleMedium!.copyWith(
                       color: AppColors.blueColor,
                       fontWeight: FontWeight.w600,
@@ -175,7 +175,7 @@ class _SignInState extends State<SignIn> {
               ).hPadding(0.03.width),
               0.03.height.hSpace,
               Text(
-                "Login as a guest",
+                "الدخول كزائر",
                 style: theme.textTheme.titleMedium!.copyWith(
                   color: AppColors.blueColor,
                   fontWeight: FontWeight.bold,

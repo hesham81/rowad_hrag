@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
 import '/features/layout/presentation/pages/home_screen.dart';
@@ -33,10 +34,7 @@ abstract class OnGenerateRoute {
         );
       default:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            child: SignIn(),
-            create: (context) => AuthCubit(),
-          ),
+          builder: (context) => SplashScreen(),
         );
     }
   }
