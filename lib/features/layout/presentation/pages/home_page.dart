@@ -1,46 +1,29 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:route_transitions/route_transitions.dart';
-import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
-import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
-import '../widget/biggest_inf.dart';
-import '../widget/rate_us.dart';
-import '../widget/about.dart';
-import '../widget/reviews.dart';
-import '../widget/special_ads_widget.dart';
-import '../widget/categories.dart';
-import '/core/extensions/align.dart';
-import '/core/constant/app_assets.dart';
-import '/core/extensions/extensions.dart';
-import '/core/theme/app_colors.dart';
-import '../widget/upper_bar.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:rowad_hrag/core/constant/app_assets.dart';
+import 'package:rowad_hrag/core/extensions/align.dart';
+import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:video_player/video_player.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+import '../manager/home_cubit.dart';
+import '../widget/about.dart';
+import '../widget/biggest_inf.dart';
+import '../widget/categories.dart';
+import '../widget/rate_us.dart';
+import '../widget/reviews.dart';
+import '../widget/special_ads_widget.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  late VideoPlayerController _controller;
-  bool _isVideoInitialized = false; // Track video initialization status
-
-  TextEditingController searchController = TextEditingController();
-  List<String> labels = [
-    "تسجيل خروج",
-    "حسابي",
-    "تواصل مع الدعم",
-    "الخطط",
-    "أضف اعلان",
-    "رفع ايصالات التحويل",
-    "جميع الفئات",
-    "المدونات",
-    "الصفحة الرئيسية",
-  ];
+class _HomePageState extends State<HomePage> {
   List<String> ads = [
     "assets/images/adds/1.png",
     "assets/images/adds/2.png",
@@ -74,95 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  late VideoPlayerController _controller;
+  bool _isVideoInitialized = false; // Track video initialization status
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<HomeCubit>();
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        backgroundColor: Color(0xff0AB28F),
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-              color: Color(0xff7AD7C4),
-              size: 30,
-            ),
-            label: 'الصفحة الرئيسية',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_outline,
-              size: 30,
-              color: Color(0xff7AD7C4),
-            ),
-            label: 'المفضلة',
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Color(0xff0AB28F),
-        shape: CircleBorder(
-          side: BorderSide(
-            color: Color(0xffE3F1EE),
-            width: 3,
-          ),
-        ),
-        child: Icon(
-          Icons.add,
-          size: 35,
-          color: Color(0xff7AD7C4),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SvgPicture.asset(
-              AppAssets.upperNav,
-              fit: BoxFit.cover,
-            ),
-            Container(
-              color: AppColors.primaryColor,
-              child: UpperBar(),
-            ),
-            Container(
-              height: 0.05.height,
-              color: AppColors.primaryColor,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    if (index != 0) {
-                      slideLeftWidget(
-                        newPage: Blogs(),
-                        context: context,
-                      );
-                    }
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.secondaryColor,
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    child: Center(
-                      child: Text(
-                        labels[index],
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: AppColors.primaryColor,
-                                ),
-                      ),
-                    ).allPadding(3),
-                  ),
-                ),
-                separatorBuilder: (context, index) => 0.01.width.vSpace,
-                itemCount: labels.length,
-              ),
-            ).hPadding(0.01.width),
             Container(
               width: double.maxFinite,
               color: AppColors.primaryColor,
