@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -279,10 +280,14 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, state) {
                 var handler = state as Handling;
                 if (state is HomeLoading || state is HomeInitial) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.secondaryColor,
+                    ),
+                  );
                 } else if (handler is HomeLoaded) {
                   return SizedBox(
-                    height: 0.15.height,
+                    height: 0.17.height,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) => Categories(
@@ -290,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         text: handler.categories[index].name,
                       ),
                       separatorBuilder: (context, index) => 0.01.width.vSpace,
-                      itemCount: 10,
+                      itemCount: handler.categories.length,
                     ),
                   );
                 } else {
@@ -298,21 +303,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
             ),
-            CarouselSlider(
-              items: ads.map((e) => Image.asset(e)).toList(),
-              options: CarouselOptions(
-                initialPage: 0,
-                height: 0.4.height,
-                enableInfiniteScroll: true,
-                reverse: false,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enlargeCenterPage: true,
-                enlargeFactor: 0.3,
-                scrollDirection: Axis.horizontal,
-              ),
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                var handler = state as Handling;
+                if (state is LoadingBanners) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (handler is LoadedBanners) {
+                  return CarouselSlider(
+                    items: handler.banners
+                        .map(
+                          (e) => CachedNetworkImage(imageUrl: e.imageUrl),
+                        )
+                        .toList(),
+                    options: CarouselOptions(
+                      initialPage: 0,
+                      height: 0.4.height,
+                      enableInfiniteScroll: true,
+                      reverse: false,
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enlargeCenterPage: true,
+                      enlargeFactor: 0.3,
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              },
             ),
             SpecialAdsWidget(
               title: "إعلانات مميزة",

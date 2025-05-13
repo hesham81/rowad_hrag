@@ -21,7 +21,9 @@ abstract class OnGenerateRoute {
       case RouteNames.home:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<HomeCubit>(
-            create: (context) => HomeCubit()..getAllCategories(),
+            create: (context) => HomeCubit()
+              ..getAllCategories()
+              ..getAllBanners(),
             child: HomeScreen(),
           ),
         );

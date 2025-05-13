@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:rowad_hrag/core/failures/failures.dart';
 import 'package:rowad_hrag/features/layout/data/data_sources/home_interface_data_source.dart';
+import 'package:rowad_hrag/features/layout/data/models/banner_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/repositories/home_reposatory.dart';
 
@@ -34,6 +35,33 @@ class HomeReposatoriesImplementation implements HomeReposatory {
         ServerFailure(
           statusCode: error.response?.statusCode.toString() ?? "",
           message: error.response?.data["message"] ?? "Something Went Wrong",
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<BannerDataModel>>> getAllBanners() async {
+    try {
+      var response = await _interfaceDataSource.getBanners();
+      if (response.statusCode == 200 && response.data["success"]) {
+        final List<dynamic> jsonData = response.data["data"];
+        final List<BannerDataModel> banners =
+            jsonData.map((e) => BannerDataModel.fromJson(e)).toList();
+        return Right(banners);
+      } else {
+        return Left(
+          ServerFailure(
+            statusCode: response.statusCode.toString(),
+            message: response.data["message"],
+          ),
+        );
+      }
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "",
+          message: error.message,
         ),
       );
     }
