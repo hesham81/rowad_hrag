@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
 import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
 import '../widget/biggest_inf.dart';
@@ -139,9 +140,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    if (index != 0) {
+                    if (index != 0 && index != 1) {
                       slideLeftWidget(
                         newPage: cubit.pages[index],
+                        context: context,
+                      );
+                    } else if (index == 1) {
+                      pushNamed(
+                        newPage: RouteNames.blogs,
                         context: context,
                       );
                     }
@@ -279,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
                 var handler = state as Handling;
-                if (state is HomeLoading || state is HomeInitial) {
+                if (state is HomeLoading) {
                   return Center(
                     child: CircularProgressIndicator(
                       color: AppColors.secondaryColor,
@@ -303,38 +309,58 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
             ),
-            BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) {
-                var handler = state as Handling;
-                if (state is LoadingBanners) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (handler is LoadedBanners) {
-                  return CarouselSlider(
-                    items: handler.banners
-                        .map(
-                          (e) => CachedNetworkImage(imageUrl: e.imageUrl),
-                        )
-                        .toList(),
-                    options: CarouselOptions(
-                      initialPage: 0,
-                      height: 0.4.height,
-                      enableInfiniteScroll: true,
-                      reverse: false,
-                      autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 3),
-                      autoPlayAnimationDuration: Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enlargeCenterPage: true,
-                      enlargeFactor: 0.3,
-                      scrollDirection: Axis.horizontal,
-                    ),
-                  );
-                } else {
-                  return SizedBox();
-                }
-              },
+            // BlocBuilder<HomeCubit, HomeState>(
+            //   builder: (context, state) {
+            //     var handler = state as Handling;
+            //     if (state is LoadingBanners) {
+            //       return Center(
+            //         child: CircularProgressIndicator(),
+            //       );
+            //     } else if (handler is LoadedBanners) {
+            //       return CarouselSlider(
+            //         items: handler.banners
+            //             .map(
+            //               (e) => CachedNetworkImage(imageUrl: e.imageUrl),
+            //             )
+            //             .toList(),
+            //         options: CarouselOptions(
+            //           initialPage: 0,
+            //           height: 0.4.height,
+            //           enableInfiniteScroll: true,
+            //           reverse: false,
+            //           autoPlay: true,
+            //           autoPlayInterval: Duration(seconds: 3),
+            //           autoPlayAnimationDuration: Duration(milliseconds: 800),
+            //           autoPlayCurve: Curves.fastOutSlowIn,
+            //           enlargeCenterPage: true,
+            //           enlargeFactor: 0.3,
+            //           scrollDirection: Axis.horizontal,
+            //         ),
+            //       );
+            //     } else {
+            //       return SizedBox();
+            //     }
+            //   },
+            // ),
+            CarouselSlider(
+              items: ads
+                  .map(
+                    (e) => Image.asset(e),
+                  )
+                  .toList(),
+              options: CarouselOptions(
+                initialPage: 0,
+                height: 0.4.height,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enlargeCenterPage: true,
+                enlargeFactor: 0.3,
+                scrollDirection: Axis.horizontal,
+              ),
             ),
             SpecialAdsWidget(
               title: "إعلانات مميزة",

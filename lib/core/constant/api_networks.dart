@@ -9,5 +9,6 @@ abstract class ApiEndPoints {
   static const String states = '/states';
   static const String cityByStateId = '/cities-by-state';
   static const String banners = '/banners-one';
+  static const String blogs = '/blogs';
 
 }

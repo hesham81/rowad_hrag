@@ -16,7 +16,7 @@ import '../../domain/repositories/home_reposatory.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(Handling());
+  HomeCubit() : super(HomeInitial());
   late GetAllCategoriesUseCase _getAllCategoriesUseCase;
   late HomeInterfaceDataSource _interfaceDataSource;
   late HomeReposatory _homeReposatory;
@@ -68,7 +68,6 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<bool> getAllBanners() async {
     try {
-      emit(LoadingBanners());
       _services = WebServices();
       _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
       _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);

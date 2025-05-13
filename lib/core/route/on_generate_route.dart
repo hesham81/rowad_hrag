@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rowad_hrag/features/blogs/presentation/manager/blog_cubit.dart';
+import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
@@ -27,6 +29,14 @@ abstract class OnGenerateRoute {
             child: HomeScreen(),
           ),
         );
+      case RouteNames.blogs:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<BlogCubit>(
+            create: (context) => BlogCubit()..getBlogs(),
+            child: Blogs(),
+          ),
+        );
+
       case RouteNames.signUp:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(

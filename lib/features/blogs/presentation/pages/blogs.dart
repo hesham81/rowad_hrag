@@ -4,7 +4,7 @@ import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/blogs/presentation/widgets/blog_item.dart';
 
-import '../../domain/entities/blogs.dart';
+import '../../domain/entities/blog.dart';
 
 class Blogs extends StatefulWidget {
   const Blogs({super.key});
