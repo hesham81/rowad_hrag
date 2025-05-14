@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
+import 'package:rowad_hrag/features/profile/presentation/pages/adds_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/widgets/points_item_cart.dart';
 import 'package:rowad_hrag/features/profile/presentation/widgets/profile_item_cart.dart';
 
@@ -80,7 +82,10 @@ class Profile extends StatelessWidget {
                             color: Colors.white,
                           ),
                     ),
-                    onPressed: () {},
+                    onPressed: () => slideLeftWidget(
+                      newPage: AddsScreen(),
+                      context: context,
+                    ),
                   ),
                 ),
                 0.01.width.vSpace,
@@ -127,6 +132,7 @@ class Profile extends StatelessWidget {
               totalPoints: "0",
               balance: "0",
             ),
+            0.02.height.hSpace,
           ],
         ).hPadding(0.03.width),
       ),
