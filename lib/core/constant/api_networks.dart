@@ -10,5 +10,6 @@ abstract class ApiEndPoints {
   static const String cityByStateId = '/cities-by-state';
   static const String banners = '/banners-one';
   static const String blogs = '/blogs';
+  static const String reviews = '/website-reviews';
 
 }

@@ -379,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
             0.01.height.hSpace,
             About().hPadding(0.03.width),
             0.01.height.hSpace,
-            Reviews().hPadding(0.03.width),
+            Reviews(),
             0.01.height.hSpace,
             RateUs().hPadding(0.03.width),
             0.01.height.hSpace,

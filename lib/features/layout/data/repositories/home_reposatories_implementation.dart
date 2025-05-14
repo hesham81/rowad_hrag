@@ -4,6 +4,7 @@ import 'package:rowad_hrag/core/failures/failures.dart';
 import 'package:rowad_hrag/features/layout/data/data_sources/home_interface_data_source.dart';
 import 'package:rowad_hrag/features/layout/data/models/banner_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
+import 'package:rowad_hrag/features/layout/data/models/reviews_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/repositories/home_reposatory.dart';
 
 class HomeReposatoriesImplementation implements HomeReposatory {
@@ -57,6 +58,24 @@ class HomeReposatoriesImplementation implements HomeReposatory {
           ),
         );
       }
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "",
+          message: error.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ReviewsDataModel>>> getAllReviews() async {
+    try {
+      var response = await _interfaceDataSource.getReviews();
+      final List<dynamic> jsonData = response.data["reviews"];
+      final List<ReviewsDataModel> reviews =
+          jsonData.map((e) => ReviewsDataModel.fromJson(e)).toList();
+      return Right(reviews);
     } on DioException catch (error) {
       return Left(
         ServerFailure(

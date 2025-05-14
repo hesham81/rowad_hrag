@@ -6,4 +6,6 @@ abstract class HomeInterfaceDataSource {
   Future<Response> getCategories();
 
   Future<Response> getBanners();
+
+  Future<Response> getReviews();
 }

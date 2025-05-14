@@ -16,7 +16,6 @@ class Handling extends HomeState {
   const Handling();
 }
 
-
 class HomeInitial extends Handling {
   const HomeInitial();
 }
@@ -37,17 +36,29 @@ class HomeError extends Handling {
   HomeError(this.message);
 }
 
-
 class LoadingBanners extends Handling {
   const LoadingBanners();
 }
+
 class LoadedBanners extends Handling {
   final List<Banner> banners;
 
   LoadedBanners(this.banners);
 }
+
 class ErrorBanners extends Handling {
   final String message;
 
   ErrorBanners(this.message);
+}
+
+class LoadedReviews extends Handling {
+  final List<Reviews> reviews;
+
+  const LoadedReviews(this.reviews);
+}
+class ErrorReviews extends Handling {
+  final String message;
+
+  ErrorReviews(this.message);
 }
