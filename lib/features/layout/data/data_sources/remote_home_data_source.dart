@@ -17,4 +17,19 @@ class RemoteHomeDataSource implements HomeInterfaceDataSource {
   Future<Response> getStates() {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Response> getBanners() async {
+    return await _dio.get(ApiEndPoints.banners);
+  }
+
+  @override
+  Future<Response> getReviews() async {
+    return await _dio.get(ApiEndPoints.reviews);
+  }
+
+  @override
+  Future<Response> getSubCategories(int id ) async{
+    return await _dio.get("${ApiEndPoints.reviews}/$id");
+  }
 }

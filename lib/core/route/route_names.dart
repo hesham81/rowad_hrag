@@ -3,5 +3,6 @@ abstract class RouteNames {
   static const String signUp = '/sign-up';
   static const String home = '/home';
   static const String splash = '/splash';
-
+  static const String blogs = '/blogs';
+  static const String subCategories = '/subCategories';
 }

@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> {
             0.01.height.hSpace,
             About().hPadding(0.03.width),
             0.01.height.hSpace,
-            Reviews().hPadding(0.03.width),
+            // Reviews().hPadding(0.03.width),
             0.01.height.hSpace,
             RateUs().hPadding(0.03.width),
             0.01.height.hSpace,

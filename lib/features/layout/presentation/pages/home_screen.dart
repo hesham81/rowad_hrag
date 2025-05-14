@@ -1,12 +1,16 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
 import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
+import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../widget/biggest_inf.dart';
 import '../widget/rate_us.dart';
 import '../widget/about.dart';
@@ -138,9 +142,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    if (index != 0) {
+                    if (index != 0 && index != 1) {
                       slideLeftWidget(
                         newPage: cubit.pages[index],
+                        context: context,
+                      );
+                    } else if (index == 1) {
+                      pushNamed(
+                        newPage: RouteNames.blogs,
                         context: context,
                       );
                     }
@@ -278,19 +287,31 @@ class _HomeScreenState extends State<HomeScreen> {
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
                 var handler = state as Handling;
-                if (state is HomeLoading || state is HomeInitial) {
-                  return Center(child: CircularProgressIndicator());
+                if (state is HomeLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.secondaryColor,
+                    ),
+                  );
                 } else if (handler is HomeLoaded) {
                   return SizedBox(
-                    height: 0.15.height,
+                    height: 0.17.height,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => Categories(
-                        imageUrl: handler.categories[index].icon,
-                        text: handler.categories[index].name,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () => slideLeftWidget(
+                            newPage: SubCategoriesScreen(
+                              id: handler.categories[index].id,
+                              name: handler.categories[index].name,
+                            ),
+                            context: context),
+                        child: Categories(
+                          imageUrl: handler.categories[index].icon,
+                          text: handler.categories[index].name,
+                        ),
                       ),
                       separatorBuilder: (context, index) => 0.01.width.vSpace,
-                      itemCount: 10,
+                      itemCount: handler.categories.length,
                     ),
                   );
                 } else {
@@ -298,20 +319,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
             ),
-            CarouselSlider(
-              items: ads.map((e) => Image.asset(e)).toList(),
-              options: CarouselOptions(
-                initialPage: 0,
-                height: 0.4.height,
-                enableInfiniteScroll: true,
-                reverse: false,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enlargeCenterPage: true,
-                enlargeFactor: 0.3,
-                scrollDirection: Axis.horizontal,
+            Skeletonizer(
+              enabled: cubit.isBannersLoading,
+              child: CarouselSlider(
+                items: cubit.banners
+                    .map(
+                      (e) => CachedNetworkImage(imageUrl: e.imageUrl),
+                    )
+                    .toList(),
+                options: CarouselOptions(
+                  initialPage: 0,
+                  height: 0.4.height,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: true,
+                  enlargeFactor: 0.3,
+                  scrollDirection: Axis.horizontal,
+                ),
               ),
             ),
             SpecialAdsWidget(
@@ -331,7 +359,31 @@ class _HomeScreenState extends State<HomeScreen> {
             0.01.height.hSpace,
             About().hPadding(0.03.width),
             0.01.height.hSpace,
-            Reviews().hPadding(0.03.width),
+            Container(
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: AppColors.secondaryColor,
+                ),
+              ),
+              child: Column(
+                children: [
+                  0.01.height.hSpace,
+                  Text(
+                    "المراجعات والتقيمات",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: AppColors.blueColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ).alignRight().allPadding(5),
+                  0.01.height.hSpace,
+                  ReviewsWidget(
+                    reviews: cubit.reviews.sublist(0, 3),
+                  ),
+                ],
+              ),
+            ).hPadding(0.03.width),
             0.01.height.hSpace,
             RateUs().hPadding(0.03.width),
             0.01.height.hSpace,

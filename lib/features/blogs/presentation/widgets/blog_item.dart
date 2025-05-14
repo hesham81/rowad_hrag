@@ -5,7 +5,7 @@ import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 
-import '../../domain/entities/blogs.dart';
+import '../../domain/entities/blog.dart';
 
 class BlogItem extends StatelessWidget {
   final Blog blog;

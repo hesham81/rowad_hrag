@@ -1,53 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:rowad_hrag/features/layout/domain/entities/reviews.dart';
 import '/core/extensions/extensions.dart';
 import '/core/theme/app_colors.dart';
 
-class Reviews extends StatelessWidget {
-  const Reviews({super.key});
+class ReviewsWidget extends StatelessWidget {
+  final List<Reviews> reviews;
+
+  const ReviewsWidget({
+    super.key,
+    required this.reviews,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.maxFinite,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: AppColors.secondaryColor,
-        ),
-      ),
-      child: Column(
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) => Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+
           Text(
-            "المراجعات والتقيمات",
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: AppColors.blueColor,
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          0.01.height.hSpace,
-          Text(
-            "احمد علي",
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          0.01.height.hSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              for (int i = 0; i < 5; i++)
-                Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 35,
-                ),
-            ],
-          ),
-          0.01.height.hSpace,
-          Text(
-            "حسام غالي",
+            reviews[index].shopName ?? "لايوجد اسم",
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: Colors.black,
               fontWeight: FontWeight.bold,
@@ -57,7 +31,7 @@ class Reviews extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              for (int i = 0; i < 5; i++)
+              for (int i = 0; i < reviews[index].rate; i++)
                 Icon(
                   Icons.star,
                   color: Colors.amber,
@@ -66,8 +40,18 @@ class Reviews extends StatelessWidget {
             ],
           ),
           0.01.height.hSpace,
+          Text(
+            reviews[index].review ,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          0.01.height.hSpace,
         ],
       ).hPadding(0.03.width),
+      separatorBuilder: (context, index) => 0.01.height.hSpace,
+      itemCount: reviews.length,
     );
   }
 }

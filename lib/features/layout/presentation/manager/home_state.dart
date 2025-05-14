@@ -35,3 +35,41 @@ class HomeError extends Handling {
 
   HomeError(this.message);
 }
+
+class LoadingBanners extends Handling {
+  const LoadingBanners();
+}
+
+class LoadedBanners extends Handling {
+  final List<Banner> banners;
+
+  LoadedBanners(this.banners);
+}
+
+class ErrorBanners extends Handling {
+  final String message;
+
+  ErrorBanners(this.message);
+}
+
+class LoadedReviews extends Handling {
+  final List<Reviews> reviews;
+
+  const LoadedReviews(this.reviews);
+}
+class ErrorReviews extends Handling {
+  final String message;
+
+  ErrorReviews(this.message);
+}
+
+class LoadedSubCategories extends Handling {
+  final List<SubCategoriesDataModel> subCategories;
+
+  const LoadedSubCategories(this.subCategories);
+}
+class ErrorSubCategories extends Handling {
+  final String message;
+
+  ErrorSubCategories(this.message);
+}
