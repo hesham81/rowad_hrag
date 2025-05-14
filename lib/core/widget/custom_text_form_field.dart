@@ -15,10 +15,12 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType keyboardType;
   final bool isReadOnly;
   final bool isFilled;
+  final Color? borderColor;
 
   final Color? fillColor;
 
   const CustomTextFormField({
+    this.borderColor,
     super.key,
     required this.hintText,
     this.borderRadius = 40,
@@ -78,11 +80,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         focusColor: AppColors.secondaryColor,
         iconColor: AppColors.secondaryColor,
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.secondaryColor, width: 1.5),
+          borderSide: BorderSide(
+            color: widget.borderColor ?? AppColors.secondaryColor,
+            width: 1.5,
+          ),
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.secondaryColor, width: 1.5),
+          borderSide: BorderSide(
+              color: widget.borderColor ?? AppColors.secondaryColor,
+              width: 1.5),
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
         errorBorder: OutlineInputBorder(
@@ -92,7 +99,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.secondaryColor, width: 1.5),
+          borderSide: BorderSide(
+              color: widget.borderColor ?? AppColors.secondaryColor,
+              width: 1.5),
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
       ),
