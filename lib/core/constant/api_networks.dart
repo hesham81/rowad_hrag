@@ -11,5 +11,6 @@ abstract class ApiEndPoints {
   static const String banners = '/banners-one';
   static const String blogs = '/blogs';
   static const String reviews = '/website-reviews';
+  static const String subCategories = '/sub-categories';
 
 }

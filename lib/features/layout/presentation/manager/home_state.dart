@@ -62,3 +62,14 @@ class ErrorReviews extends Handling {
 
   ErrorReviews(this.message);
 }
+
+class LoadedSubCategories extends Handling {
+  final List<SubCategoriesDataModel> subCategories;
+
+  const LoadedSubCategories(this.subCategories);
+}
+class ErrorSubCategories extends Handling {
+  final String message;
+
+  ErrorSubCategories(this.message);
+}

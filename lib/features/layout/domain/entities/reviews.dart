@@ -1,7 +1,7 @@
 class Reviews {
-  final String shopName;
+  final String? shopName;
 
-  final String shopSlug;
+  final String? shopSlug;
 
   final int rate;
 

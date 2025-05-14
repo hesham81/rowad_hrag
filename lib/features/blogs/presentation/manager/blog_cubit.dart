@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rowad_hrag/core/services/web_services.dart';
 import 'package:rowad_hrag/features/blogs/data/data_sources/blog_interface_data_source.dart';
 import 'package:rowad_hrag/features/blogs/data/data_sources/remote_blog_data_source.dart';
+import 'package:rowad_hrag/features/blogs/data/models/blog_data_model.dart';
 import 'package:rowad_hrag/features/blogs/domain/use_cases/get_all_blogs_use_case.dart';
 import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
 
@@ -19,6 +22,9 @@ class BlogCubit extends Cubit<BlogState> {
   late BlogReposatories _blogReposatories;
   late BlogInterfaceDataSource _interfaceDataSource;
   late WebServices _dio;
+  List<BlogDataModel> _blogs = [];
+
+  List<BlogDataModel> get blogs => _blogs;
 
   Future<void> getBlogs() async {
     _dio = WebServices();
@@ -29,22 +35,11 @@ class BlogCubit extends Cubit<BlogState> {
       EasyLoading.show();
 
       var response = await _allBlogsUseCase.call();
+
       EasyLoading.dismiss();
       response.fold(
-        (fail) {
-          emit(
-            BlogError(
-              fail.messageAr ?? "",
-            ),
-          );
-        },
-        (blogs) {
-          emit(
-            BlogLoaded(
-              blogs,
-            ),
-          );
-        },
+        (fail) => log("End of response ${fail.messageEn} ${fail.messageAr} ${fail.statusCode}"),
+        (blogs) => _blogs = blogs,
       );
     } catch (error) {
       emit(

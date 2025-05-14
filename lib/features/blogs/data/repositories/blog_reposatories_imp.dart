@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 
 import 'package:rowad_hrag/core/failures/failure.dart';
@@ -16,12 +18,15 @@ class BlogReposatoriesImp implements BlogReposatories {
   Future<Either<Failure, List<BlogDataModel>>> getAllBlogs() async {
     try {
       var response = await _interfaceDataSource.getBlogs();
-      if (response.statusCode == 200 && response.data["success"]) {
+      if (response.statusCode == 200 ) {
         final List<dynamic> jsonData = response.data["data"];
+        log("Type Of Blogs is ${jsonData.runtimeType}");
 
-        return Right(
-          jsonData.map((e) => BlogDataModel.fromJson(e)).toList(),
-        );
+        final List<BlogDataModel> blogDataList = jsonData
+            .map((item) => BlogDataModel.fromJson(item as Map<String, dynamic>))
+            .toList();
+
+        return Right(blogDataList);
       } else {
         return Left(
           ServerFailure(
