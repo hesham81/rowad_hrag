@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import '/features/layout/presentation/manager/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../widget/biggest_inf.dart';
@@ -167,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Divider(
               color: Colors.black,
               thickness: 1, // Optional: Adjust thickness if needed
-            ) ,
+            ),
             0.01.height.hSpace,
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
@@ -276,28 +277,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) {
-                var handler = state as Handling;
-                if (handler is LoadedSpecialProducts) {
-                  return SpecialAdsWidget(
-                    title: 'اعلانات مميزه',
-                    products: handler.specialProducts,
-                  ).hPadding(0.03.width);
-                } else if (handler is ErrorSpecialProducts) {
-                  return SizedBox(
-                    height: 0.35.height,
-                    child: Text(
-                      handler.message,
-                      style: Theme.of(context).textTheme.titleMedium!,
-                    ),
-                  );
-                } else {
-                  return SizedBox();
-                }
-              },
+            0.01.height.hSpace,
+            Divider(),
+            0.01.height.hSpace,
+            Text(
+              "اعلانات مميزه",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+            ).alignRight(),
+            0.01.height.hSpace,
+            SizedBox(
+              height: 0.3.height,
+              child: ListView.separated(
+                padding: EdgeInsets.all(10),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => ProductWidget(
+                  product: cubit.specialProducts[index],
+                ).hPadding(0.03.width),
+                separatorBuilder: (context, index) => 0.01.width.vSpace,
+                itemCount: cubit.specialProducts.length,
+              ),
             ),
             0.01.height.hSpace,
+            Divider(),
             0.01.height.hSpace,
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
@@ -307,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     : cubit.secondBanner[0].imageUrl,
               ),
             ).hPadding(0.03.width),
-            0.01.height.hSpace,
+            0.03.height.hSpace,
             About().hPadding(0.03.width),
             0.01.height.hSpace,
             Container(

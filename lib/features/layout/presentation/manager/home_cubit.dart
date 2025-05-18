@@ -34,6 +34,7 @@ class HomeCubit extends Cubit<HomeState> {
     ]);
   }
 
+
   bool isLoading = true;
   List<ProductsDataModel> _specialProducts = [];
 
@@ -210,19 +211,10 @@ class HomeCubit extends Cubit<HomeState> {
       response.fold(
         (error) {
           log("This is Exception ------------------------");
-          emit(
-            ErrorSpecialProducts(
-              error.messageAr ?? error.messageEn ?? 'Error',
-            ),
-          );
+
         },
         (data) {
-          log("Data Is Contain Length is ${data.length}");
-          emit(
-            LoadedSpecialProducts(
-              data,
-            ),
-          );
+          _specialProducts = data;
         },
       );
     } catch (error) {
