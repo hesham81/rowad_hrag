@@ -5,7 +5,7 @@ import '../../../../core/failures/failure.dart';
 import '../../data/models/states_data_model.dart';
 
 class GetStateUseCase {
-  AuthReposatoriesImp _authReposatoriesImp;
+  final AuthReposatoriesImp _authReposatoriesImp;
 
   GetStateUseCase(this._authReposatoriesImp);
 

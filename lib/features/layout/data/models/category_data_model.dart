@@ -25,4 +25,12 @@ class CategoryDataModel extends Category {
       'number_of_children': numberOfChildren,
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CategoryDataModel && runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => 0;
 }

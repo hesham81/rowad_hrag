@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class Banner extends Equatable {
+class BannerEntity extends Equatable {
   final String imageUrl;
   final String url;
 
-  Banner({
+  BannerEntity({
     required this.imageUrl,
     required this.url,
   });

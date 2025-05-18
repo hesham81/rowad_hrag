@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +13,6 @@ import 'package:rowad_hrag/features/auth/domain/use_cases/sign_up_use_case.dart'
 import 'package:rowad_hrag/main.dart';
 import '../../data/models/city_data_model.dart';
 import '../../data/models/states_data_model.dart';
-import '../../domain/use_cases/sign_up_use_case.dart';
 import '/core/services/web_services.dart';
 import '/features/auth/data/data_sources/auth_interface_data_source.dart';
 import '/features/auth/data/data_sources/remote_auth_data_source.dart';
@@ -22,7 +23,7 @@ import '/features/auth/domain/use_cases/sign_in_use_case.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  WebServices _services = WebServices();
+  final WebServices _services = WebServices();
   late SignInUseCase _signInUseCase;
   late SignUpUseCase _signUpUseCase;
   late AuthReposatoriesImp _authReposatoriesImp;
@@ -143,8 +144,8 @@ class AuthCubit extends Cubit<AuthState> {
         name: signUpNameController.text,
         emailOrPhone: signUpEmailController.text,
         sex: 'male',
-        stateId: '3147',
-        cityId: "4001",
+        stateId: "3147", // handle
+        cityId: "4001", // handle
         password: signUpPasswordController.text,
         confirmPassword: signUpConfirmPasswordController.text,
         loginBy: "email",

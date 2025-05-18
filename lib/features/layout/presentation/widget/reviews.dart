@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rowad_hrag/features/layout/domain/entities/reviews.dart';
 import '/core/extensions/extensions.dart';
-import '/core/theme/app_colors.dart';
 
 class ReviewsWidget extends StatelessWidget {
   final List<Reviews> reviews;
@@ -14,12 +13,12 @@ class ReviewsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-
           Text(
             reviews[index].shopName ?? "لايوجد اسم",
             style: Theme.of(context).textTheme.titleMedium!.copyWith(

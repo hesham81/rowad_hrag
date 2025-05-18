@@ -25,16 +25,20 @@ dependencies:
   animate_do: ^4.2.0
   skeletonizer: ^1.4.3
   flutter_launcher_icons: ^0.14.3
+  icons_launcher:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
 
-flutter_launcher_icons:
-  android: true
-  image_path: "assets/images/Group 15.png"
-  min_sdk_android: 21
+icons_launcher:
+  image_path: "assets/images/1024.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
 
 flutter:
   generate: true

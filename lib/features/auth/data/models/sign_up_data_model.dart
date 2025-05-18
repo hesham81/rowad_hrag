@@ -11,6 +11,7 @@ class SignUpDataModel extends SignUpRequest {
     required super.confirmPassword,
   });
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       "name": name,

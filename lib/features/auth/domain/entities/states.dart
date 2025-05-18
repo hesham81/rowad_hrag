@@ -7,7 +7,7 @@ class States extends Equatable {
 
   final String name;
 
-  States({
+  const States({
     required this.id,
     required this.stateId,
     required this.name,

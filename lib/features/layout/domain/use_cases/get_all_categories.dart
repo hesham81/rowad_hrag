@@ -3,7 +3,6 @@ import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart'
 import 'package:rowad_hrag/features/layout/domain/repositories/home_reposatory.dart';
 
 import '../../../../core/failures/failure.dart';
-import '../entities/category.dart';
 
 class GetAllCategoriesUseCase {
   HomeReposatory _homeReposatory;

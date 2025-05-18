@@ -5,4 +5,11 @@ abstract class RouteNames {
   static const String splash = '/splash';
   static const String blogs = '/blogs';
   static const String subCategories = '/subCategories';
+  static const String allTypes = '/allTypes';
+  static const String bills = '/bills';
+  static const String addAdds = '/addAdds';
+  static const String plans = '/plans';
+  static const String contactWithSupport = '/contactWithSupport';
+  static const String profile = '/profile';
+  static const String logOut = '/logOut';
 }
