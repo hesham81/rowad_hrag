@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
-import 'package:rowad_hrag/core/route/route_names.dart';
-import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
-import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
-import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
+import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
+import '/features/layout/presentation/manager/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../widget/biggest_inf.dart';
 import '../widget/rate_us.dart';
@@ -142,17 +140,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    if (index != 0 && index != 1) {
-                      slideLeftWidget(
-                        newPage: cubit.pages[index],
-                        context: context,
-                      );
-                    } else if (index == 1) {
-                      pushNamed(
-                        newPage: RouteNames.blogs,
-                        context: context,
-                      );
-                    }
+                    pushNamed(
+                      newPage: cubit.pages[index],
+                      context: context,
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -174,57 +165,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: labels.length,
               ),
             ).hPadding(0.01.width),
-            Container(
-              width: double.maxFinite,
-              color: AppColors.primaryColor,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 1.width, // Full screen width
-                      child: Divider(
-                        color: Colors.black,
-                        thickness: 1, // Optional: Adjust thickness if needed
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          AppAssets.snbBank,
-                        ),
-                        Text(
-                          "01400028419910 ",
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: AppColors.secondaryColor,
-                                    fontSize: 10,
-                                  ),
-                        ),
-                        0.01.width.vSpace,
-                        Text(
-                          "رقم الحساب المصر في ",
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: AppColors.secondaryColor,
-                                    fontSize: 10,
-                                  ),
-                        ),
-                        0.01.width.vSpace,
-                        Text(
-                          "البنك الأهلي",
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: AppColors.blueColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10,
-                                  ),
-                        ),
-                      ],
-                    ).hPadding(0.01.width),
-                  ],
-                ),
-              ),
+            Divider(
+              color: Colors.black,
+              thickness: 1, // Optional: Adjust thickness if needed
             ),
             0.01.height.hSpace,
             ClipRRect(
@@ -298,17 +241,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 0.17.height,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () => slideLeftWidget(
-                            newPage: SubCategoriesScreen(
-                              id: handler.categories[index].id,
-                              name: handler.categories[index].name,
-                            ),
-                            context: context),
-                        child: Categories(
-                          imageUrl: handler.categories[index].icon,
-                          text: handler.categories[index].name,
-                        ),
+                      itemBuilder: (context, index) => Categories(
+                        imageUrl: handler.categories[index].icon,
+                        text: handler.categories[index].name,
                       ),
                       separatorBuilder: (context, index) => 0.01.width.vSpace,
                       itemCount: handler.categories.length,
@@ -342,21 +277,41 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            SpecialAdsWidget(
-              title: "إعلانات مميزة",
-            ).hPadding(0.03.width),
             0.01.height.hSpace,
-            SpecialAdsWidget(
-              title: 'إعلانات ذوي الاحتياجات الخاصة',
-            ).hPadding(0.03.width),
+            Divider(),
+            0.01.height.hSpace,
+            Text(
+              "اعلانات مميزه",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+            ).alignRight(),
+            0.01.height.hSpace,
+            SizedBox(
+              height: 0.3.height,
+              child: ListView.separated(
+                padding: EdgeInsets.all(10),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => ProductWidget(
+                  product: cubit.specialProducts[index],
+                ).hPadding(0.03.width),
+                separatorBuilder: (context, index) => 0.01.width.vSpace,
+                itemCount: cubit.specialProducts.length,
+              ),
+            ),
+            0.01.height.hSpace,
+            Divider(),
             0.01.height.hSpace,
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: SvgPicture.asset(
-                "assets/images/click_here.svg",
+              child: CachedNetworkImage(
+                imageUrl: (cubit.secondBanner.isEmpty)
+                    ? "https://rowad-harag.com/public/uploads/all/lOO4a6OEYOD4oTWF1v4paCWTD4bxN1wRIcVohrba.png"
+                    : cubit.secondBanner[0].imageUrl,
               ),
             ).hPadding(0.03.width),
-            0.01.height.hSpace,
+            0.03.height.hSpace,
             About().hPadding(0.03.width),
             0.01.height.hSpace,
             Container(
@@ -377,9 +332,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                   ).alignRight().allPadding(5),
-                  0.01.height.hSpace,
                   ReviewsWidget(
-                    reviews: cubit.reviews.sublist(0, 3),
+                    reviews: (cubit.reviews.length < 3)
+                        ? cubit.reviews
+                        : cubit.reviews.sublist(0, 3),
                   ),
                 ],
               ),

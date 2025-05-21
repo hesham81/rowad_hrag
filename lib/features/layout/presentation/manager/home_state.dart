@@ -41,7 +41,7 @@ class LoadingBanners extends Handling {
 }
 
 class LoadedBanners extends Handling {
-  final List<Banner> banners;
+  final List<BannerEntity> banners;
 
   LoadedBanners(this.banners);
 }
@@ -57,6 +57,7 @@ class LoadedReviews extends Handling {
 
   const LoadedReviews(this.reviews);
 }
+
 class ErrorReviews extends Handling {
   final String message;
 
@@ -68,8 +69,21 @@ class LoadedSubCategories extends Handling {
 
   const LoadedSubCategories(this.subCategories);
 }
+
 class ErrorSubCategories extends Handling {
   final String message;
 
   ErrorSubCategories(this.message);
+}
+
+class LoadedSpecialProducts extends Handling {
+  final List<ProductsDataModel> specialProducts;
+
+  const LoadedSpecialProducts(this.specialProducts);
+}
+
+class ErrorSpecialProducts extends Handling {
+  final String message;
+
+  ErrorSpecialProducts(this.message);
 }

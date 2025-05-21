@@ -14,10 +14,10 @@ class WebServices {
   }
 
   WebServices._() {
-    freePrimaryDio.options.connectTimeout = Duration(seconds: 30);
+    freePrimaryDio.options.connectTimeout = Duration(minutes: 1);
     freePrimaryDio.options.baseUrl = ApiNetworks.baseUrl;
 
-    tokenDio.options.connectTimeout = Duration(seconds: 30);
+    tokenDio.options.connectTimeout = Duration(minutes: 1);
     tokenDio.options.baseUrl = ApiNetworks.baseUrl;
     initializeInterceptors();
   }

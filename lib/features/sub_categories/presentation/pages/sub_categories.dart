@@ -4,13 +4,8 @@ import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
 
 class SubCategoriesScreen extends StatefulWidget {
-  final int id;
-  final String name;
-
   const SubCategoriesScreen({
     super.key,
-    required this.id,
-    required this.name,
   });
 
   @override
@@ -25,11 +20,10 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<HomeCubit>(context).getAllSubCategories(widget.id);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.name,
+          "widget.name",
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,
@@ -55,7 +49,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                     itemCount: state.subCategories.length,
                     itemBuilder: (context, index) => ListTile(
                       title: Text(
-                        state.subCategories[index].name ?? "لايوجد اسم",
+                        state.subCategories[index].name,
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: Colors.black,
@@ -73,7 +67,6 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                     Icons.error,
                   );
                 }
-                return SizedBox();
               },
             ),
           ],

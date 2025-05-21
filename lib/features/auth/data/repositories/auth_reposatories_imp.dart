@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:rowad_hrag/features/auth/data/models/sign_up_data_model.dart';
@@ -12,7 +14,7 @@ import '/features/auth/domain/entities/sign_in_response.dart';
 import '../../domain/repositories/auth_reposatories.dart';
 
 class AuthReposatoriesImp implements AuthReposatories {
-  AuthInterfaceDataSource _authInterfaceDataSource;
+  final AuthInterfaceDataSource _authInterfaceDataSource;
 
   AuthReposatoriesImp(this._authInterfaceDataSource);
 

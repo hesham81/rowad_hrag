@@ -1,6 +1,6 @@
 import 'package:rowad_hrag/features/layout/domain/entities/banner.dart';
 
-class BannerDataModel extends Banner {
+class BannerDataModel extends BannerEntity {
   BannerDataModel({
     required super.imageUrl,
     required super.url,
@@ -8,7 +8,7 @@ class BannerDataModel extends Banner {
 
   factory BannerDataModel.fromJson(Map<String, dynamic> json) {
     return BannerDataModel(
-      imageUrl: json['photo'],
+      imageUrl: json['photo'],  
       url: json['url'],
     );
   }

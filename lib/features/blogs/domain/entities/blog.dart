@@ -14,7 +14,7 @@ class Blog extends Equatable {
 
   final DateTime createdAt;
 
-  Blog({
+  const Blog({
     required this.id,
     required this.categoryId,
     required this.title,

@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rowad_hrag/core/services/web_services.dart';
@@ -8,7 +7,6 @@ import 'package:rowad_hrag/features/blogs/data/data_sources/blog_interface_data_
 import 'package:rowad_hrag/features/blogs/data/data_sources/remote_blog_data_source.dart';
 import 'package:rowad_hrag/features/blogs/data/models/blog_data_model.dart';
 import 'package:rowad_hrag/features/blogs/domain/use_cases/get_all_blogs_use_case.dart';
-import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
 
 import '../../data/repositories/blog_reposatories_imp.dart';
 import '../../domain/entities/blog.dart';

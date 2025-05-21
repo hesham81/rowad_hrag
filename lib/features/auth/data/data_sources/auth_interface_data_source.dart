@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:dio/dio.dart';
 import 'package:rowad_hrag/features/auth/data/models/sign_up_data_model.dart';
 import 'package:rowad_hrag/features/auth/domain/entities/sign_in_request.dart';

@@ -10,7 +10,7 @@ import '../../domain/repositories/blog_reposatories.dart';
 import '../models/blog_data_model.dart';
 
 class BlogReposatoriesImp implements BlogReposatories {
-  BlogInterfaceDataSource _interfaceDataSource;
+  final BlogInterfaceDataSource _interfaceDataSource;
 
   BlogReposatoriesImp(this._interfaceDataSource);
 

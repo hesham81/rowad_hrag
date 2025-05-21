@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/features/notifications/presentation/pages/notifications.dart';
 import '/core/constant/app_assets.dart';
 import '/core/extensions/extensions.dart';
 import '/core/theme/app_colors.dart';
@@ -13,15 +15,22 @@ class UpperBar extends StatelessWidget {
     return Row(
       children: [
         0.02.width.vSpace,
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
+        GestureDetector(
+          child: Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
               color: AppColors.blueColor,
-              borderRadius: BorderRadius.circular(10)),
-          child: SvgPicture.asset(
-            AppAssets.notificationIcon,
-          ).allPadding(12),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: SvgPicture.asset(
+              AppAssets.notificationIcon,
+            ).allPadding(12),
+          ),
+          onTap: () => slideLeftWidget(
+            newPage: Notifications(),
+            context: context,
+          ),
         ),
         0.04.width.vSpace,
         SvgPicture.asset(
@@ -48,7 +57,6 @@ class UpperBar extends StatelessWidget {
             controller: TextEditingController(),
           ),
         ),
-        
       ],
     ).hPadding(0.02.width).vPadding(0.01.height);
   }

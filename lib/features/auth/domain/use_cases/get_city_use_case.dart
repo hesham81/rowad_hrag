@@ -5,7 +5,7 @@ import 'package:rowad_hrag/features/auth/data/repositories/auth_reposatories_imp
 import '../../../../core/failures/failure.dart';
 
 class GetCityUseCase {
-  AuthReposatoriesImp _authReposatoriesImp;
+  final AuthReposatoriesImp _authReposatoriesImp;
 
   GetCityUseCase(this._authReposatoriesImp);
 

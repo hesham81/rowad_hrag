@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rowad_hrag/core/constant/app_assets.dart';
 import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
