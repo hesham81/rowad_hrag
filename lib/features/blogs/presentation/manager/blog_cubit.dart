@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rowad_hrag/core/services/web_services.dart';
@@ -15,7 +16,14 @@ import '../../domain/repositories/blog_reposatories.dart';
 part 'blog_state.dart';
 
 class BlogCubit extends Cubit<BlogState> {
-  BlogCubit() : super(BlogInitial());
+  BlogCubit() : super(BlogInitial()) {
+    Future.wait(
+      [
+        getBlogs(),
+      ],
+    );
+  }
+
   late GetAllBlogsUseCase _allBlogsUseCase;
   late BlogReposatories _blogReposatories;
   late BlogInterfaceDataSource _interfaceDataSource;
@@ -34,17 +42,20 @@ class BlogCubit extends Cubit<BlogState> {
 
       var response = await _allBlogsUseCase.call();
 
-      EasyLoading.dismiss();
       response.fold(
-        (fail) => log("End of response ${fail.messageEn} ${fail.messageAr} ${fail.statusCode}"),
-        (blogs) => _blogs = blogs,
+        (fail) => log(
+            "--------------End of response ${fail.messageEn} ${fail.messageAr} ${fail.statusCode}------------"),
+        (blogs) => emit(BlogLoaded(blogs)),
       );
     } catch (error) {
+      EasyLoading.showError(error.toString());
       emit(
         BlogError(
           error.toString(),
         ),
       );
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 }

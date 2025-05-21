@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
+import 'package:rowad_hrag/features/blogs/presentation/manager/blog_cubit.dart';
 import 'package:rowad_hrag/features/blogs/presentation/widgets/blog_item.dart';
 
 import '../../domain/entities/blog.dart';
@@ -164,6 +166,8 @@ class _BlogsState extends State<Blogs> {
               separatorBuilder: (context, index) => 0.01.height.hSpace,
               itemCount: blogList.length,
             ),
+
+
             0.02.height.hSpace,
           ],
         ).hPadding(0.03.width),

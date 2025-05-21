@@ -6,6 +6,7 @@ import 'package:rowad_hrag/features/bills/presentation/pages/upload_bills_page.d
 import 'package:rowad_hrag/features/blogs/presentation/manager/blog_cubit.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
 import 'package:rowad_hrag/features/contact_with_support/presentation/pages/contact_with_support.dart';
+import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
@@ -33,13 +34,13 @@ abstract class OnGenerateRoute {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<HomeCubit>(
             create: (context) => HomeCubit(),
-            child: HomeScreen(),
+            child:HomePage(),
           ),
         );
       case RouteNames.blogs:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<BlogCubit>(
-            create: (context) => BlogCubit()..getBlogs(),
+            create: (context) => BlogCubit(),
             child: Blogs(),
           ),
         );
