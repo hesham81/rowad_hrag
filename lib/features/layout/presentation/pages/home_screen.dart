@@ -245,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         imageUrl: handler.categories[index].icon,
                         text: handler.categories[index].name,
                       ),
-                      separatorBuilder: (context, index) => 0.01.width.vSpace,
+                      separatorBuilder: (context, index) => 0.05.width.vSpace,
                       itemCount: handler.categories.length,
                     ),
                   );

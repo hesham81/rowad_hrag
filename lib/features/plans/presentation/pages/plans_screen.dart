@@ -48,7 +48,7 @@ class _PlansScreenState extends State<PlansScreen> {
           children: [
             0.01.height.hSpace,
             Text(
-              "اختر العرض",
+              "خطط الاشتراك",
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -114,6 +114,9 @@ class _PlansScreenState extends State<PlansScreen> {
             ),
             0.04.height.hSpace,
             CustomElevatedButton(
+              btnColor: Color(0xff312F59),
+              padding: EdgeInsets.symmetric(horizontal: 0.1.width),
+              onPressed: () {},
               child: Text(
                 "ادفع الآن",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -121,9 +124,6 @@ class _PlansScreenState extends State<PlansScreen> {
                       color: Colors.white,
                     ),
               ),
-              btnColor: Color(0xff312F59),
-              padding: EdgeInsets.symmetric(horizontal: 0.1.width),
-              onPressed: () {},
             ),
             0.03.height.hSpace
           ],
