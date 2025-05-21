@@ -82,46 +82,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var cubit = context.read<HomeCubit>();
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        backgroundColor: Color(0xff0AB28F),
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-              color: Color(0xff7AD7C4),
-              size: 30,
-            ),
-            label: 'الصفحة الرئيسية',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_outline,
-              size: 30,
-              color: Color(0xff7AD7C4),
-            ),
-            label: 'المفضلة',
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Color(0xff0AB28F),
-        shape: CircleBorder(
-          side: BorderSide(
-            color: Color(0xffE3F1EE),
-            width: 3,
-          ),
-        ),
-        child: Icon(
-          Icons.add,
-          size: 35,
-          color: Color(0xff7AD7C4),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SingleChildScrollView(
         child: Column(
           children: [
