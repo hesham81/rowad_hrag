@@ -39,7 +39,7 @@ abstract class OnGenerateRoute {
       case RouteNames.blogs:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<BlogCubit>(
-            create: (context) => BlogCubit()..getBlogs(),
+            create: (context) => BlogCubit(),
             child: Blogs(),
           ),
         );

@@ -22,4 +22,5 @@ class BlogError extends BlogHandling {
   final String message;
 
   const BlogError(this.message);
+
 }
