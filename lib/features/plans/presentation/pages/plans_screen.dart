@@ -6,6 +6,7 @@ import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/custom_text_form_field.dart';
+import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/plans/presentation/widget/card_subscription_item.dart';
 
 class PlansScreen extends StatefulWidget {
@@ -19,14 +20,7 @@ class _PlansScreenState extends State<PlansScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        onPressed: () {},
-        child: Icon(
-          FontAwesomeIcons.whatsapp,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton: WhatsappIconButton(),
       appBar: AppBar(
         title: Text(
           "الخطط",

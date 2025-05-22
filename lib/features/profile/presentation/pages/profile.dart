@@ -5,6 +5,7 @@ import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
+import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/credit_cards/presentation/pages/credit_cards_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/adds_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/widgets/points_item_cart.dart';
@@ -17,14 +18,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.green,
-        child: Icon(
-          FontAwesomeIcons.whatsapp,
-          color: Colors.white,
-        )
-      ),
+      floatingActionButton:WhatsappIconButton(),
       appBar: AppBar(
         title: Text(
           "الملف الشخصي",

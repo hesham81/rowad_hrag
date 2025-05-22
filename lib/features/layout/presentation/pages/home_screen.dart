@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
+import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
 import '/features/layout/presentation/manager/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../widget/biggest_inf.dart';
@@ -82,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var cubit = context.read<HomeCubit>();
     return Scaffold(
+      floatingActionButton: WhatsappIconButton(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -100,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
+                    if(index == 0) return;
                     pushNamed(
                       newPage: cubit.pages[index],
                       context: context,
@@ -201,9 +205,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 0.17.height,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => Categories(
-                        imageUrl: handler.categories[index].icon,
-                        text: handler.categories[index].name,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () => slideLeftWidget(
+                          newPage: SubCategoriesScreen(),
+                          context: context,
+                        ),
+                        child: Categories(
+                          imageUrl: handler.categories[index].icon,
+                          text: handler.categories[index].name,
+                        ),
                       ),
                       separatorBuilder: (context, index) => 0.05.width.vSpace,
                       itemCount: handler.categories.length,

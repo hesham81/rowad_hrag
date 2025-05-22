@@ -1,7 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/extensions/dimensions.dart';
+import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
+import 'package:rowad_hrag/features/sub_categories/presentation/pages/product_item_screen.dart';
+import 'package:rowad_hrag/features/sub_categories/presentation/widget/sub_category_product.dart';
 
 class SubCategoriesScreen extends StatefulWidget {
   const SubCategoriesScreen({
@@ -23,7 +29,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "widget.name",
+          "الفئات الفرعية",
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,
@@ -40,37 +46,28 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) {
-                if (state is LoadedSubCategories) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: state.subCategories.length,
-                    itemBuilder: (context, index) => ListTile(
-                      title: Text(
-                        state.subCategories[index].name,
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                  );
-                } else {
-                  return Icon(
-                    Icons.error,
-                  );
-                }
+            0.02.height.hSpace,
+            CupertinoSearchTextField(),
+            0.02.height.hSpace,
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () => slideLeftWidget(
+                    newPage: ProductItemScreen(),
+                    context: context,
+                  ),
+                  child: SubCategoryProduct(),
+                );
               },
-            ),
+              separatorBuilder: (context, index) {
+                return 0.02.height.hSpace;
+              },
+              itemCount: 10,
+            )
           ],
-        ),
+        ).hPadding(0.03.width),
       ),
     );
   }
