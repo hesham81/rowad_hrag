@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    if(index == 0) return;
+                    if (index == 0) return;
                     pushNamed(
                       newPage: cubit.pages[index],
                       context: context,
@@ -268,6 +268,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 ).hPadding(0.03.width),
                 separatorBuilder: (context, index) => 0.01.width.vSpace,
                 itemCount: cubit.specialProducts.length,
+              ),
+            ),
+            0.01.height.hSpace,
+            Text(
+              "اعلانات ذوي الاحتياجات الخاصه",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+            ).alignRight(),
+            0.01.height.hSpace,
+            SizedBox(
+              height: 0.3.height,
+              child: ListView.separated(
+                padding: EdgeInsets.all(10),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => ProductWidget(
+                  product: cubit.peopleWithSpecialNeed[index],
+                ).hPadding(0.03.width),
+                separatorBuilder: (context, index) => 0.01.width.vSpace,
+                itemCount: cubit.peopleWithSpecialNeed.length,
               ),
             ),
             0.01.height.hSpace,

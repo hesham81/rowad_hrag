@@ -14,6 +14,7 @@ abstract class HomeReposatory {
   Future<Either<Failure, List<CategoryDataModel>>> getAllCategories();
 
   Future<Either<Failure, List<BannerDataModel>>> getAllBanners();
+
   Future<Either<Failure, List<BannerDataModel>>> getSecondBanner();
 
   Future<Either<Failure, List<ReviewsDataModel>>> getAllReviews();
@@ -23,4 +24,7 @@ abstract class HomeReposatory {
   );
 
   Future<Either<Failure, List<ProductsDataModel>>> getSpecialProducts();
+
+  Future<Either<Failure, List<ProductsDataModel>>>
+      getPeopleWithSpecialNeedsProducts();
 }

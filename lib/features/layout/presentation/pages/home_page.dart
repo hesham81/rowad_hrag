@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_screen.dart';
+import 'package:rowad_hrag/features/profile/presentation/pages/home_profile.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   var pages = [
     HomeScreen(),
-    Profile(),
+    HomeProfile(),
   ];
 
   @override

@@ -14,4 +14,6 @@ abstract class HomeInterfaceDataSource {
   Future<Response> getAllSpecialProducts();
 
   Future<Response> getSecondBanner();
+
+  Future<Response> getPeopleWithSpecialNeedsProducts();
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_special_products.dart';
+import 'package:rowad_hrag/features/layout/domain/use_cases/get_people_with_special_needs_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_second_banner.dart';
 import '/core/route/route_names.dart';
 import '/features/layout/data/models/category_data_model.dart';
@@ -30,10 +31,10 @@ class HomeCubit extends Cubit<HomeState> {
       getAllBanners(),
       getAllReviews(),
       getAllSpecialProducts(),
-      getSecondBanner()
+      getSecondBanner(),
+      getPeopleWithSpecialNeedsProducts(),
     ]);
   }
-
 
   bool isLoading = true;
   List<ProductsDataModel> _specialProducts = [];
@@ -46,6 +47,7 @@ class HomeCubit extends Cubit<HomeState> {
   late GetAllReviewsUseCase _getAllReviewsUseCase;
   late GetAllSpecialProducts _getAllSpecialProductsUseCase;
   late GetSecondBannerUseCase _getSecondBannerUseCase;
+  late GetPeopleWithSpecialNeedsUseCase _getPeopleWithSpecialNeedsUseCase;
 
   List<Reviews> _reviews = [];
 
@@ -74,6 +76,10 @@ class HomeCubit extends Cubit<HomeState> {
   int _currentIndex = 0;
 
   int get currentIndex => _currentIndex;
+
+  List<ProductsDataModel> _peopleWithSpecialNeed = [];
+
+  List<ProductsDataModel> get peopleWithSpecialNeed => _peopleWithSpecialNeed;
 
   void setCurrentIndex(int index) {
     _currentIndex = index;
@@ -211,10 +217,37 @@ class HomeCubit extends Cubit<HomeState> {
       response.fold(
         (error) {
           log("This is Exception ------------------------");
-
         },
         (data) {
           _specialProducts = data;
+        },
+      );
+    } catch (error) {
+      log("error $error}");
+      emit(
+        ErrorSpecialProducts(
+          error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getPeopleWithSpecialNeedsProducts() async {
+    try {
+      _services = WebServices();
+      _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
+      _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
+      _getPeopleWithSpecialNeedsUseCase =
+          GetPeopleWithSpecialNeedsUseCase(_homeReposatory);
+      var response = await _getPeopleWithSpecialNeedsUseCase.call();
+      _specialProductsLoading = false;
+      log("Called");
+      response.fold(
+        (error) {
+          log("This is Exception ------------------------");
+        },
+        (data) {
+          _peopleWithSpecialNeed = data;
         },
       );
     } catch (error) {
