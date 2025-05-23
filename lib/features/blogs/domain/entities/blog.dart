@@ -8,11 +8,11 @@ class Blog extends Equatable {
 
   final String shDescription;
 
-  final String descrption;
+  final String? descrption;
 
   final int banner;
 
-  final DateTime createdAt;
+  final String createdAt;
 
   const Blog({
     required this.id,

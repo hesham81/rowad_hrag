@@ -271,6 +271,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             0.01.height.hSpace,
+            Divider(),
+            0.01.height.hSpace,
             Text(
               "اعلانات ذوي الاحتياجات الخاصه",
               style: Theme.of(context).textTheme.titleMedium!.copyWith(

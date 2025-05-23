@@ -24,6 +24,10 @@ class BlogCubit extends Cubit<BlogState> {
     );
   }
 
+  List<BlogDataModel> _blogDataModel = [];
+
+  List<BlogDataModel> get blogDataModel => _blogDataModel;
+
   late GetAllBlogsUseCase _allBlogsUseCase;
   late BlogReposatories _blogReposatories;
   late BlogInterfaceDataSource _interfaceDataSource;
@@ -41,11 +45,14 @@ class BlogCubit extends Cubit<BlogState> {
       EasyLoading.show();
 
       var response = await _allBlogsUseCase.call();
+      log(
+        "Resoponse is end ",
+      );
 
       response.fold(
         (fail) => log(
             "--------------End of response ${fail.messageEn} ${fail.messageAr} ${fail.statusCode}------------"),
-        (blogs) => emit(BlogLoaded(blogs)),
+        (blogs) => _blogDataModel = blogs,
       );
     } catch (error) {
       EasyLoading.showError(error.toString());

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:route_transitions/route_transitions.dart';
+import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
+import 'package:rowad_hrag/features/blogs/data/models/blog_data_model.dart';
 
 import '../../domain/entities/blog.dart';
+import '../pages/all_blog_details.dart';
 
 class BlogItem extends StatelessWidget {
-  final Blog blog;
+  final BlogDataModel blog;
 
   const BlogItem({
     super.key,
@@ -46,17 +50,18 @@ class BlogItem extends StatelessWidget {
                     ),
               ),
               Text(
-                blog.shDescription,
+                blog.shDescription.substring(0 , 150),
+                textAlign: TextAlign.right,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                       color: Colors.black,
                     ),
               ),
-              Text(
-                "${blog.createdAt.day}/${blog.createdAt.month}/${blog.createdAt.year}",
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                      color: Colors.black,
-                    ),
-              ),
+              // Text(
+              //   "${blog.createdAt.day}/${blog.createdAt.month}/${blog.createdAt.year}",
+              //   style: Theme.of(context).textTheme.labelMedium!.copyWith(
+              //         color: Colors.black,
+              //       ),
+              // ),
               CustomElevatedButton(
                 btnColor: AppColors.primaryColor,
                 child: Row(
@@ -74,7 +79,12 @@ class BlogItem extends StatelessWidget {
                     ),
                   ],
                 ).hPadding(0.03.width),
-                onPressed: () {},
+                onPressed: () => slideLeftWidget(
+                  newPage: AllBlogDetails(
+                    blog: blog,
+                  ),
+                  context: context,
+                ),
               )
             ],
           ),

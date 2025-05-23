@@ -19,7 +19,7 @@ class BlogReposatoriesImp implements BlogReposatories {
     try {
       var response = await _interfaceDataSource.getBlogs();
       if (response.statusCode == 200 ) {
-        final List<dynamic> jsonData = response.data["data"];
+        final List<dynamic> jsonData = response.data["data"]["data"];
         log("Type Of Blogs is ${jsonData.runtimeType}");
 
         final List<BlogDataModel> blogDataList = jsonData
