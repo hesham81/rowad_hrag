@@ -304,6 +304,29 @@ class _HomeScreenState extends State<HomeScreen> {
             0.01.height.hSpace,
             Divider(),
             0.01.height.hSpace,
+            Text(
+              "إعلانات الأسر المنتجة",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+            ).alignRight(),
+            0.01.height.hSpace,
+            SizedBox(
+              height: 0.3.height,
+              child: ListView.separated(
+                padding: EdgeInsets.all(10),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => ProductWidget(
+                  product: cubit.productiveFamiliesProducts[index],
+                ).hPadding(0.03.width),
+                separatorBuilder: (context, index) => 0.01.width.vSpace,
+                itemCount: cubit.productiveFamiliesProducts.length,
+              ),
+            ),
+            0.01.height.hSpace,
+            Divider(),
+            0.01.height.hSpace,
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: CachedNetworkImage(

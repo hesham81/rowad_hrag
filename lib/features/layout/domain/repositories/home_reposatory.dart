@@ -25,4 +25,6 @@ abstract class HomeReposatory {
 
   Future<Either<Failure, List<ProductsDataModel>>>
       getPeopleWithSpecialNeedsProducts();
+
+  Future<Either<Failure, List<ProductsDataModel>>> getProductiveFamiliesProducts();
 }
