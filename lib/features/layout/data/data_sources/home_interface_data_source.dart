@@ -9,11 +9,13 @@ abstract class HomeInterfaceDataSource {
 
   Future<Response> getReviews();
 
-  Future<Response> getSubCategories(int id );
+  Future<Response> getSubCategories(int id);
 
   Future<Response> getAllSpecialProducts();
 
   Future<Response> getSecondBanner();
 
   Future<Response> getPeopleWithSpecialNeedsProducts();
+
+  Future<Response> getProductiveFamiliesProducts();
 }

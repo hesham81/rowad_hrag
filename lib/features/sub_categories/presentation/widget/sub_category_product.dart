@@ -6,9 +6,15 @@ import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/widget/custom_container.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../layout/data/models/sub_categories_data_model.dart';
 
 class SubCategoryProduct extends StatelessWidget {
-  const SubCategoryProduct({super.key});
+  final SubCategoriesDataModel subCategoriesDataModel;
+
+  const SubCategoryProduct({
+    super.key,
+    required this.subCategoriesDataModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +27,12 @@ class SubCategoryProduct extends StatelessWidget {
               topRight: Radius.circular(8),
             ),
             child: CachedNetworkImage(
-              imageUrl:
-                  "https://rowad-harag.com/public/uploads/all/lGQTkx5BNhfoY2llC5kpPKrnEpfqaUPx0VjcBK0U.jpg",
+              imageUrl: subCategoriesDataModel.icon,
             ),
           ),
           0.01.height.hSpace,
           Text(
-            "سيارات",
+            subCategoriesDataModel.name,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -36,7 +41,7 @@ class SubCategoryProduct extends StatelessWidget {
           Row(
             children: [
               Text(
-                "سيارات",
+                subCategoriesDataModel.slug,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: AppColors.secondaryColor,
                       fontWeight: FontWeight.bold,

@@ -7,9 +7,11 @@ import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart'
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_special_products.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_people_with_special_needs_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_second_banner.dart';
+import 'package:rowad_hrag/features/layout/domain/use_cases/get_special_products_needs_use_case.dart';
+import '../../data/models/sub_categories_data_model.dart';
+import '../../domain/use_cases/get_all_sub_categories_use_case.dart';
 import '/core/route/route_names.dart';
 import '/features/layout/data/models/category_data_model.dart';
-import '/features/sub_categories/data/models/sub_categories_data_model.dart';
 import '/features/layout/domain/entities/reviews.dart';
 import '/features/layout/domain/use_cases/get_all_banners.dart';
 import '/features/layout/domain/use_cases/get_all_reviews_use_case.dart';
@@ -33,11 +35,16 @@ class HomeCubit extends Cubit<HomeState> {
       getAllSpecialProducts(),
       getSecondBanner(),
       getPeopleWithSpecialNeedsProducts(),
+      getProductiveFamiliesProducts(),
     ]);
   }
 
   bool isLoading = true;
   List<ProductsDataModel> _specialProducts = [];
+  List<ProductsDataModel> _productiveFamiliesProducts = [];
+
+  List<ProductsDataModel> get productiveFamiliesProducts =>
+      _productiveFamiliesProducts;
 
   late GetAllCategoriesUseCase _getAllCategoriesUseCase;
   late HomeInterfaceDataSource _interfaceDataSource;
@@ -48,6 +55,13 @@ class HomeCubit extends Cubit<HomeState> {
   late GetAllSpecialProducts _getAllSpecialProductsUseCase;
   late GetSecondBannerUseCase _getSecondBannerUseCase;
   late GetPeopleWithSpecialNeedsUseCase _getPeopleWithSpecialNeedsUseCase;
+  late GetAllSubCategoriesUseCase _getAllSubCategoriesUseCase;
+  late getProductiveFamiliesProductsUseCase
+      _getProductiveFamiliesProductsUseCase;
+
+  List<SubCategoriesDataModel> _subCategories = [];
+
+  List<SubCategoriesDataModel> get subCategories => _subCategories;
 
   List<Reviews> _reviews = [];
 
@@ -114,6 +128,13 @@ class HomeCubit extends Cubit<HomeState> {
           throw Exception("${error.messageAr} ${error.messageEn}");
         },
         (list) {
+          list = list
+              .where(
+                (element) =>
+                    element.icon !=
+                    "https://rowad-harag.com/public/assets/img/placeholder.jpg",
+              )
+              .toList();
           emit(
             HomeLoaded(list),
           );
@@ -184,6 +205,7 @@ class HomeCubit extends Cubit<HomeState> {
       _services = WebServices();
       _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
       _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
+      _getAllSubCategoriesUseCase = GetAllSubCategoriesUseCase(_homeReposatory);
       EasyLoading.show();
       var response = await _homeReposatory.getSubCategories(id);
       EasyLoading.dismiss();
@@ -192,16 +214,17 @@ class HomeCubit extends Cubit<HomeState> {
           throw Exception(error.messageAr);
         },
         (data) {
-          emit(LoadedSubCategories(data));
+          _subCategories = data;
         },
       );
-      isLoading = false;
     } catch (error) {
       emit(
         ErrorSubCategories(
           error.toString(),
         ),
       );
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 
@@ -248,6 +271,34 @@ class HomeCubit extends Cubit<HomeState> {
         },
         (data) {
           _peopleWithSpecialNeed = data;
+        },
+      );
+    } catch (error) {
+      log("error $error}");
+      emit(
+        ErrorSpecialProducts(
+          error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getProductiveFamiliesProducts() async {
+    try {
+      _services = WebServices();
+      _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
+      _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
+      _getProductiveFamiliesProductsUseCase =
+          getProductiveFamiliesProductsUseCase(_homeReposatory);
+      var response = await _getProductiveFamiliesProductsUseCase.call();
+      _specialProductsLoading = false;
+      log("Called");
+      response.fold(
+        (error) {
+          log("This is Exception ------------------------");
+        },
+        (data) {
+          _productiveFamiliesProducts = data;
         },
       );
     } catch (error) {

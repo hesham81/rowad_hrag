@@ -15,5 +15,6 @@ abstract class ApiEndPoints {
   static const String subCategories = '/sub-categories';
   static const String specialProducts = '/products/featured';
   static const String peopleWithSpecialNeeds = '/products/special-needs';
+  static const String productiveFamilies = '/products/productive-families';
 
 }

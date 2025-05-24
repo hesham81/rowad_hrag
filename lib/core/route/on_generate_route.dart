@@ -10,11 +10,8 @@ import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
-import 'package:rowad_hrag/features/sub_categories/presentation/manager/sub_categories_cubit.dart';
-import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
-import '/features/layout/presentation/pages/home_screen.dart';
 import '../../features/auth/presentation/pages/sign_in.dart';
 import '../../features/auth/presentation/pages/sign_up/pages/sign_up.dart';
 import '/core/route/route_names.dart';
@@ -50,13 +47,6 @@ abstract class OnGenerateRoute {
           builder: (context) => BlocProvider(
             child: SignUp(),
             create: (context) => AuthCubit()..getAllCities(),
-          ),
-        );
-      case RouteNames.subCategories:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            child: SubCategoriesScreen(),
-            create: (context) => SubCategoriesCubit(),
           ),
         );
       case RouteNames.allTypes:

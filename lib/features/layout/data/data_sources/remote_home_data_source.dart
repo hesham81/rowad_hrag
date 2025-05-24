@@ -30,7 +30,7 @@ class RemoteHomeDataSource implements HomeInterfaceDataSource {
 
   @override
   Future<Response> getSubCategories(int id) async {
-    return await _dio.get("${ApiEndPoints.reviews}/$id");
+    return await _dio.get("${ApiEndPoints.subCategories}/$id");
   }
 
   @override
@@ -46,5 +46,10 @@ class RemoteHomeDataSource implements HomeInterfaceDataSource {
   @override
   Future<Response> getPeopleWithSpecialNeedsProducts() async {
     return await _dio.get(ApiEndPoints.peopleWithSpecialNeeds);
+  }
+
+  @override
+  Future<Response> getProductiveFamiliesProducts() async {
+    return await _dio.get(ApiEndPoints.productiveFamilies);
   }
 }

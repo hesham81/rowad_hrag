@@ -49,7 +49,7 @@ class ReviewsWidget extends StatelessWidget {
           0.01.height.hSpace,
         ],
       ).hPadding(0.03.width),
-      separatorBuilder: (context, index) => 0.01.height.hSpace,
+      separatorBuilder: (context, index) => Divider().hPadding(0.04.width),
       itemCount: reviews.length,
     );
   }

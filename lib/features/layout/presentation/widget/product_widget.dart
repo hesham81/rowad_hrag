@@ -18,35 +18,46 @@ class ProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainer(
       padding: EdgeInsets.zero,
+      width: 0.7.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
+          Expanded(
+            flex: 7,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+              child: CachedNetworkImage(
+                imageUrl: product.thumbnailImage,
+                width: double.maxFinite,
+                fit: BoxFit.cover,
+              ),
             ),
-            child: CachedNetworkImage(
-              imageUrl: product.thumbnailImage,
-              height: 0.2.height,
-            ),
           ),
-          Text(
-            (product.name.length > 17)
-                ? product.name.substring(0, 17)
-                : product.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  product.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
-          ),
-          Text(
-            product.mainPrice,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: AppColors.secondaryColor,
+                Text(
+                  product.mainPrice,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: AppColors.secondaryColor,
+                      ),
                 ),
-          ),
+              ],
+            ).hPadding(0.02.width),
+          )
         ],
       ),
     );

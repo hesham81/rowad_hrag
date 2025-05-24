@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
@@ -206,10 +207,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) => GestureDetector(
-                        onTap: () => slideLeftWidget(
-                          newPage: SubCategoriesScreen(),
-                          context: context,
-                        ),
+                        onTap: () async {
+                          await cubit.getAllSubCategories(
+                              handler.categories[index].id);
+                          slideLeftWidget(
+                            newPage: SubCategoriesScreen(
+                              data: cubit.subCategories,
+                              title: handler.categories[index].name,
+                            ),
+                            context: context,
+                          );
+                        },
                         child: Categories(
                           imageUrl: handler.categories[index].icon,
                           text: handler.categories[index].name,
@@ -291,6 +299,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 ).hPadding(0.03.width),
                 separatorBuilder: (context, index) => 0.01.width.vSpace,
                 itemCount: cubit.peopleWithSpecialNeed.length,
+              ),
+            ),
+            0.01.height.hSpace,
+            Divider(),
+            0.01.height.hSpace,
+            Text(
+              "إعلانات الأسر المنتجة",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+            ).alignRight(),
+            0.01.height.hSpace,
+            SizedBox(
+              height: 0.3.height,
+              child: ListView.separated(
+                padding: EdgeInsets.all(10),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => ProductWidget(
+                  product: cubit.productiveFamiliesProducts[index],
+                ).hPadding(0.03.width),
+                separatorBuilder: (context, index) => 0.01.width.vSpace,
+                itemCount: cubit.productiveFamiliesProducts.length,
               ),
             ),
             0.01.height.hSpace,

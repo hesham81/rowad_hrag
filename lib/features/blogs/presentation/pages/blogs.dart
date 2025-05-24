@@ -20,7 +20,6 @@ class Blogs extends StatefulWidget {
 class _BlogsState extends State<Blogs> {
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<BlogCubit>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -43,30 +42,63 @@ class _BlogsState extends State<Blogs> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             0.01.height.hSpace,
-            SafeArea(
-              child: CupertinoSearchTextField(),
-            ),
+            CupertinoSearchTextField(),
             0.01.height.hSpace,
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () => slideLeftWidget(
-                  newPage: AllBlogDetails(
-                    blog: cubit.blogDataModel[index],
-                  ),
-                  context: context,
-                ),
-                child: BlogItem(
-                  blog: cubit.blogDataModel[index],
-                ),
-              ),
-              separatorBuilder: (context, index) => 0.01.height.hSpace,
-              itemCount: cubit.blogDataModel.length,
+            // ListView.separated(
+            //   padding: EdgeInsets.zero,
+            //   shrinkWrap: true,
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   itemBuilder: (context, index) => GestureDetector(
+            //     onTap: () => slideLeftWidget(
+            //       newPage: AllBlogDetails(
+            //         blog: cubit.blogDataModel[index],
+            //       ),
+            //       context: context,
+            //     ),
+            //     child: BlogItem(
+            //       blog: cubit.blogDataModel[index],
+            //     ),
+            //   ),
+            //   separatorBuilder: (context, index) => 0.01.height.hSpace,
+            //   itemCount: cubit.blogDataModel.length,
+            // ),
+            BlocBuilder<BlogCubit, BlogState>(
+              builder: (context, state) {
+                if (state is BlogLoaded) {
+                  return ListView.separated(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () => slideLeftWidget(
+                        newPage: AllBlogDetails(
+                          blog: state.blogs[index],
+                        ),
+                        context: context,
+                      ),
+                      child: BlogItem(
+                        blog: state.blogs[index],
+                      ),
+                    ),
+                    separatorBuilder: (context, index) => 0.01.height.hSpace,
+                    itemCount: state.blogs.length,
+                  );
+                } else if (state is BlogError) {
+                  return Text(
+                    state.message,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  );
+                }
+                else
+                  {
+                    return SizedBox();
+                  }
+              },
             ),
-            Text(
-              "Length of data is ${cubit.blogDataModel.length}",
-            ),
+
             0.02.height.hSpace,
           ],
         ).hPadding(0.03.width),

@@ -6,8 +6,9 @@ import 'package:rowad_hrag/features/layout/data/models/banner_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/reviews_data_model.dart';
-import 'package:rowad_hrag/features/sub_categories/data/models/sub_categories_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/repositories/home_reposatory.dart';
+
+import '../models/sub_categories_data_model.dart';
 
 class HomeReposatoriesImplementation implements HomeReposatory {
   HomeInterfaceDataSource _interfaceDataSource;
@@ -168,6 +169,31 @@ class HomeReposatoriesImplementation implements HomeReposatory {
   Future<Either<Failure, List<ProductsDataModel>>> getPeopleWithSpecialNeedsProducts()async {
     try {
       var response = await _interfaceDataSource.getPeopleWithSpecialNeedsProducts();
+      if (response.statusCode == 200  ) {
+        final List<dynamic> jsonData = response.data["data"];
+        final List<ProductsDataModel> reviews =
+        jsonData.map((e) => ProductsDataModel.fromJson(e)).toList();
+        return Right(reviews);
+      } else {
+        return Left(ServerFailure(
+          statusCode: response.statusCode.toString(),
+          message: response.data["message"],
+        ));
+      }
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "",
+          message: error.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProductsDataModel>>> getProductiveFamiliesProducts() async {
+    try {
+      var response = await _interfaceDataSource.getProductiveFamiliesProducts();
       if (response.statusCode == 200  ) {
         final List<dynamic> jsonData = response.data["data"];
         final List<ProductsDataModel> reviews =
