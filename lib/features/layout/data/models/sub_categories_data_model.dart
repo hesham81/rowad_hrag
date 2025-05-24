@@ -1,4 +1,5 @@
-import 'package:rowad_hrag/features/sub_categories/domain/entities/sub_categories.dart';
+
+import '../../domain/entities/sub_categories.dart';
 
 class SubCategoriesDataModel extends SubCategories {
   SubCategoriesDataModel({

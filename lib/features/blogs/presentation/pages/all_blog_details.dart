@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/functions/filter_texts.dart';
 import 'package:rowad_hrag/features/blogs/data/models/blog_data_model.dart';
+import 'package:rowad_hrag/features/blogs/domain/entities/blog.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
 class AllBlogDetails extends StatelessWidget {
-  final BlogDataModel blog;
+  final Blog blog;
 
   const AllBlogDetails({
     super.key,
@@ -19,7 +20,7 @@ class AllBlogDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "اسم المدونه",
+         blog.title,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,

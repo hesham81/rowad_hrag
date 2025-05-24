@@ -1,16 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:route_transitions/route_transitions.dart';
-import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
-import 'package:rowad_hrag/features/layout/presentation/manager/home_cubit.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/pages/product_item_screen.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/widget/sub_category_product.dart';
+import '../../../layout/data/models/sub_categories_data_model.dart';
 
 class SubCategoriesScreen extends StatefulWidget {
+  final List<SubCategoriesDataModel> data;
+  final String title;
+
   const SubCategoriesScreen({
+    required this.data,
+    required this.title,
     super.key,
   });
 
@@ -29,7 +32,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "الفئات الفرعية",
+          widget.title,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,
@@ -58,14 +61,16 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                     newPage: ProductItemScreen(),
                     context: context,
                   ),
-                  child: SubCategoryProduct(),
+                  child: SubCategoryProduct(
+                    subCategoriesDataModel: widget.data[index],
+                  ),
                 );
               },
               separatorBuilder: (context, index) {
                 return 0.02.height.hSpace;
               },
-              itemCount: 10,
-            )
+              itemCount: widget.data.length,
+            ),
           ],
         ).hPadding(0.03.width),
       ),

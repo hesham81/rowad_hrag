@@ -6,8 +6,9 @@ import 'package:rowad_hrag/features/layout/data/models/banner_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/reviews_data_model.dart';
-import 'package:rowad_hrag/features/sub_categories/data/models/sub_categories_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/repositories/home_reposatory.dart';
+
+import '../models/sub_categories_data_model.dart';
 
 class HomeReposatoriesImplementation implements HomeReposatory {
   HomeInterfaceDataSource _interfaceDataSource;

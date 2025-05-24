@@ -45,14 +45,14 @@ class BlogCubit extends Cubit<BlogState> {
       EasyLoading.show();
 
       var response = await _allBlogsUseCase.call();
-      log(
-        "Resoponse is end ",
-      );
 
       response.fold(
-        (fail) => log(
-            "--------------End of response ${fail.messageEn} ${fail.messageAr} ${fail.statusCode}------------"),
-        (blogs) => _blogDataModel = blogs,
+        (fail) => emit(
+          BlogError(
+            fail.messageEn ?? fail.messageAr ?? "",
+          ),
+        ),
+        (blogs) => emit(BlogLoaded(blogs)),
       );
     } catch (error) {
       EasyLoading.showError(error.toString());

@@ -11,7 +11,7 @@ import '../../domain/entities/blog.dart';
 import '../pages/all_blog_details.dart';
 
 class BlogItem extends StatelessWidget {
-  final BlogDataModel blog;
+  final Blog blog;
 
   const BlogItem({
     super.key,
@@ -50,18 +50,14 @@ class BlogItem extends StatelessWidget {
                     ),
               ),
               Text(
-                blog.shDescription.substring(0 , 150),
+                (blog.shDescription.length < 150)
+                    ? blog.shDescription
+                    : blog.shDescription.substring(0, 150),
                 textAlign: TextAlign.right,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                       color: Colors.black,
                     ),
               ),
-              // Text(
-              //   "${blog.createdAt.day}/${blog.createdAt.month}/${blog.createdAt.year}",
-              //   style: Theme.of(context).textTheme.labelMedium!.copyWith(
-              //         color: Colors.black,
-              //       ),
-              // ),
               CustomElevatedButton(
                 btnColor: AppColors.primaryColor,
                 child: Row(
@@ -87,7 +83,7 @@ class BlogItem extends StatelessWidget {
                 ),
               )
             ],
-          ),
+          ).hPadding(0.03.width),
         ],
       ),
     );

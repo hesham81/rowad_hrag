@@ -8,6 +8,7 @@ import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/credit_cards/presentation/pages/credit_cards_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/adds_screen.dart';
+import 'package:rowad_hrag/features/profile/presentation/pages/profile_drawer.dart';
 import 'package:rowad_hrag/features/profile/presentation/widgets/points_item_cart.dart';
 import 'package:rowad_hrag/features/profile/presentation/widgets/profile_item_cart.dart';
 import 'package:rowad_hrag/features/settings/presentation/pages/profile_settings.dart';
@@ -60,7 +61,7 @@ class HomeProfile extends StatelessWidget {
           ),
         ],
       ),
-      drawer: Drawer(),
+      drawer: ProfileDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
