@@ -10,18 +10,18 @@ class VisitorStatesDataModel extends VisitorState {
 
   factory VisitorStatesDataModel.fromJson(Map<String, dynamic> json) {
     return VisitorStatesDataModel(
-      visitorSectionText: json['visitorSectionText'],
-      visitorsToday: json['visitorsToday'],
-      itemsSold: json['itemsSold'],
-      totalUsers: json['totalUsers'],
+      visitorSectionText: json['visitors_section_text'],
+      visitorsToday: json['visitors_today'],
+      itemsSold: json['items_sold_today'],
+      totalUsers: json['total_users'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "visitorSectionText": visitorSectionText,
-        "visitorsToday": visitorsToday,
-        "itemsSold": itemsSold,
-        "totalUsers": totalUsers,
+        "visitors_section_text": visitorSectionText,
+        "visitors_today": visitorsToday,
+        "items_sold_today": itemsSold,
+        "total_users": totalUsers,
       };
 
 // @override

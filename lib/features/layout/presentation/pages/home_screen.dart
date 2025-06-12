@@ -471,7 +471,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ).rightBottomWidget().allPadding(15),
             ),
             0.01.height.hSpace,
-            BiggestInf().hPadding(0.03.width),
+            BiggestInf(
+              list: cubit.topSellers,
+            ).hPadding(0.03.width),
             0.01.height.hSpace,
           ],
         ),
