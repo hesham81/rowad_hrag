@@ -87,3 +87,8 @@ class ErrorSpecialProducts extends Handling {
 
   ErrorSpecialProducts(this.message);
 }
+class UpdateRate extends Handling{
+  final int rate;
+
+  UpdateRate({required this.rate});
+}
