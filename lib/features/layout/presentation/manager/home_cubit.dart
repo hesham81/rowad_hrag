@@ -5,11 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
+import 'package:rowad_hrag/features/layout/data/models/top_sellers_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/visitor_status_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_special_products.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_people_with_special_needs_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_second_banner.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_special_products_needs_use_case.dart';
+import 'package:rowad_hrag/features/layout/domain/use_cases/get_top_sellers_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_visitor_state_use_case.dart';
 import '../../data/models/sub_categories_data_model.dart';
 import '../../domain/use_cases/get_all_sub_categories_use_case.dart';
@@ -40,6 +42,7 @@ class HomeCubit extends Cubit<HomeState> {
       getPeopleWithSpecialNeedsProducts(),
       getProductiveFamiliesProducts(),
       getVisitorState(),
+      getTopSellers(),
     ]);
   }
 
@@ -111,6 +114,10 @@ class HomeCubit extends Cubit<HomeState> {
   int get currentIndex => _currentIndex;
 
   List<ProductsDataModel> _peopleWithSpecialNeed = [];
+
+  List<TopSellersDataModel> _topSellers = [];
+
+  List<TopSellersDataModel> get topSellers => _topSellers;
 
   List<ProductsDataModel> get peopleWithSpecialNeed => _peopleWithSpecialNeed;
 
@@ -357,4 +364,27 @@ class HomeCubit extends Cubit<HomeState> {
       log("Error On GetVisitorState $error");
     }
   }
+
+  late GetTopSellersUseCase _getTopSellersUseCase;
+
+  Future<void> getTopSellers() async {
+    _services = WebServices();
+    _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
+    _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
+    _getTopSellersUseCase = GetTopSellersUseCase(_homeReposatory);
+    try {
+      var response = await _getTopSellersUseCase.call();
+      response.fold(
+        (error) {
+          throw Exception(error.messageAr);
+        },
+        (data) {
+          _topSellers = data;
+        },
+      );
+    } catch (error) {
+      log("Error On GetTopSellers $error");
+    }
+  }
+
 }

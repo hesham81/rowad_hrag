@@ -24,10 +24,11 @@ class About extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            model?.visitorSectionText ??
-                """تتميز منصة رواد حراج بالبيع 
+            (model!.visitorSectionText == null)
+                ? """تتميز منصة رواد حراج بالبيع 
 والشراء وهي منصة موثقة من المركز السعودي للأعمال 
-التابع لوزارة التجارة""",
+التابع لوزارة التجارة"""
+                : model!.visitorSectionText.toString(),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.labelMedium!.copyWith(
                   color: AppColors.blueColor,
@@ -36,7 +37,9 @@ class About extends StatelessWidget {
           ),
           0.03.height.hSpace,
           Text(
-            model?.visitorsToday.toString() ?? "1500",
+            (model!.visitorsToday == null)
+                ? "1500"
+                : model!.visitorsToday.toString(),
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: AppColors.secondaryColor,
                   fontWeight: FontWeight.bold,
@@ -52,7 +55,7 @@ class About extends StatelessWidget {
           ),
           0.02.height.hSpace,
           Text(
-            model?.itemsSold.toString() ?? "30000",
+          (model!.itemsSold == null) ? "30000" : model!.itemsSold.toString(),
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: AppColors.secondaryColor,
                   fontWeight: FontWeight.bold,

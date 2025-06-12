@@ -6,6 +6,7 @@ import 'package:rowad_hrag/features/layout/data/models/banner_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/reviews_data_model.dart';
+import 'package:rowad_hrag/features/layout/data/models/top_sellers_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/visitor_status_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/repositories/home_reposatory.dart';
 
@@ -228,6 +229,26 @@ class HomeReposatoriesImplementation implements HomeReposatory {
           response.data,
         ),
       );
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "",
+          message: error.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TopSellersDataModel>>> getTopSellers() async {
+    try {
+      var response = await _interfaceDataSource.getTopSellers();
+      List<TopSellersDataModel> topSellers = List.from(response.data["data"])
+          .map(
+            (e) => TopSellersDataModel.fromJson(e),
+          )
+          .toList();
+      return Right(topSellers);
     } on DioException catch (error) {
       return Left(
         ServerFailure(
