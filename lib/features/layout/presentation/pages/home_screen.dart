@@ -4,12 +4,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/extensions/alignment.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
+import '../../../../core/widget/custom_text_form_field.dart';
 import '/features/layout/presentation/manager/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../widget/biggest_inf.dart';
@@ -48,13 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     "حسابي",
     "تسجيل خروج"
   ];
-  List<String> ads = [
-    "assets/images/adds/1.png",
-    "assets/images/adds/2.png",
-    "assets/images/adds/3.png",
-    "assets/images/adds/4.png",
-    "assets/images/adds/5.png",
-  ];
+  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -336,7 +334,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ).hPadding(0.03.width),
             0.03.height.hSpace,
-            About().hPadding(0.03.width),
+            About(
+              model: cubit.visitorStatesDataModel,
+            ).hPadding(0.03.width),
             0.01.height.hSpace,
             Container(
               width: double.maxFinite,
@@ -365,7 +365,111 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ).hPadding(0.03.width),
             0.01.height.hSpace,
-            RateUs().hPadding(0.03.width),
+            Container(
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                color: Colors.grey.withAlpha(70),
+                border: Border.all(
+                  color: AppColors.secondaryColor,
+                ),
+                borderRadius: BorderRadius.circular(
+                  25,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "تقييمك يهمنا ",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: AppColors.blueColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ).rightBottomWidget(),
+                  0.01.height.hSpace,
+                  Text(
+                    "عدد النجوم",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.black,
+                        ),
+                  ).rightBottomWidget(),
+                  0.01.height.hSpace,
+                  RatingBar.builder(
+                    initialRating: 3,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: false,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      cubit.setRate(
+                        rating.toInt(),
+                      );
+                    },
+                  ).alignRight(),
+                  0.01.height.hSpace,
+                  Text(
+                    "اضف تعليق ",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ).rightBottomWidget(),
+                  0.01.height.hSpace,
+                  CustomTextFormField(
+                    hintText: "تعليقك",
+                    controller: cubit.reviewController,
+                    minLine: 2,
+                    maxLine: 2,
+                    isFilled: true,
+                    fillColor: Colors.white,
+                    borderRadius: 15,
+                  ),
+                  0.01.height.hSpace,
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      if (state is UpdateRate) {
+                        return CustomElevatedButton(
+                          onPressed: (cubit.reviewController.text.isNotEmpty)
+                              ? () {}
+                              : null,
+                          child: Text(
+                            "ارسال",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        );
+                      } else {
+                        return CustomElevatedButton(
+                          onPressed: null,
+                          child: Text(
+                            "ارسال",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        );
+                        ;
+                      }
+                    },
+                  )
+                ],
+              ).rightBottomWidget().allPadding(15),
+            ),
             0.01.height.hSpace,
             BiggestInf().hPadding(0.03.width),
             0.01.height.hSpace,

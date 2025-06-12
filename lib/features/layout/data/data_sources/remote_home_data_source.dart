@@ -52,4 +52,9 @@ class RemoteHomeDataSource implements HomeInterfaceDataSource {
   Future<Response> getProductiveFamiliesProducts() async {
     return await _dio.get(ApiEndPoints.productiveFamilies);
   }
+
+  @override
+  Future<Response> getVisitorsState() async {
+    return await _dio.get(ApiEndPoints.visitorState);
+  }
 }

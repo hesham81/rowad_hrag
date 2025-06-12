@@ -1,13 +1,16 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
+import 'package:rowad_hrag/features/layout/data/models/visitor_status_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_special_products.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_people_with_special_needs_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_second_banner.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_special_products_needs_use_case.dart';
+import 'package:rowad_hrag/features/layout/domain/use_cases/get_visitor_state_use_case.dart';
 import '../../data/models/sub_categories_data_model.dart';
 import '../../domain/use_cases/get_all_sub_categories_use_case.dart';
 import '/core/route/route_names.dart';
@@ -36,12 +39,28 @@ class HomeCubit extends Cubit<HomeState> {
       getSecondBanner(),
       getPeopleWithSpecialNeedsProducts(),
       getProductiveFamiliesProducts(),
+      getVisitorState(),
     ]);
   }
+
+  TextEditingController reviewController = TextEditingController();
 
   bool isLoading = true;
   List<ProductsDataModel> _specialProducts = [];
   List<ProductsDataModel> _productiveFamiliesProducts = [];
+
+  int _rate = 0;
+
+  int get rate => _rate;
+
+  void setRate(int rate) {
+    _rate = rate;
+    emit(
+      UpdateRate(
+        rate: rate,
+      ),
+    );
+  }
 
   List<ProductsDataModel> get productiveFamiliesProducts =>
       _productiveFamiliesProducts;
@@ -100,6 +119,10 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeInitial());
   }
 
+  VisitorStatesDataModel? _visitorStatesDataModel;
+
+  VisitorStatesDataModel? get visitorStatesDataModel => _visitorStatesDataModel;
+
   var pages = [
     RouteNames.home,
     RouteNames.blogs,
@@ -125,7 +148,9 @@ class HomeCubit extends Cubit<HomeState> {
       var response = await _getAllCategoriesUseCase.call();
       response.fold(
         (error) {
-          throw Exception("${error.messageAr} ${error.messageEn}");
+          throw Exception(
+            "${error.messageAr} ${error.messageEn}",
+          );
         },
         (list) {
           list = list
@@ -308,6 +333,28 @@ class HomeCubit extends Cubit<HomeState> {
           error.toString(),
         ),
       );
+    }
+  }
+
+  late VisitorStateUseCase _visitorStateUseCase;
+
+  Future<void> getVisitorState() async {
+    _services = WebServices();
+    _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
+    _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
+    _visitorStateUseCase = VisitorStateUseCase(_homeReposatory);
+    try {
+      var response = await _visitorStateUseCase.getVisitorStates();
+      response.fold(
+        (error) {
+          throw Exception(error.messageAr);
+        },
+        (data) {
+          _visitorStatesDataModel = data;
+        },
+      );
+    } catch (error) {
+      log("Error On GetVisitorState $error");
     }
   }
 }

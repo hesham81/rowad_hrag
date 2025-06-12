@@ -3,6 +3,7 @@ import 'package:rowad_hrag/features/layout/data/models/banner_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/reviews_data_model.dart';
+import 'package:rowad_hrag/features/layout/data/models/visitor_status_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/entities/category.dart';
 
 import '../../../../core/failures/failure.dart';
@@ -26,5 +27,8 @@ abstract class HomeReposatory {
   Future<Either<Failure, List<ProductsDataModel>>>
       getPeopleWithSpecialNeedsProducts();
 
-  Future<Either<Failure, List<ProductsDataModel>>> getProductiveFamiliesProducts();
+  Future<Either<Failure, List<ProductsDataModel>>>
+      getProductiveFamiliesProducts();
+
+  Future<Either<Failure, VisitorStatesDataModel>> getVisitorStates();
 }

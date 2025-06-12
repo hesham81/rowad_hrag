@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:rowad_hrag/features/layout/data/models/visitor_status_data_model.dart';
 import '/core/extensions/extensions.dart';
 import '/core/theme/app_colors.dart';
 
 class About extends StatelessWidget {
-  const About({super.key});
+  final VisitorStatesDataModel? model;
+
+  const About({
+    super.key,
+    this.model,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,8 @@ class About extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            """تتميز منصة رواد حراج بالبيع 
+            model?.visitorSectionText ??
+                """تتميز منصة رواد حراج بالبيع 
 والشراء وهي منصة موثقة من المركز السعودي للأعمال 
 التابع لوزارة التجارة""",
             textAlign: TextAlign.center,
@@ -29,7 +36,7 @@ class About extends StatelessWidget {
           ),
           0.03.height.hSpace,
           Text(
-            "1500",
+            model?.visitorsToday.toString() ?? "1500",
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: AppColors.secondaryColor,
                   fontWeight: FontWeight.bold,
@@ -45,19 +52,19 @@ class About extends StatelessWidget {
           ),
           0.02.height.hSpace,
           Text(
-            "30000",
+            model?.itemsSold.toString() ?? "30000",
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: AppColors.secondaryColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 44,
-            ),
+                  color: AppColors.secondaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 44,
+                ),
           ),
           Text(
             "مشتركين اليوم",
             style: Theme.of(context).textTheme.labelSmall!.copyWith(
-              color: AppColors.blueColor,
-              fontWeight: FontWeight.bold,
-            ),
+                  color: AppColors.blueColor,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           0.02.height.hSpace,
         ],

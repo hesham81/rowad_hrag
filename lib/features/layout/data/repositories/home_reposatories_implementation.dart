@@ -6,6 +6,7 @@ import 'package:rowad_hrag/features/layout/data/models/banner_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/reviews_data_model.dart';
+import 'package:rowad_hrag/features/layout/data/models/visitor_status_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/repositories/home_reposatory.dart';
 
 import '../models/sub_categories_data_model.dart';
@@ -69,7 +70,7 @@ class HomeReposatoriesImplementation implements HomeReposatory {
   Future<Either<Failure, List<ReviewsDataModel>>> getAllReviews() async {
     try {
       var response = await _interfaceDataSource.getReviews();
-      if (response.statusCode == 200 ) {
+      if (response.statusCode == 200) {
         final List<dynamic> jsonData = response.data["reviews"];
         final List<ReviewsDataModel> reviews =
             jsonData.map((e) => ReviewsDataModel.fromJson(e)).toList();
@@ -114,13 +115,13 @@ class HomeReposatoriesImplementation implements HomeReposatory {
   }
 
   @override
-  Future<Either<Failure, List<ProductsDataModel>>> getSpecialProducts() async{
+  Future<Either<Failure, List<ProductsDataModel>>> getSpecialProducts() async {
     try {
       var response = await _interfaceDataSource.getAllSpecialProducts();
-      if (response.statusCode == 200  ) {
+      if (response.statusCode == 200) {
         final List<dynamic> jsonData = response.data["data"];
         final List<ProductsDataModel> reviews =
-        jsonData.map((e) => ProductsDataModel.fromJson(e)).toList();
+            jsonData.map((e) => ProductsDataModel.fromJson(e)).toList();
         return Right(reviews);
       } else {
         return Left(ServerFailure(
@@ -145,7 +146,7 @@ class HomeReposatoriesImplementation implements HomeReposatory {
       if (response.statusCode == 200 && response.data["success"]) {
         final List<dynamic> jsonData = response.data["data"];
         final List<BannerDataModel> banners =
-        jsonData.map((e) => BannerDataModel.fromJson(e)).toList();
+            jsonData.map((e) => BannerDataModel.fromJson(e)).toList();
         return Right(banners);
       } else {
         return Left(
@@ -166,13 +167,15 @@ class HomeReposatoriesImplementation implements HomeReposatory {
   }
 
   @override
-  Future<Either<Failure, List<ProductsDataModel>>> getPeopleWithSpecialNeedsProducts()async {
+  Future<Either<Failure, List<ProductsDataModel>>>
+      getPeopleWithSpecialNeedsProducts() async {
     try {
-      var response = await _interfaceDataSource.getPeopleWithSpecialNeedsProducts();
-      if (response.statusCode == 200  ) {
+      var response =
+          await _interfaceDataSource.getPeopleWithSpecialNeedsProducts();
+      if (response.statusCode == 200) {
         final List<dynamic> jsonData = response.data["data"];
         final List<ProductsDataModel> reviews =
-        jsonData.map((e) => ProductsDataModel.fromJson(e)).toList();
+            jsonData.map((e) => ProductsDataModel.fromJson(e)).toList();
         return Right(reviews);
       } else {
         return Left(ServerFailure(
@@ -191,13 +194,14 @@ class HomeReposatoriesImplementation implements HomeReposatory {
   }
 
   @override
-  Future<Either<Failure, List<ProductsDataModel>>> getProductiveFamiliesProducts() async {
+  Future<Either<Failure, List<ProductsDataModel>>>
+      getProductiveFamiliesProducts() async {
     try {
       var response = await _interfaceDataSource.getProductiveFamiliesProducts();
-      if (response.statusCode == 200  ) {
+      if (response.statusCode == 200) {
         final List<dynamic> jsonData = response.data["data"];
         final List<ProductsDataModel> reviews =
-        jsonData.map((e) => ProductsDataModel.fromJson(e)).toList();
+            jsonData.map((e) => ProductsDataModel.fromJson(e)).toList();
         return Right(reviews);
       } else {
         return Left(ServerFailure(
@@ -205,6 +209,25 @@ class HomeReposatoriesImplementation implements HomeReposatory {
           message: response.data["message"],
         ));
       }
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "",
+          message: error.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, VisitorStatesDataModel>> getVisitorStates() async {
+    try {
+      var response = await _interfaceDataSource.getVisitorsState();
+      return Right(
+        VisitorStatesDataModel.fromJson(
+          response.data,
+        ),
+      );
     } on DioException catch (error) {
       return Left(
         ServerFailure(

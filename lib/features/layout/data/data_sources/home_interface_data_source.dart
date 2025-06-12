@@ -18,4 +18,6 @@ abstract class HomeInterfaceDataSource {
   Future<Response> getPeopleWithSpecialNeedsProducts();
 
   Future<Response> getProductiveFamiliesProducts();
+
+  Future<Response> getVisitorsState();
 }
