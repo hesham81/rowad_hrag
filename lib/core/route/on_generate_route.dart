@@ -8,8 +8,10 @@ import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
 import 'package:rowad_hrag/features/contact_with_support/presentation/pages/contact_with_support.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
+import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
+import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
 import '../../features/auth/presentation/pages/sign_in.dart';
@@ -31,7 +33,7 @@ abstract class OnGenerateRoute {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<HomeCubit>(
             create: (context) => HomeCubit(),
-            child:HomePage(),
+            child: HomePage(),
           ),
         );
       case RouteNames.blogs:
@@ -41,7 +43,17 @@ abstract class OnGenerateRoute {
             child: Blogs(),
           ),
         );
-
+      case RouteNames.productDetails:
+        final slug = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ProductDetailsCubit>(
+            create: (context) => ProductDetailsCubit()
+              ..getProductDetails(
+                slug ?? '',
+              ),
+            child: ProductItemScreen(),
+          ),
+        );
       case RouteNames.signUp:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
