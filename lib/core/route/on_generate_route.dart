@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rowad_hrag/features/adds/presentation/pages/adds_page.dart';
-import 'package:rowad_hrag/features/all_types/presentation/pages/all_types.dart';
 import 'package:rowad_hrag/features/bills/presentation/pages/upload_bills_page.dart';
 import 'package:rowad_hrag/features/blogs/presentation/manager/blog_cubit.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
 import 'package:rowad_hrag/features/contact_with_support/presentation/pages/contact_with_support.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
+import 'package:rowad_hrag/features/plans/presentation/manager/plans_cubit.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
+import '../../features/all_types/presentation/pages/all_types.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
 import '../../features/auth/presentation/pages/sign_in.dart';
@@ -67,7 +68,10 @@ abstract class OnGenerateRoute {
         );
       case RouteNames.plans:
         return MaterialPageRoute(
-          builder: (context) => PlansScreen(),
+          builder: (context) => BlocProvider<PlansCubit>(
+            child: PlansScreen(),
+            create: (context) => PlansCubit()..getAllPlans(),
+          ),
         );
 
       case RouteNames.profile:

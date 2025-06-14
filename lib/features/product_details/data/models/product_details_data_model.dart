@@ -19,10 +19,12 @@ class ProductDetailsDataModel extends ProductDetails {
     required super.stateId,
     required super.user,
     required super.reviews,
+    required super.image,
   });
 
   factory ProductDetailsDataModel.fromJson(Map<String, dynamic> json) {
     return ProductDetailsDataModel(
+      image: json['thumbnail']['file_name'],
       user: UserDataModel.fromJson(
         json['user'],
       ),

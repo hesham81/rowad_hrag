@@ -10,6 +10,7 @@ class WhatsappIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async{
+        await UrlLauncherFunc.openWhatsappNumber();
       },
       backgroundColor: Colors.green,
       child: const Icon(

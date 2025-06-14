@@ -8,6 +8,7 @@ import 'package:rowad_hrag/features/product_details/data/repositories/product_de
 import 'package:rowad_hrag/features/product_details/domain/repositories/product_details_repo.dart';
 import '../../data/models/product_details_data_model.dart';
 import '../../domain/use_cases/get_product_details_use_case.dart';
+
 part 'product_details_state.dart';
 
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
@@ -38,7 +39,9 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       response.fold(
         (error) {
           emit(
-            ProductDetailsError(error.messageAr ?? ""),
+            ProductDetailsError(error.messageAr ??
+                error.messageEn ??
+                "حدث خطأ ما برجاء\nبرجاء المحاوله مره اخري"),
           );
         },
         (data) {
@@ -49,7 +52,8 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     } catch (error) {
       throw Exception(error.toString());
     } finally {
-      log(productDetailsDataModel?.name.toString() ?? "");
+      log(productDetailsDataModel?.name.toString() ??
+          "حدث خطأ ما برجاء\nبرجاء المحاوله مره اخري");
       EasyLoading.dismiss();
     }
   }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:route_transitions/route_transitions.dart';
@@ -30,6 +32,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log(widget.data.first.slug);
     return Scaffold(
       appBar: AppBar(
         title: Text(
