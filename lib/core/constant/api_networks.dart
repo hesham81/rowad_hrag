@@ -20,5 +20,6 @@ abstract class ApiEndPoints {
   static const String topSellers = '/seller/top';
   static const String productDetails = '/product';
   static const String plans = '/seller/plans';
+  static const String allCategories = '/all_categories';
 
 }

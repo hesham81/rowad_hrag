@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/widget/custom_text_button.dart';
 
@@ -10,7 +8,6 @@ class AllTypesItemContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 0.3.height,
       width: double.maxFinite,
       decoration:
           BoxDecoration(border: Border.all(color: Colors.black, width: 1.3)),
@@ -26,16 +23,18 @@ class AllTypesItemContainer extends StatelessWidget {
           ),
           0.01.height.hSpace,
           GridView.builder(
+            padding: EdgeInsets.zero,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            itemCount: 10,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+            ),
             itemBuilder: (context, index) => CustomTextButton(
-              text: "text",
-              btnColor: Colors.black,
+              text: 'fsdfsd',
               onPressed: () {},
             ),
-          )
+          ),
         ],
       ).allPadding(5),
     );

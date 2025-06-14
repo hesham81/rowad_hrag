@@ -386,5 +386,4 @@ class HomeCubit extends Cubit<HomeState> {
       log("Error On GetTopSellers $error");
     }
   }
-
 }
