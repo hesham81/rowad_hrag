@@ -58,6 +58,7 @@ class WebServices {
           options.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
+            "Authorization": "Bearer $myToken",
           };
           debugPrint("Url : ${options.baseUrl}");
           debugPrint("Headers : ${options.headers}");

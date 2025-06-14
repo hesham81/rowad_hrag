@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/features/all_types/presentation/widgets/all_types_item_container.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors.dart';
 
 class AllTypes extends StatelessWidget {
   const AllTypes({super.key});
@@ -23,6 +25,16 @@ class AllTypes extends StatelessWidget {
             color: AppColors.primaryColor,
           ),
         ),
+      ),
+      body: SingleChildScrollView(
+
+        child: Column(
+
+          children: [
+            0.01.height.hSpace,
+            AllTypesItemContainer()
+          ],
+        ).hPadding(0.03.width),
       ),
     );
   }

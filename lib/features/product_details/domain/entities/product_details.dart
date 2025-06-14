@@ -33,7 +33,10 @@ class ProductDetails extends Equatable {
 
   final User user;
 
+  final String image;
+
   const ProductDetails({
+    required this.image,
     required this.user,
     required this.reviews,
     required this.id,
@@ -68,5 +71,6 @@ class ProductDetails extends Equatable {
         stateId,
         reviews,
         user,
+        image,
       ];
 }
