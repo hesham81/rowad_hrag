@@ -12,4 +12,5 @@ abstract class RouteNames {
   static const String contactWithSupport = '/contactWithSupport';
   static const String profile = '/profile';
   static const String logOut = '/logOut';
+  static const String productDetails = '/productDetails';
 }

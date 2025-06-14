@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
-import 'package:rowad_hrag/features/sub_categories/presentation/pages/product_item_screen.dart';
+import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/widget/sub_category_product.dart';
 import '../../../layout/data/models/sub_categories_data_model.dart';
 
@@ -57,9 +58,10 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () => slideLeftWidget(
-                    newPage: ProductItemScreen(),
-                    context: context,
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    RouteNames.productDetails,
+                    arguments: widget.data[index].slug,
                   ),
                   child: SubCategoryProduct(
                     subCategoriesDataModel: widget.data[index],

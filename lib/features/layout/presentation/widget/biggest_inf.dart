@@ -45,7 +45,7 @@ class BiggestInf extends StatelessWidget {
               itemBuilder: (context, index) => BiggestSellerCart(
                 topSellersDataModel: list[index],
               ),
-              separatorBuilder: (context, index) => 0.03.width.vSpace,
+              separatorBuilder: (context, index) => 0.05.width.vSpace,
               itemCount: list.length,
             ),
           ),
