@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/features/all_types/presentation/manager/all_categories_cubit.dart';
 import 'package:rowad_hrag/features/all_types/presentation/widgets/all_types_item_container.dart';
 
 import '../../../../../core/theme/app_colors.dart';
@@ -26,15 +29,41 @@ class AllTypes extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-
-        child: Column(
-
-          children: [
-            0.01.height.hSpace,
-            AllTypesItemContainer()
-          ],
-        ).hPadding(0.03.width),
+      body: BlocBuilder<AllCategoriesCubit, AllCategoriesState>(
+        builder: (context, state) {
+          if (state is AllCategoriesLoaded) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  0.01.height.hSpace,
+                  AllTypesItemContainer(),
+                ],
+              ).hPadding(0.03.width),
+            );
+          } else if (state is AllCategoriesError) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: 180,
+                ),
+                Text(
+                  state.message,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ).center,
+              ],
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }

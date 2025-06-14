@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rowad_hrag/features/adds/presentation/pages/adds_page.dart';
+import 'package:rowad_hrag/features/all_types/presentation/manager/all_categories_cubit.dart';
 import 'package:rowad_hrag/features/bills/presentation/pages/upload_bills_page.dart';
 import 'package:rowad_hrag/features/blogs/presentation/manager/blog_cubit.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
@@ -64,7 +65,10 @@ abstract class OnGenerateRoute {
         );
       case RouteNames.allTypes:
         return MaterialPageRoute(
-          builder: (context) => AllTypes(),
+          builder: (context) => BlocProvider<AllCategoriesCubit>(
+            child: AllTypes(),
+            create: (context) => AllCategoriesCubit()..getAllCategories(),
+          ),
         );
       case RouteNames.plans:
         return MaterialPageRoute(

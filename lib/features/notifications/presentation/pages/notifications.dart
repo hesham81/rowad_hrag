@@ -33,7 +33,7 @@ class _NotificationsState extends State<Notifications> {
         ),
       ),
       body: DefaultTabController(
-        length: 4,
+        length: 3,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -48,28 +48,21 @@ class _NotificationsState extends State<Notifications> {
                 tabs: [
                   Text(
                     "المدفوعات",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                   ),
                   Text(
                     "الطلبات",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                   ),
                   Text(
                     "المحادثات",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                  ),
-                  Text(
-                    "رسائل الدعم",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
