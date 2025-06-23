@@ -116,6 +116,14 @@ class SuccessProfileStates extends StatelessWidget {
             ProfileItemCart(
               imagePath: "assets/images/box.jpg",
               title: "الاعلانات",
+              callBack: () {
+                slideLeftWidget(
+                  newPage: AddsScreen(
+                    adds: allAddsDataModel,
+                  ),
+                  context: context,
+                );
+              },
               count: profileDataModel.products.toString(),
             ),
             0.01.height.hSpace,
