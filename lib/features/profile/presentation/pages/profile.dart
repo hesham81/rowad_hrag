@@ -9,6 +9,7 @@ import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/credit_cards/presentation/pages/credit_cards_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/adds_screen.dart';
+import 'package:rowad_hrag/features/profile/presentation/pages/profile_drawer.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile_states/success_profile_states.dart';
 import 'package:rowad_hrag/features/profile/presentation/widgets/points_item_cart.dart';
 import 'package:rowad_hrag/features/profile/presentation/widgets/profile_item_cart.dart';
@@ -17,12 +18,17 @@ import 'package:rowad_hrag/features/settings/presentation/pages/profile_settings
 import '../manager/profile_cubit.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  final bool isHome;
+
+  const Profile({
+    super.key,
+    this.isHome = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:WhatsappIconButton(),
+      floatingActionButton: WhatsappIconButton(),
       appBar: AppBar(
         title: Text(
           "الملف الشخصي",
@@ -63,21 +69,24 @@ class Profile extends StatelessWidget {
             ),
           ),
         ],
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.primaryColor,
-          ),
-        ),
+        leading: (isHome)
+            ? SizedBox()
+            : IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColors.primaryColor,
+                ),
+              ),
       ),
+      drawer: (isHome) ? ProfileDrawer() : null,
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           if (state is ProfileLoaded) {
             return SuccessProfileStates(
-                profileDataModel: state.sellerProfileDataModel);
-          }
-          else if (state is ProfileError) {
+              profileDataModel: state.sellerProfileDataModel,
+            );
+          } else if (state is ProfileError) {
             return Center(
               child: Text(state.message),
             );

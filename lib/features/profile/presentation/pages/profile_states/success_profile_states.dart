@@ -23,11 +23,20 @@ class SuccessProfileStates extends StatelessWidget {
         child: Column(
           children: [
             0.01.height.hSpace,
-            CircleAvatar(
-              radius: 150,
-              backgroundImage: NetworkImage(
-                profileDataModel.image,
-              ),
+            Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                CircleAvatar(
+                  radius: 150,
+                  backgroundImage: NetworkImage(
+                    profileDataModel.image,
+                  ),
+                ),
+                Image.network(
+                  profileDataModel.verifiedImg,
+                  height: 80,
+                )
+              ],
             ),
             0.01.height.hSpace,
             Row(

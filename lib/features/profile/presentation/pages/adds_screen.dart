@@ -3,7 +3,7 @@ import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
-import 'package:rowad_hrag/features/adds/presentation/pages/adds_page.dart';
+import 'package:rowad_hrag/features/add-ads/presentation/pages/adds_page.dart';
 
 class AddsScreen extends StatelessWidget {
   const AddsScreen({super.key});
