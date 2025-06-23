@@ -5,7 +5,7 @@ import '../../../../core/failures/failure.dart';
 import '../../data/models/plans_data_model.dart';
 
 class GetAllPlansUseCase {
-  PlansReposatory _plansReposatory;
+  final PlansReposatory _plansReposatory;
 
   GetAllPlansUseCase(this._plansReposatory);
 

@@ -21,5 +21,6 @@ abstract class ApiEndPoints {
   static const String productDetails = '/product';
   static const String plans = '/seller/plans';
   static const String allCategories = '/all_categories';
+  static const String profile = '/seller/shop/info';
 
 }

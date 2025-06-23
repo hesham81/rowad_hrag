@@ -9,10 +9,11 @@ import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
 import 'package:rowad_hrag/features/plans/presentation/manager/plans_cubit.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
+import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
-import '../../features/adds/presentation/pages/adds_page.dart';
+import '../../features/add-ads/presentation/pages/adds_page.dart';
 import '../../features/all_types/presentation/pages/all_types.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
@@ -80,8 +81,12 @@ abstract class OnGenerateRoute {
 
       case RouteNames.profile:
         return MaterialPageRoute(
-          builder: (context) => Profile(),
+          builder: (context) => BlocProvider(
+            child: Profile(),
+            create: (context) => ProfileCubit()
+          ),
         );
+
 
       case RouteNames.contactWithSupport:
         return MaterialPageRoute(
