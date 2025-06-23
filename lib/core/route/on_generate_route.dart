@@ -9,6 +9,7 @@ import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
 import 'package:rowad_hrag/features/plans/presentation/manager/plans_cubit.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
+import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
@@ -80,7 +81,10 @@ abstract class OnGenerateRoute {
 
       case RouteNames.profile:
         return MaterialPageRoute(
-          builder: (context) => Profile(),
+          builder: (context) => BlocProvider(
+            child: Profile(),
+            create: (context) => ProfileCubit()
+          ),
         );
 
       case RouteNames.contactWithSupport:
