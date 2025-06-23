@@ -12,6 +12,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final int minLine;
   final int maxLine;
+  final Function(String?)? onChange;
   final TextInputType keyboardType;
   final bool isReadOnly;
   final bool isFilled;
@@ -34,6 +35,7 @@ class CustomTextFormField extends StatefulWidget {
     this.isReadOnly = false,
     this.isFilled = false,
     this.fillColor,
+    this.onChange,
   });
 
   @override
@@ -48,6 +50,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     var theme = Theme.of(context).textTheme;
 
     return TextFormField(
+      onChanged: widget.onChange,
       readOnly: widget.isReadOnly,
       keyboardType: widget.keyboardType,
       minLines: widget.minLine,

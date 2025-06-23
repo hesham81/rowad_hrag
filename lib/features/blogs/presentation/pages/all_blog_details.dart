@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
@@ -37,11 +38,10 @@ class AllBlogDetails extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.asset(
-              "assets/images/adds/1.png",
+            CachedNetworkImage(
+              imageUrl: blog.imageUrl,
               fit: BoxFit.cover,
               width: double.maxFinite,
-              height: 0.4.height,
             ),
             0.01.height.hSpace,
             Text(

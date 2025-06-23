@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/services/web_services.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/blogs/presentation/manager/blog_cubit.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/all_blog_details.dart';
@@ -18,8 +21,10 @@ class Blogs extends StatefulWidget {
 }
 
 class _BlogsState extends State<Blogs> {
+  var service = WebServices();
   @override
   Widget build(BuildContext context) {
+    log("Token Is ${service.myToken}");
     return Scaffold(
       appBar: AppBar(
         title: Text(

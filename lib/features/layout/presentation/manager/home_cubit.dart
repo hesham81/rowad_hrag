@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -134,7 +133,7 @@ class HomeCubit extends Cubit<HomeState> {
     RouteNames.home,
     RouteNames.blogs,
     RouteNames.allTypes,
-    RouteNames.bills,
+    // RouteNames.bills,
     RouteNames.addAdds,
     RouteNames.plans,
     RouteNames.contactWithSupport,
