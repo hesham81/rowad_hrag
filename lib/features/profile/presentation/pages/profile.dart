@@ -27,6 +27,7 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = context.watch<ProfileCubit>();
     return Scaffold(
       floatingActionButton: WhatsappIconButton(),
       appBar: AppBar(
@@ -85,6 +86,7 @@ class Profile extends StatelessWidget {
           if (state is ProfileLoaded) {
             return SuccessProfileStates(
               profileDataModel: state.sellerProfileDataModel,
+              allAddsDataModel: cubit.adds,
             );
           } else if (state is ProfileError) {
             return Center(

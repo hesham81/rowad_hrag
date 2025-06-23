@@ -6,6 +6,8 @@ import 'package:rowad_hrag/features/blogs/presentation/manager/blog_cubit.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
 import 'package:rowad_hrag/features/contact_with_support/presentation/pages/contact_with_support.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
+import 'package:rowad_hrag/features/notifications/presentation/manager/notification_cubit.dart';
+import 'package:rowad_hrag/features/notifications/presentation/pages/notifications.dart';
 import 'package:rowad_hrag/features/plans/presentation/manager/plans_cubit.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
@@ -82,11 +84,8 @@ abstract class OnGenerateRoute {
       case RouteNames.profile:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            child: Profile(),
-            create: (context) => ProfileCubit()
-          ),
+              child: Profile(), create: (context) => ProfileCubit()),
         );
-
 
       case RouteNames.contactWithSupport:
         return MaterialPageRoute(
@@ -96,6 +95,13 @@ abstract class OnGenerateRoute {
       case RouteNames.addAdds:
         return MaterialPageRoute(
           builder: (context) => AddsPage(),
+        );
+      case RouteNames.notifications:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => NotificationCubit(),
+            child: Notifications(),
+          ),
         );
 
       case RouteNames.bills:

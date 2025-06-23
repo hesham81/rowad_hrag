@@ -4,16 +4,19 @@ import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 
 import '../../../../../core/widget/custom_elevated_button.dart';
+import '../../../data/models/all_adds_data_model.dart';
 import '../../widgets/points_item_cart.dart';
 import '../../widgets/profile_item_cart.dart';
 import '../adds_screen.dart';
 
 class SuccessProfileStates extends StatelessWidget {
   final SellerProfileDataModel profileDataModel;
+  final List<AllAddsDataModel> allAddsDataModel;
 
   const SuccessProfileStates({
     super.key,
     required this.profileDataModel,
+    required this.allAddsDataModel,
   });
 
   @override
@@ -87,7 +90,9 @@ class SuccessProfileStates extends StatelessWidget {
                           ),
                     ),
                     onPressed: () => slideLeftWidget(
-                      newPage: AddsScreen(),
+                      newPage: AddsScreen(
+                        adds: allAddsDataModel,
+                      ),
                       context: context,
                     ),
                   ),

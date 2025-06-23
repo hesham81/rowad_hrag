@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
+import 'package:rowad_hrag/core/widget/icon_error.dart';
+import 'package:rowad_hrag/features/notifications/presentation/pages/success_notification_ui.dart';
 import 'package:rowad_hrag/features/notifications/presentation/widgets/notification_item.dart';
+
+import '../manager/notification_cubit.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -69,16 +74,23 @@ class _NotificationsState extends State<Notifications> {
                   ),
                 ],
               ),
-              ListView.separated(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => ListTile(
-                  title: NotificationItem(),
-                  onTap: () {},
-                ),
-                separatorBuilder: (context, index) =>
-                    Divider().hPadding(0.15.width),
-                itemCount: 30,
+
+              BlocBuilder<NotificationCubit, NotificationState>(
+                builder: (context, state) {
+                  if (state is NotificationError) {
+                    return IconError(
+                      error: state.message,
+                    );
+                  } else if (state is NotificationLoaded) {
+                    return SuccessNotificationUi(
+                      notifications: state.notifications,
+                    );
+                  } else {
+                    return CircularProgressIndicator(
+                      backgroundColor: AppColors.secondaryColor,
+                    );
+                  }
+                },
               )
             ],
           ),
