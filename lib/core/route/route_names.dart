@@ -10,7 +10,7 @@ abstract class RouteNames {
   static const String addAdds = '/addAdds';
   static const String plans = '/plans';
   static const String contactWithSupport = '/contactWithSupport';
-  static const String profile = '/profile';
+  static const String profile = '/profiles';
   static const String logOut = '/logOut';
   static const String productDetails = '/productDetails';
 }

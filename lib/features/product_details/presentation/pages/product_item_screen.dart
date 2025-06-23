@@ -30,6 +30,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     var cubit = context.read<ProductDetailsCubit>();
     return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
         builder: (context, state) {
@@ -68,7 +69,6 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // https://rowad-harag.com/public/
                 CachedNetworkImage(
                   imageUrl:
                       "https://rowad-harag.com/public/${state.productDetailsDataModel.image}",
@@ -117,7 +117,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                     ),
                     0.01.height.hSpace,
                     Text(
-                      "المنطقه : تبوك",
+                      "المنطقه : ${state.productDetailsDataModel.photos}",
                       style:
                           Theme.of(context).textTheme.titleMedium!.copyWith(),
                     ).alignRight(),
@@ -305,11 +305,16 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
           ),
         );
       }
-      return Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      else {
+        return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(
+              backgroundColor: AppColors.secondaryColor,
+              color: AppColors.darkTeal,
+            ),
+          ),
+        );
+      }
     });
   }
 }

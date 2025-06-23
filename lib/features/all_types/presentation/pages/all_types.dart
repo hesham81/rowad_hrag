@@ -4,7 +4,6 @@ import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/features/all_types/presentation/manager/all_categories_cubit.dart';
 import 'package:rowad_hrag/features/all_types/presentation/widgets/all_types_item_container.dart';
-
 import '../../../../../core/theme/app_colors.dart';
 
 class AllTypes extends StatelessWidget {
@@ -36,7 +35,15 @@ class AllTypes extends StatelessWidget {
               child: Column(
                 children: [
                   0.01.height.hSpace,
-                  AllTypesItemContainer(),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => AllTypesItemContainer(
+                      model: state.allCategories[index],
+                    ),
+                    separatorBuilder: (context, index) => 0.01.height.hSpace,
+                    itemCount: state.allCategories.length,
+                  ),
                 ],
               ).hPadding(0.03.width),
             );
@@ -60,8 +67,11 @@ class AllTypes extends StatelessWidget {
               ],
             );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: AppColors.secondaryColor,
+              color: AppColors.darkTeal,
+            ),
           );
         },
       ),

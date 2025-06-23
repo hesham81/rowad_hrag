@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/core/constant/api_networks.dart';
+import 'cash_helper.dart';
 
 class WebServices {
   static WebServices? _this;
@@ -9,8 +10,7 @@ class WebServices {
   Dio tokenDio = Dio();
 
   factory WebServices() {
-    _this ??= WebServices._();
-    return _this!;
+    return _this ??= WebServices._();
   }
 
   WebServices._() {
@@ -20,6 +20,9 @@ class WebServices {
     tokenDio.options.connectTimeout = Duration(minutes: 1);
     tokenDio.options.baseUrl = ApiNetworks.baseUrl;
     initializeInterceptors();
+    Future.wait([
+      getTokenData(),
+    ]);
   }
 
   String? myToken;
@@ -76,6 +79,10 @@ class WebServices {
         },
       ),
     );
+  }
+
+  Future<void> getTokenData() async {
+     myToken = await CashHelper.getString("token");
   }
 
   Future<bool> configCashing() async {

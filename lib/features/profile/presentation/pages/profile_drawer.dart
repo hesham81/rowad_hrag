@@ -9,7 +9,6 @@ import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/contact_with_support/presentation/pages/contact_with_support.dart';
 import 'package:rowad_hrag/features/credit_cards/presentation/pages/credit_cards_screen.dart';
-import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/settings/presentation/pages/profile_settings.dart';
 
 class ProfileDrawer extends StatelessWidget {
@@ -138,28 +137,28 @@ class ProfileDrawer extends StatelessWidget {
                   ),
                 ),
                 Divider(),
-                ListTile(
-                  onTap: () => slideLeftWidget(
-                    newPage: PlansScreen(),
-                    context: context,
-                  ),
-                  subtitle: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.settings,
-                        color: AppColors.secondaryColor,
-                      ),
-                      Text(
-                        "الخطط",
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                      )
-                    ],
-                  ),
-                ),
+                // ListTile(
+                //   onTap: () => slideLeftWidget(
+                //     newPage: PlansScreen(),
+                //     context: context,
+                //   ),
+                //   subtitle: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Icon(
+                //         Icons.settings,
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       Text(
+                //         "الخطط",
+                //         overflow: TextOverflow.ellipsis,
+                //         style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                //               fontWeight: FontWeight.bold,
+                //             ),
+                //       )
+                //     ],
+                //   ),
+                // ),
                 Divider(),
                 ListTile(
                   onTap: () {},

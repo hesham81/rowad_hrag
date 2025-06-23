@@ -14,7 +14,11 @@ class Blog extends Equatable {
 
   final String createdAt;
 
+
+  final String imageUrl ;
+
   const Blog({
+    required this.imageUrl,
     required this.id,
     required this.categoryId,
     required this.title,
@@ -35,5 +39,6 @@ class Blog extends Equatable {
         descrption,
         banner,
         createdAt,
+        imageUrl,
       ];
 }

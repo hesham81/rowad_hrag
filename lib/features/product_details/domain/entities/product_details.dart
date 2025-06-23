@@ -11,7 +11,7 @@ class ProductDetails extends Equatable {
 
   final int categoryId;
 
-  final String photos;
+  final List<String> photos;
 
   final String? videoProvider;
 

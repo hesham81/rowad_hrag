@@ -1,0 +1,2 @@
+/Users/hishamaymen/StudioProjects/rowad_hrag/android/app/.cxx/Debug/34w4w5h1/x86_64/CMakeFiles/edit_cache.dir
+/Users/hishamaymen/StudioProjects/rowad_hrag/android/app/.cxx/Debug/34w4w5h1/x86_64/CMakeFiles/rebuild_cache.dir

@@ -10,6 +10,7 @@ class BlogDataModel extends Blog {
     required super.descrption,
     required super.banner,
     required super.createdAt,
+    required super.imageUrl,
   });
 
   factory BlogDataModel.fromJson(Map<String, dynamic> json) => BlogDataModel(
@@ -21,6 +22,7 @@ class BlogDataModel extends Blog {
         descrption: json["description"].toString(),
         banner: json["banner"],
         createdAt: json["created_at"],
+        imageUrl: json["image_url"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -32,5 +34,6 @@ class BlogDataModel extends Blog {
         "description": descrption,
         "banner": banner,
         "created_at": createdAt,
+        "image_url": imageUrl,
       };
 }

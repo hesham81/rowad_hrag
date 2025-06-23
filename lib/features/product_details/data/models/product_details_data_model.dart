@@ -3,7 +3,7 @@ import 'package:rowad_hrag/features/product_details/data/models/user_data_model.
 import 'package:rowad_hrag/features/product_details/domain/entities/product_details.dart';
 
 class ProductDetailsDataModel extends ProductDetails {
-  ProductDetailsDataModel({
+  const ProductDetailsDataModel({
     required super.id,
     required super.name,
     required super.addedBy,
@@ -40,7 +40,7 @@ class ProductDetailsDataModel extends ProductDetails {
       addedBy: json['added_by'],
       categoryId:
           (json['category_id'] is num) ? json['category_id'].toInt() : 0,
-      photos: json['photos'],
+      photos: (json['photos'] is List<String>) ? json['photos'] : [],
       videoProvider: json['video_provider'],
       description: json['description'],
       unitPrice:
