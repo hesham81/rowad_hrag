@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/features/notifications/presentation/pages/notifications.dart';
 import '/core/constant/app_assets.dart';
 import '/core/extensions/extensions.dart';
@@ -27,9 +28,9 @@ class UpperBar extends StatelessWidget {
               AppAssets.notificationIcon,
             ).allPadding(12),
           ),
-          onTap: () => slideLeftWidget(
-            newPage: Notifications(),
-            context: context,
+          onTap: () => Navigator.pushNamed(
+            context,
+            RouteNames.notifications,
           ),
         ),
         0.04.width.vSpace,
@@ -44,8 +45,9 @@ class UpperBar extends StatelessWidget {
           height: 50,
           width: 50,
           decoration: BoxDecoration(
-              color: AppColors.secondaryColor,
-              borderRadius: BorderRadius.circular(10)),
+            color: AppColors.secondaryColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: SvgPicture.asset(
             AppAssets.searchIcon,
           ).allPadding(12),

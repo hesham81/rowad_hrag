@@ -1,35 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/features/notifications/data/models/notification_data_model.dart';
+import 'package:rowad_hrag/features/notifications/presentation/widgets/notification_info.dart';
 
-class NotificationItem extends StatelessWidget {
-  const NotificationItem({super.key});
+class NotificationItem extends StatefulWidget {
+  final NotificationDataModel notificationDataModel;
+
+  const NotificationItem({
+    super.key,
+    required this.notificationDataModel,
+  });
+
+  @override
+  State<NotificationItem> createState() => _NotificationItemState();
+}
+
+class _NotificationItemState extends State<NotificationItem> {
+  _openBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => NotificationInfo(
+        notificationDataModel: widget.notificationDataModel,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              "لقد تم التواصل مع الدعم",
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-            ),
-            Spacer(),
-            Text(
-              "تم قراءتها",
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
-                  ),
-            ),
-          ],
+        Icon(
+          Icons.notifications,
         ),
-
+        0.01.width.vSpace,
+        Text(
+          widget.notificationDataModel.conversion.senderName,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+        ),
+        0.1.width.vSpace,
+        Text(
+          widget.notificationDataModel.conversion.message,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
+        ),
+        Spacer(),
+        IconButton(
+          onPressed: _openBottomSheet,
+          icon: Icon(Icons.more_horiz),
+        ),
       ],
-    ).allPadding(5);
+    ).allPadding(2);
   }
 }
