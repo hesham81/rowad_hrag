@@ -4,6 +4,7 @@ import 'package:rowad_hrag/features/all_types/presentation/manager/all_categorie
 import 'package:rowad_hrag/features/bills/presentation/pages/upload_bills_page.dart';
 import 'package:rowad_hrag/features/blogs/presentation/manager/blog_cubit.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
+import 'package:rowad_hrag/features/contact_with_support/presentation/manager/contacts_cubit.dart';
 import 'package:rowad_hrag/features/contact_with_support/presentation/pages/contact_with_support.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
 import 'package:rowad_hrag/features/notifications/presentation/manager/notification_cubit.dart';
@@ -89,7 +90,10 @@ abstract class OnGenerateRoute {
 
       case RouteNames.contactWithSupport:
         return MaterialPageRoute(
-          builder: (context) => ContactWithSupport(),
+          builder: (context) => BlocProvider<ContactsCubit>(
+            child: ContactWithSupport(),
+            create: (context) => ContactsCubit()..getAllContacts(),
+          ),
         );
 
       case RouteNames.addAdds:

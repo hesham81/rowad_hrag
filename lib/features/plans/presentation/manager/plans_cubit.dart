@@ -25,7 +25,7 @@ class PlansCubit extends Cubit<PlansInitialState> {
     try {
       EasyLoading.show();
       _dio = WebServices();
-      _dataSource = RemotePlansDataSource(_dio.freePrimaryDio);
+      _dataSource = RemotePlansDataSource(_dio.tokenDio);
       _plansReposatory = PlansRepoImplementation(_dataSource);
       _getAllPlansUseCase = GetAllPlansUseCase(_plansReposatory);
       var response = await _getAllPlansUseCase.call();

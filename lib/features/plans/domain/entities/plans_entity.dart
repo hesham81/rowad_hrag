@@ -19,7 +19,7 @@ class PlansEntity extends Equatable {
 
   final int numberOfPublishAndBuy;
 
-  PlansEntity({
+  const PlansEntity({
     required this.id,
     required this.title,
     required this.numberOfMonths,
