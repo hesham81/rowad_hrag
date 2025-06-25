@@ -23,7 +23,7 @@ abstract class ApiEndPoints {
   static const String allCategories = '/all_categories';
   static const String profile = '/seller/shop/info';
   static const String getAllNotifications = '/user/notifications';
-  static const String getAllAdds = '/seller/file/all';
+  static const String getAllAdds = '/seller/products/all';
   static const String getAllContacts = '/seller/support-tickets';
 
 }
