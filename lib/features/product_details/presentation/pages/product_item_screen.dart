@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,20 +23,15 @@ class ProductItemScreen extends StatefulWidget {
 }
 
 class _ProductItemScreenState extends State<ProductItemScreen> {
-  var images = [
-    "https://rowad-harag.com/public/uploads/all/0uSVSxT9RQQn5pW3PqRRIm99HyrnzvSeO013k4vf.jpg",
-    "https://rowad-harag.com/public/uploads/all/jfaGGmx24gRpVruqUi7KhnkZ355ULvS6DL7wk8hH.jpg",
-    "https://rowad-harag.com/public/uploads/all/bhArJyYcTyZAJMXd7lDRW45eW5Op154N2jI6TrrQ.jpg",
-  ];
-  int selectedIndex = 0;
+  int? selectedIndex;
 
   @override
   Widget build(BuildContext context) {
-
     var cubit = context.read<ProductDetailsCubit>();
     return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
         builder: (context, state) {
       if (state is ProductDetailsLoaded) {
+        log("${state.productDetailsDataModel.photos.length}");
         return Scaffold(
           floatingActionButton: WhatsappIconButton(),
           bottomNavigationBar: CustomElevatedButton(
@@ -70,8 +67,10 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CachedNetworkImage(
-                  imageUrl:
-                      "https://rowad-harag.com/public/${state.productDetailsDataModel.image}",
+                  imageUrl: (selectedIndex == null)
+                      ? "https://rowad-harag.com/public/${state.productDetailsDataModel.image}"
+                      : state.productDetailsDataModel.photos[selectedIndex!]
+                          .replaceAll("storage", "public"),
                   width: double.maxFinite,
                 ),
                 0.01.height.hSpace,
@@ -89,15 +88,17 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                             });
                           },
                           child: CachedNetworkImage(
-                            imageUrl: images[index],
-                            fit: BoxFit.fill,
+                            imageUrl: state
+                                .productDetailsDataModel.photos[index]
+                                .replaceAll("storage", "public"),
+                            fit: BoxFit.contain,
                             height: 0.15.height,
                           ),
                         ),
                       );
                     },
                     separatorBuilder: (context, index) => 0.01.width.vSpace,
-                    itemCount: images.length,
+                    itemCount: state.productDetailsDataModel.photos.length,
                   ),
                 ),
                 0.01.height.hSpace,
@@ -304,8 +305,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
             ),
           ),
         );
-      }
-      else {
+      } else {
         return Scaffold(
           body: Center(
             child: CircularProgressIndicator(

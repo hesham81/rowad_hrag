@@ -18,7 +18,7 @@ class ProdcutDetailsRepositoriesImp implements ProductDetailsRepo {
   ) async {
     try {
       var response = await _interfaceDataSource.getProductDetails(id);
-      var data = ProductDetailsDataModel.fromJson(response.data["product"]);
+      var data = ProductDetailsDataModel.fromJson(response.data);
       return Right(data);
     } on DioException catch (error) {
       return Left(
