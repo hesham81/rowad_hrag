@@ -25,6 +25,7 @@ class PlansRepoImplementation implements PlansReposatory {
           .toList();
       return Right(plans);
     } on DioException catch (error) {
+      throw Exception(error.message);
       return Left(
         ServerFailure(
           statusCode: error.response?.statusCode.toString() ?? "",

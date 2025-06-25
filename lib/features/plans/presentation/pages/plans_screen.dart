@@ -56,9 +56,11 @@ class _PlansScreenState extends State<PlansScreen> {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => CardSubscriptionItem(),
+                    itemBuilder: (context, index) => CardSubscriptionItem(
+                      plans: state.plans[index],
+                    ),
                     separatorBuilder: (context, index) => 0.01.height.hSpace,
-                    itemCount: 3,
+                    itemCount: state.plans.length,
                   ),
                   Divider(),
                   0.01.height.hSpace,
