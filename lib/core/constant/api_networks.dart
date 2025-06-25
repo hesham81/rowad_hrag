@@ -14,6 +14,7 @@ abstract class ApiEndPoints {
   static const String reviews = '/website-reviews';
   static const String subCategories = '/sub-categories';
   static const String specialProducts = '/products/featured';
+  static const String subCategoriesProducts = '/products/category';
   static const String peopleWithSpecialNeeds = '/products/special-needs';
   static const String productiveFamilies = '/products/productive-families';
   static const String visitorState = '/visitor-stats';

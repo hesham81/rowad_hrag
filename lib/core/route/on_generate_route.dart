@@ -18,11 +18,13 @@ import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.d
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
+import 'package:rowad_hrag/features/sub_categories_product_details/presentation/pages/sub_categories_product.dart';
 import '../../features/add-ads/presentation/pages/adds_page.dart';
 import '../../features/adds_reviews/presentation/manager/adds_reviews_cubit.dart';
 import '../../features/all_types/presentation/pages/all_types.dart';
 import '../../features/all_uploaded_files/presentation/manager/files_cubit.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
+import '../../features/sub_categories_product_details/presentation/manager/sub_categories_product_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
 import '../../features/auth/presentation/pages/sign_in.dart';
 import '../../features/auth/presentation/pages/sign_up/pages/sign_up.dart';
@@ -115,6 +117,17 @@ abstract class OnGenerateRoute {
       case RouteNames.bills:
         return MaterialPageRoute(
           builder: (context) => UploadBillsPage(),
+        );
+      case RouteNames.subCategoriesProductDetails:
+        final slug = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            child: SubCategoriesProduct(),
+            create: (context) => SubCategoriesProductCubit()
+              ..getAllSubCategoriesProductDetails(
+                slug ?? '',
+              ),
+          ),
         );
       case RouteNames.addsReviews:
         return MaterialPageRoute(
