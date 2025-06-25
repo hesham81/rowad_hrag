@@ -25,6 +25,7 @@ abstract class ApiEndPoints {
   static const String getAllNotifications = '/user/notifications';
   static const String getAllAdds = '/seller/products/all';
   static const String getAllFiles = '/seller/file/all';
+  static const String addsReviews = '/seller/products/reviews';
   static const String getAllContacts = '/seller/support-tickets';
 
 }

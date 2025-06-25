@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rowad_hrag/features/adds_reviews/presentation/pages/adds_reviews.dart';
 import 'package:rowad_hrag/features/all_types/presentation/manager/all_categories_cubit.dart';
 import 'package:rowad_hrag/features/all_uploaded_files/presentation/pages/all_uploaded_files.dart';
 import 'package:rowad_hrag/features/bills/presentation/pages/upload_bills_page.dart';
@@ -18,6 +19,7 @@ import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
 import '../../features/add-ads/presentation/pages/adds_page.dart';
+import '../../features/adds_reviews/presentation/manager/adds_reviews_cubit.dart';
 import '../../features/all_types/presentation/pages/all_types.dart';
 import '../../features/all_uploaded_files/presentation/manager/files_cubit.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
@@ -113,6 +115,13 @@ abstract class OnGenerateRoute {
       case RouteNames.bills:
         return MaterialPageRoute(
           builder: (context) => UploadBillsPage(),
+        );
+      case RouteNames.addsReviews:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            child: AddsReviews(),
+            create: (context) => AddsReviewsCubit()..getAllAddsReviews(),
+          ),
         );
       case RouteNames.allFiles:
         return MaterialPageRoute(

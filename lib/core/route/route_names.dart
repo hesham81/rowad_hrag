@@ -15,4 +15,5 @@ abstract class RouteNames {
   static const String productDetails = '/productDetails';
   static const String notifications = '/notifications';
   static const String allFiles = '/allFiles';
+  static const String addsReviews = '/addsReviews';
 }
