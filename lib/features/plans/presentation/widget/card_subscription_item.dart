@@ -20,10 +20,8 @@ class CardSubscriptionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     String hexColor = plans.color;
 
-// Remove '#' if present
     hexColor = hexColor.replaceAll('#', '');
 
-// Ensure it's 6 characters
     if (hexColor.length == 6) {
       hexColor = 'FF' + hexColor; // Add alpha value (FF = fully opaque)
     }
@@ -31,6 +29,12 @@ class CardSubscriptionItem extends StatelessWidget {
     int hexValue = int.parse(hexColor, radix: 16);
     Color dynamicColor = Color(hexValue);
     return CustomContainer(
+      border: (isSelected)
+          ? Border.all(
+              color: AppColors.secondaryColor,
+              width: 3,
+            )
+          : null,
       color: isSelected ? AppColors.primaryColor : Colors.white,
       child: Row(
         children: [

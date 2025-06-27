@@ -6,6 +6,8 @@ import 'package:rowad_hrag/features/product_details/data/data_sources/product_in
 import 'package:rowad_hrag/features/product_details/data/data_sources/remote_product_data_source.dart';
 import 'package:rowad_hrag/features/product_details/data/repositories/product_details_repositories_imp.dart';
 import 'package:rowad_hrag/features/product_details/domain/repositories/product_details_repo.dart';
+import '../../../auth/data/models/city_data_model.dart';
+import '../../../auth/data/models/states_data_model.dart';
 import '../../data/models/product_details_data_model.dart';
 import '../../domain/use_cases/get_product_details_use_case.dart';
 
@@ -21,6 +23,14 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   late WebServices _services;
 
   late ProductInterfaceDataSource _interfaceDataSource;
+
+  CityDataModel? _cityDataModel;
+
+  StatesDataModel? _statesDataModel;
+
+  CityDataModel? get cityDataModel => _cityDataModel;
+
+  StatesDataModel? get statesDataModel => _statesDataModel;
 
   ProductDetailsDataModel? _productDetailsDataModel;
 
@@ -56,5 +66,9 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
           "حدث خطأ ما برجاء\nبرجاء المحاوله مره اخري");
       EasyLoading.dismiss();
     }
+  }
+
+  Future<void> _getCity(int id) async {
+
   }
 }

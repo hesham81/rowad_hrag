@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/icon_error.dart';
@@ -37,63 +38,60 @@ class _NotificationsState extends State<Notifications> {
           ),
         ),
       ),
-      body: DefaultTabController(
-        length: 3,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TabBar(
-                padding: EdgeInsets.zero,
-                indicatorAnimation: TabIndicatorAnimation.elastic,
-                onTap: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
-                },
-                tabs: [
-                  Text(
-                    "المدفوعات",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                  ),
-                  Text(
-                    "الطلبات",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                  ),
-                  Text(
-                    "المحادثات",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                  ),
-                ],
-              ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // TabBar(
+            //   padding: EdgeInsets.zero,
+            //   indicatorAnimation: TabIndicatorAnimation.elastic,
+            //   onTap: (value) {
+            //     setState(() {
+            //       selectedIndex = value;
+            //     });
+            //   },
+            //   tabs: [
+            //     Text(
+            //       "المدفوعات",
+            //       style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.black,
+            //           ),
+            //     ),
+            //     Text(
+            //       "الطلبات",
+            //       style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.black,
+            //           ),
+            //     ),
+            //     Text(
+            //       "المحادثات",
+            //       style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.black,
+            //           ),
+            //     ),
+            //   ],
+            // ),
 
-              BlocBuilder<NotificationCubit, NotificationState>(
-                builder: (context, state) {
-                  if (state is NotificationError) {
-                    return IconError(
-                      error: state.message,
-                    );
-                  } else if (state is NotificationLoaded) {
-                    return SuccessNotificationUi(
-                      notifications: state.notifications,
-                    );
-                  } else {
-                    return CircularProgressIndicator(
-                      backgroundColor: AppColors.secondaryColor,
-                    );
-                  }
-                },
-              )
-            ],
-          ),
+            BlocBuilder<NotificationCubit, NotificationState>(
+              builder: (context, state) {
+                if (state is NotificationError) {
+                  return IconError(
+                    error: state.message,
+                  );
+                } else if (state is NotificationLoaded) {
+                  return SuccessNotificationUi(
+                    notifications: state.notifications,
+                  );
+                } else {
+                  return CircularProgressIndicator(
+                    backgroundColor: AppColors.secondaryColor,
+                  ).center;
+                }
+              },
+            )
+          ],
         ),
       ),
     );
