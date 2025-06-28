@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 
 import '../../../../../core/widget/custom_elevated_button.dart';
@@ -107,7 +108,12 @@ class SuccessProfileStates extends StatelessWidget {
                             color: Colors.white,
                           ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        RouteNames.addsReviews,
+                      );
+                    },
                   ),
                 )
               ],

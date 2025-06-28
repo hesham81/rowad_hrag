@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
+import 'package:rowad_hrag/features/all_uploaded_files/presentation/pages/all_uploaded_files.dart';
 import 'package:rowad_hrag/features/credit_cards/presentation/pages/credit_cards_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/adds_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile_drawer.dart';
@@ -49,23 +51,23 @@ class Profile extends StatelessWidget {
               color: AppColors.primaryColor,
             ),
           ),
+          // IconButton(
+          //   onPressed: () => slideLeftWidget(
+          //     newPage: CreditCardsScreen(),
+          //     context: context,
+          //   ),
+          //   icon: Icon(
+          //     Icons.credit_card,
+          //     color: AppColors.primaryColor,
+          //   ),
+          // ),
           IconButton(
-            onPressed: () => slideLeftWidget(
-              newPage: CreditCardsScreen(),
-              context: context,
+            onPressed: () => Navigator.pushNamed(
+              context,
+              RouteNames.allFiles,
             ),
             icon: Icon(
-              Icons.credit_card,
-              color: AppColors.primaryColor,
-            ),
-          ),
-          IconButton(
-            onPressed: () => slideLeftWidget(
-              newPage: CreditCardsScreen(),
-              context: context,
-            ),
-            icon: Icon(
-              Icons.file_open_sharp,
+              Icons.file_copy_sharp,
               color: AppColors.primaryColor,
             ),
           ),

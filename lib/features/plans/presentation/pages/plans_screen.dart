@@ -18,6 +18,8 @@ class PlansScreen extends StatefulWidget {
 }
 
 class _PlansScreenState extends State<PlansScreen> {
+  int? selectedPlan;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PlansCubit, PlansInitialState>(
@@ -56,8 +58,15 @@ class _PlansScreenState extends State<PlansScreen> {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => CardSubscriptionItem(
-                      plans: state.plans[index],
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        selectedPlan = index;
+                        setState(() {});
+                      },
+                      child: CardSubscriptionItem(
+                        isSelected: (selectedPlan == index),
+                        plans: state.plans[index],
+                      ),
                     ),
                     separatorBuilder: (context, index) => 0.01.height.hSpace,
                     itemCount: state.plans.length,

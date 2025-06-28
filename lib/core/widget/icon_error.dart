@@ -21,6 +21,7 @@ class IconError extends StatelessWidget {
         0.01.height.hSpace,
         Text(
           error,
+          textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.red,

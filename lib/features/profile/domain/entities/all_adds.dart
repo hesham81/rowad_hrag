@@ -3,27 +3,26 @@ import 'package:equatable/equatable.dart';
 class AllAddsEntity extends Equatable {
   final int id;
 
-  final String fileName;
+  final String name;
 
-  final String imageUrl;
-
-  final String type;
-  final String fileOriginalName;
+  final String image;
+  final String category;
+  final String price;
 
   const AllAddsEntity({
-    required this.fileOriginalName,
     required this.id,
-    required this.fileName,
-    required this.imageUrl,
-    required this.type,
+    required this.name,
+    required this.image,
+    required this.category,
+    required this.price,
   });
 
   @override
   List<Object?> get props => [
         id,
-        fileName,
-        imageUrl,
-        type,
-        fileOriginalName,
+        name,
+        image,
+        category,
+        price,
       ];
 }
