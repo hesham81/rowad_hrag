@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 import 'package:rowad_hrag/core/constant/api_networks.dart';
 import 'package:rowad_hrag/features/layout/data/data_sources/home_interface_data_source.dart';
+import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
 
 class RemoteHomeDataSource implements HomeInterfaceDataSource {
   Dio _dio;
@@ -61,5 +62,13 @@ class RemoteHomeDataSource implements HomeInterfaceDataSource {
   @override
   Future<Response> getTopSellers() async {
     return await _dio.get(ApiEndPoints.topSellers);
+  }
+
+  @override
+  Future<Response> sendComment(AddRateRequest rate) async {
+    return await _dio.post(
+      ApiEndPoints.addRate,
+      data: rate,
+    );
   }
 }

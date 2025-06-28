@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final formKey = GlobalKey<FormState>();
   bool isSend = false;
 
+
   @override
   void initState() {
     super.initState();
@@ -445,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     0.01.height.hSpace,
                     CustomElevatedButton(
                       onPressed:
-                          (_reviewController.text.isNotEmpty) ? () {
+                          (_reviewController.text.isNotEmpty && rate != null) ? () {
 
                           } : null,
                       child: Text(

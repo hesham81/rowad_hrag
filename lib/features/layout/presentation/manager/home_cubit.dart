@@ -6,6 +6,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/top_sellers_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/visitor_status_data_model.dart';
+import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
+import 'package:rowad_hrag/features/layout/domain/use_cases/add_new_rate_on_home_layout_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_special_products.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_people_with_special_needs_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_second_banner.dart';
@@ -383,6 +385,39 @@ class HomeCubit extends Cubit<HomeState> {
       );
     } catch (error) {
       log("Error On GetTopSellers $error");
+    }
+  }
+
+  late final AddNewRateOnHomeLayoutUseCase _addNewRateOnHomeLayoutUseCase;
+
+  bool _isRateSubmited = false;
+
+  bool get isRateSubmited => _isRateSubmited;
+
+  Future<void> addNewReview(AddRateRequest rate) async {
+    EasyLoading.show();
+    _services = WebServices();
+    _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
+    _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
+    _addNewRateOnHomeLayoutUseCase =
+        AddNewRateOnHomeLayoutUseCase(_homeReposatory);
+    try {
+      var response = await _addNewRateOnHomeLayoutUseCase.call(rate);
+      response.fold(
+        (error) {
+          EasyLoading.showError(
+            error.messageEn ?? error.messageAr ?? "Error",
+          );
+          throw Exception(error.messageAr);
+        },
+        (data) {
+          _isRateSubmited = true;
+        },
+      );
+    } catch (error) {
+      log("Error On GetTopSellers $error");
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 }
