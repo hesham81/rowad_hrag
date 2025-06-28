@@ -7,7 +7,5 @@ import 'package:rowad_hrag/features/product_details/data/models/product_details_
 abstract class ProductDetailsRepo {
   Future<Either<Failure, ProductDetailsDataModel>> getProductDetails(String id);
 
-  Future<Either<Failure, List<CityDataModel>>> getStates();
-
-  Future<Either<Failure, List<StatesDataModel>>> getCities(int id);
+  Future<Either<Failure, CityDataModel>> getState(int id);
 }

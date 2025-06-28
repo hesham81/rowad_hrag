@@ -6,6 +6,7 @@ import 'package:rowad_hrag/features/product_details/data/data_sources/product_in
 import 'package:rowad_hrag/features/product_details/data/data_sources/remote_product_data_source.dart';
 import 'package:rowad_hrag/features/product_details/data/repositories/product_details_repositories_imp.dart';
 import 'package:rowad_hrag/features/product_details/domain/repositories/product_details_repo.dart';
+import 'package:rowad_hrag/features/product_details/domain/use_cases/get_states_use_case.dart';
 import '../../../auth/data/models/city_data_model.dart';
 import '../../../auth/data/models/states_data_model.dart';
 import '../../data/models/product_details_data_model.dart';
@@ -26,11 +27,11 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
 
   CityDataModel? _cityDataModel;
 
-  StatesDataModel? _statesDataModel;
+  CityDataModel? _statesDataModel;
 
   CityDataModel? get cityDataModel => _cityDataModel;
 
-  StatesDataModel? get statesDataModel => _statesDataModel;
+  CityDataModel? get statesDataModel => _statesDataModel;
 
   ProductDetailsDataModel? _productDetailsDataModel;
 
@@ -54,9 +55,11 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
                 "حدث خطأ ما برجاء\nبرجاء المحاوله مره اخري"),
           );
         },
-        (data) {
+        (data) async {
           _productDetailsDataModel = data;
+          await _getStates(data.stateId);
           emit(ProductDetailsLoaded(productDetailsDataModel!));
+
         },
       );
     } catch (error) {
@@ -68,7 +71,33 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     }
   }
 
-  Future<void> _getCity(int id) async {
+  late GetStatesUseCase _getStatesUseCase;
 
+  Future<bool> _getStates(int id) async {
+    try {
+      _services = WebServices();
+      _interfaceDataSource = RemoteProductDataSource(_services.freePrimaryDio);
+      _productDetailsRepo = ProdcutDetailsRepositoriesImp(_interfaceDataSource);
+
+      _getStatesUseCase = GetStatesUseCase(_productDetailsRepo);
+      var response = await _getStatesUseCase.getState(
+        id,
+      );
+      response.fold(
+        (error) {
+          emit(
+            ProductDetailsError(error.messageAr ??
+                error.messageEn ??
+                "حدث خطأ ما برجاء\nبرجاء المحاوله مره اخري"),
+          );
+        },
+        (data) {
+          _statesDataModel = data;
+        },
+      );
+      return true;
+    } catch (error) {
+      throw Exception(error.toString());
+    }
   }
 }

@@ -2,6 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:rowad_hrag/core/failures/failure.dart';
 import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
+import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
+import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
+import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
 import 'package:rowad_hrag/features/auth/data/models/states_data_model.dart';
 import 'package:rowad_hrag/features/product_details/data/data_sources/product_interface_data_source.dart';
 import 'package:rowad_hrag/features/product_details/data/models/product_details_data_model.dart';
@@ -33,40 +36,27 @@ class ProdcutDetailsRepositoriesImp implements ProductDetailsRepo {
   }
 
   @override
-  Future<Either<Failure, List<CityDataModel>>> getStates() async {
+  Future<Either<Failure, CityDataModel>> getState(int id) async {
     try {
-      final response = await _interfaceDataSource.getState();
-      final data = List<CityDataModel>.from(
-        response.data.map(
-          (x) => CityDataModel.fromJson(x),
-        ),
-      );
-      return Right(data);
-    } catch (error) {
-      return Left(
-        ServerFailure(
-          statusCode: "404",
-          message: error.toString(),
-        ),
-      );
-    }
-  }
+      var response = await _interfaceDataSource.getState(id);
 
-  @override
-  Future<Either<Failure, List<StatesDataModel>>> getCities(int id) async {
-    try {
-      final response = await _interfaceDataSource.getCities(id);
-      final data = List<StatesDataModel>.from(
-        response.data.map(
-          (x) => StatesDataModel.fromJson(x),
-        ),
-      );
-      return Right(data);
-    } catch (error) {
+      List<CityDataModel> data = List.from(response.data['data'])
+          .map(
+            (e) => CityDataModel.fromJson(e),
+          )
+          .toList();
+
+      CityDataModel model = data
+          .where(
+            (element) => element.id == id,
+          )
+          .first;
+      return Right(model);
+    } on DioException catch (error) {
       return Left(
         ServerFailure(
-          statusCode: "404",
-          message: error.toString(),
+          statusCode: error.response?.statusCode.toString() ?? "",
+          message: error.message,
         ),
       );
     }

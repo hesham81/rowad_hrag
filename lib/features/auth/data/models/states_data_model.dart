@@ -1,7 +1,7 @@
 import 'package:rowad_hrag/features/auth/domain/entities/states.dart';
 
 class StatesDataModel extends States {
-  StatesDataModel({
+  const StatesDataModel({
     required super.id,
     required super.stateId,
     required super.name,

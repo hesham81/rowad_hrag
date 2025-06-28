@@ -107,21 +107,38 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          state.productDetailsDataModel.name ?? "",
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        Expanded(
+                          child: Text(
+                            state.productDetailsDataModel.name ?? "",
+                            textAlign: TextAlign.center,
+                            style:
+                                Theme.of(context).textTheme.titleLarge!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          ),
                         ),
                       ],
                     ),
                     0.01.height.hSpace,
-                    Text(
-                      "المنطقه : ${state.productDetailsDataModel.photos}",
-                      style:
-                          Theme.of(context).textTheme.titleMedium!.copyWith(),
-                    ).alignRight(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          cubit.statesDataModel?.name ?? "",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(),
+                        ).alignRight(),
+                        Text(
+                          " :  المنطقه ",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(),
+                        ).alignRight(),
+                      ],
+                    ),
                     0.01.height.hSpace,
                     Text(
                       "المدينة : تبوك",
