@@ -61,4 +61,24 @@ class ProdcutDetailsRepositoriesImp implements ProductDetailsRepo {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, List<StatesDataModel>>> getCityById(int id) async{
+    try{
+      var response = await _interfaceDataSource.getState(id);
+      List<StatesDataModel> data = List.from(response.data['data'])
+          .map(
+            (e) => StatesDataModel.fromJson(e),
+          )
+          .toList();
+      return Right(data);
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "",
+          message: error.message,
+        ),
+      );
+    }
+  }
 }

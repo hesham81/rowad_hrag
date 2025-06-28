@@ -18,4 +18,9 @@ class RemoteProductDataSource implements ProductInterfaceDataSource {
   Future<Response> getState(int id) async {
     return await _dio.get(ApiEndPoints.states);
   }
+
+  @override
+  Future<Response> getCity(int id) async {
+    return await _dio.get("${ApiEndPoints.cityByStateId}/$id");
+  }
 }

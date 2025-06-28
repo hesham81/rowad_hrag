@@ -8,4 +8,6 @@ abstract class ProductDetailsRepo {
   Future<Either<Failure, ProductDetailsDataModel>> getProductDetails(String id);
 
   Future<Either<Failure, CityDataModel>> getState(int id);
+
+  Future<Either<Failure, List<StatesDataModel>>> getCityById(int id);
 }

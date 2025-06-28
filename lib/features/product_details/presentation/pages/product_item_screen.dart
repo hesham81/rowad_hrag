@@ -111,10 +111,12 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                           child: Text(
                             state.productDetailsDataModel.name ?? "",
                             textAlign: TextAlign.center,
-                            style:
-                                Theme.of(context).textTheme.titleLarge!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ),
                       ],
@@ -140,12 +142,26 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                       ],
                     ),
                     0.01.height.hSpace,
-                    Text(
-                      "المدينة : تبوك",
-                      style:
-                          Theme.of(context).textTheme.titleMedium!.copyWith(),
-                    ).alignRight(),
-                    0.01.height.hSpace,
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     Text(
+                    //       cubit.cityData?.name ?? "",
+                    //       style: Theme.of(context)
+                    //           .textTheme
+                    //           .titleMedium!
+                    //           .copyWith(),
+                    //     ).alignRight(),
+                    //     Text(
+                    //       " :  المدينه ",
+                    //       style: Theme.of(context)
+                    //           .textTheme
+                    //           .titleMedium!
+                    //           .copyWith(),
+                    //     ).alignRight(),
+                    //   ],
+                    // ),
+                    // 0.01.height.hSpace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

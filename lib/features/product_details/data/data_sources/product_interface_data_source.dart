@@ -5,4 +5,8 @@ abstract class ProductInterfaceDataSource {
 
   Future<Response> getState(int id);
 
+  Future<Response> getCity(int id);
+
+
+
 }
