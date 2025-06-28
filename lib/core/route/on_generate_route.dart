@@ -19,6 +19,7 @@ import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
 import 'package:rowad_hrag/features/sub_categories_product_details/presentation/pages/sub_categories_product.dart';
+import '../../features/add-ads/presentation/manager/addAdCubit.dart';
 import '../../features/add-ads/presentation/pages/adds_page.dart';
 import '../../features/adds_reviews/presentation/manager/adds_reviews_cubit.dart';
 import '../../features/all_types/presentation/pages/all_types.dart';
@@ -102,10 +103,6 @@ abstract class OnGenerateRoute {
           ),
         );
 
-      case RouteNames.addAdds:
-        return MaterialPageRoute(
-          builder: (context) => AddsPage(),
-        );
       case RouteNames.notifications:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
@@ -134,6 +131,13 @@ abstract class OnGenerateRoute {
           builder: (context) => BlocProvider(
             child: AddsReviews(),
             create: (context) => AddsReviewsCubit()..getAllAddsReviews(),
+          ),
+        );
+      case RouteNames.addAdds:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            child: AddsPage(),
+            create: (context) => AddAdCubit(),
           ),
         );
       case RouteNames.allFiles:
