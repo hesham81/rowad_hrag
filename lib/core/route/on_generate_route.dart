@@ -16,6 +16,8 @@ import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
+import 'package:rowad_hrag/features/settings/presentation/manager/shop_settings_cubit.dart';
+import 'package:rowad_hrag/features/settings/presentation/pages/profile_settings.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
 import 'package:rowad_hrag/features/sub_categories_product_details/presentation/pages/sub_categories_product.dart';
@@ -138,6 +140,13 @@ abstract class OnGenerateRoute {
           builder: (context) => BlocProvider(
             child: AddsPage(),
             create: (context) => AddAdCubit(),
+          ),
+        );
+      case RouteNames.shopSettings:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            child: ProfileSettings(),
+            create: (context) => ShopSettingsCubit()..getAllSettings(),
           ),
         );
       case RouteNames.allFiles:

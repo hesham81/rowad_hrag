@@ -54,12 +54,13 @@ class NotificationInfo extends StatelessWidget {
           Divider(),
           Text(
             notificationDataModel.conversion.message,
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
           ),
-          Text(
-            notificationDataModel.conversion.createdAt.toString(),
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
-          ),
+          // Text(
+          //   notificationDataModel.conversion.createdAt.toString(),
+          //   style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
+          // ),
         ],
       ).allPadding(4),
     );

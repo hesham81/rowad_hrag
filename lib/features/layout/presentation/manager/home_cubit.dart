@@ -397,7 +397,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> addNewReview(AddRateRequest rate) async {
     EasyLoading.show();
     _services = WebServices();
-    _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
+    _interfaceDataSource = RemoteHomeDataSource(_services.tokenDio);
     _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
     _addNewRateOnHomeLayoutUseCase =
         AddNewRateOnHomeLayoutUseCase(_homeReposatory);

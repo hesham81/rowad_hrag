@@ -43,6 +43,7 @@ class _NotificationItemState extends State<NotificationItem> {
         0.1.width.vSpace,
         Text(
           widget.notificationDataModel.conversion.message,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
         ),
         Spacer(),
