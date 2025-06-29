@@ -45,6 +45,7 @@ class _PlansScreenState extends State<PlansScreen> {
             ),
             body: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   0.01.height.hSpace,
                   Text(
@@ -71,61 +72,61 @@ class _PlansScreenState extends State<PlansScreen> {
                     separatorBuilder: (context, index) => 0.01.height.hSpace,
                     itemCount: state.plans.length,
                   ),
-                  Divider(),
-                  0.01.height.hSpace,
-                  Text(
-                    "بيع منتجك برسوم 1% فقط في رواد حراج",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                  ).alignRight(),
-                  0.04.height.hSpace,
-                  Text(
-                    "حساب الرسوم",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                  ),
-                  0.02.height.hSpace,
-                  Text(
-                    "ادخل المبلغ",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Colors.black,
-                        ),
-                  ),
-                  SizedBox(
-                    width: 0.7.width,
-                    child: CustomTextFormField(
-                      hintText: "",
-                      controller: TextEditingController(),
-                      borderColor: Colors.black,
-                      borderRadius: 0,
-                    ),
-                  ),
-                  0.03.height.hSpace,
-                  Text(
-                    "الرسوم",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Colors.black,
-                        ),
-                  ),
-                  SizedBox(
-                    width: 0.3.width,
-                    child: CustomTextFormField(
-                      hintText: "",
-                      isReadOnly: true,
-                      controller: TextEditingController(),
-                      borderColor: Colors.black,
-                      borderRadius: 0,
-                    ),
-                  ),
-                  0.04.height.hSpace,
+                  // Divider(),
+                  // 0.01.height.hSpace,
+                  // Text(
+                  //   "بيع منتجك برسوم 1% فقط في رواد حراج",
+                  //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  //         fontWeight: FontWeight.bold,
+                  //         color: Colors.black,
+                  //       ),
+                  // ).alignRight(),
+                  // 0.04.height.hSpace,
+                  // Text(
+                  //   "حساب الرسوم",
+                  //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  //         fontWeight: FontWeight.bold,
+                  //         color: Colors.black,
+                  //       ),
+                  // ),
+                  // 0.02.height.hSpace,
+                  // Text(
+                  //   "ادخل المبلغ",
+                  //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  //         color: Colors.black,
+                  //       ),
+                  // ),
+                  // SizedBox(
+                  //   width: 0.7.width,
+                  //   child: CustomTextFormField(
+                  //     hintText: "",
+                  //     controller: TextEditingController(),
+                  //     borderColor: Colors.black,
+                  //     borderRadius: 0,
+                  //   ),
+                  // ),
+                  // 0.03.height.hSpace,
+                  // Text(
+                  //   "الرسوم",
+                  //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  //         color: Colors.black,
+                  //       ),
+                  // ),
+                  // SizedBox(
+                  //   width: 0.3.width,
+                  //   child: CustomTextFormField(
+                  //     hintText: "",
+                  //     isReadOnly: true,
+                  //     controller: TextEditingController(),
+                  //     borderColor: Colors.black,
+                  //     borderRadius: 0,
+                  //   ),
+                  // ),
+                  // 0.04.height.hSpace,
                   CustomElevatedButton(
                     btnColor: Color(0xff312F59),
-                    padding: EdgeInsets.symmetric(horizontal: 0.1.width),
-                    onPressed: () {},
+                    padding: EdgeInsets.all(15),
+                    onPressed: (selectedPlan != null) ? () {} : null,
                     child: Text(
                       "ادفع الآن",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -134,7 +135,7 @@ class _PlansScreenState extends State<PlansScreen> {
                           ),
                     ),
                   ),
-                  0.03.height.hSpace
+                  // 0.03.height.hSpace
                 ],
               ).hPadding(0.03.width),
             ),

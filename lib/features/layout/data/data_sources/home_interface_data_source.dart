@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import '../../domain/entities/add_rate_request.dart';
+
 abstract class HomeInterfaceDataSource {
   Future<Response> getStates();
 
@@ -22,4 +24,6 @@ abstract class HomeInterfaceDataSource {
   Future<Response> getVisitorsState();
 
   Future<Response> getTopSellers();
+
+  Future<Response> sendComment(AddRateRequest rate);
 }

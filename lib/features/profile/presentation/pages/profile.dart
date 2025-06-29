@@ -42,9 +42,9 @@ class Profile extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () => slideLeftWidget(
-              newPage: ProfileSettings(),
-              context: context,
+            onPressed: () => Navigator.pushNamed(
+              context,
+              RouteNames.shopSettings,
             ),
             icon: Icon(
               Icons.settings,

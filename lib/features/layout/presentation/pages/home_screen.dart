@@ -11,6 +11,7 @@ import 'package:rowad_hrag/core/extensions/alignment.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
+import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
 import '../../../../core/widget/custom_text_form_field.dart';
@@ -445,9 +446,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     0.01.height.hSpace,
                     CustomElevatedButton(
                       onPressed:
-                          (_reviewController.text.isNotEmpty) ? () {
-
-                          } : null,
+                          (_reviewController.text.isNotEmpty && rate != null)
+                              ? () async {
+                        var rateDat = AddRateRequest(comment: _reviewController.text  , rate: rate!);
+                        await cubit.addNewReview(rateDat);
+                          }
+                              : null,
                       child: Text(
                         "ارسال",
                         style:

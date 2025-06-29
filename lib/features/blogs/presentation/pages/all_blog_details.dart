@@ -46,7 +46,7 @@ class AllBlogDetails extends StatelessWidget {
             0.01.height.hSpace,
             Text(
               FilterTexts.getText(text: blog.descrption ?? ""),
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium,
             ).hPadding(0.01.width),
           ],

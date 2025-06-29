@@ -24,7 +24,7 @@ class About extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            (model!.visitorSectionText == null)
+            (model?.visitorSectionText == null)
                 ? """تتميز منصة رواد حراج بالبيع 
 والشراء وهي منصة موثقة من المركز السعودي للأعمال 
 التابع لوزارة التجارة"""
@@ -37,7 +37,7 @@ class About extends StatelessWidget {
           ),
           0.03.height.hSpace,
           Text(
-            (model!.visitorsToday == null)
+            (model?.visitorsToday == null)
                 ? "1500"
                 : model!.visitorsToday.toString(),
             style: Theme.of(context).textTheme.titleLarge!.copyWith(

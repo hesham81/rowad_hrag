@@ -29,5 +29,7 @@ abstract class ApiEndPoints {
   static const String addsReviews = '/seller/products/reviews';
   static const String getAllContacts = '/seller/support-tickets';
   static const String addAdds = '/seller/add-ad';
+  static const String addRate = '/website-review';
+  static const String getHomeSettings = '/business-settings';
 
 }
