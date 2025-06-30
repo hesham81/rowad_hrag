@@ -3,6 +3,7 @@ import 'package:dio/src/response.dart';
 import 'package:rowad_hrag/core/constant/api_networks.dart';
 import 'package:rowad_hrag/features/add-ads/data/data_sources/add_ads_interface_data_source.dart';
 import 'package:rowad_hrag/features/add-ads/data/models/add_ads_data_model.dart';
+import 'package:rowad_hrag/features/plans/data/models/pay_to_plan_data_model.dart';
 
 class AddAdsRemoteDataSource implements AddAdsInterfaceDataSource {
   late final Dio _dio;
@@ -30,4 +31,6 @@ class AddAdsRemoteDataSource implements AddAdsInterfaceDataSource {
       "${ApiEndPoints.cityByStateId}/$cityId",
     );
   }
+
+
 }

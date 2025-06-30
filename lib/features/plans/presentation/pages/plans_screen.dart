@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
@@ -126,7 +128,15 @@ class _PlansScreenState extends State<PlansScreen> {
                   CustomElevatedButton(
                     btnColor: Color(0xff312F59),
                     padding: EdgeInsets.all(15),
-                    onPressed: (selectedPlan != null) ? () {} : null,
+                    onPressed: (selectedPlan != null)
+                        ? () async {
+                            int newIndex = selectedPlan! + 1;
+                            log(newIndex);
+                            await context
+                                .read<PlansCubit>()
+                                .payToPlan(newIndex);
+                          }
+                        : null,
                     child: Text(
                       "ادفع الآن",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
