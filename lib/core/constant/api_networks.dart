@@ -32,5 +32,6 @@ abstract class ApiEndPoints {
   static const String addRate = '/website-review';
   static const String getHomeSettings = '/business-settings';
   static const String payToPlan = '/payments/plan';
+  static const String customPayment = '/payments/custom';
 
 }

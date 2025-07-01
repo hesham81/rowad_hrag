@@ -8,6 +8,7 @@ import 'package:rowad_hrag/features/product_details/data/repositories/product_de
 import 'package:rowad_hrag/features/product_details/domain/repositories/product_details_repo.dart';
 import 'package:rowad_hrag/features/product_details/domain/use_cases/get_city_by_state_use_case.dart';
 import 'package:rowad_hrag/features/product_details/domain/use_cases/get_states_use_case.dart';
+import 'package:rowad_hrag/features/product_details/domain/use_cases/pay_to_product_details_use_case.dart';
 import '../../../auth/data/models/city_data_model.dart';
 import '../../../auth/data/models/states_data_model.dart';
 import '../../data/models/product_details_data_model.dart';
@@ -129,7 +130,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
                 (element) => element.id == productStateId,
               )
               .first;
-          if(city == null ) {
+          if (city == null) {
             throw Exception("حدث خطاء برجاء المحاوله مره اخري");
           }
           _cityData = city;
@@ -137,6 +138,40 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       );
     } catch (error) {
       throw Exception(error.toString());
+    }
+  }
+
+  late PayToProductDetailsUseCase _payToProductDetailsUseCase;
+
+  String? url;
+
+  Future<void> pay() async {
+    EasyLoading.show();
+    try {
+      _services = WebServices();
+      _interfaceDataSource = RemoteProductDataSource(_services.tokenDio);
+      _productDetailsRepo = ProdcutDetailsRepositoriesImp(_interfaceDataSource);
+      _payToProductDetailsUseCase =
+          PayToProductDetailsUseCase(_productDetailsRepo);
+
+      var response = await _payToProductDetailsUseCase
+          .call(productDetailsDataModel!.unitPrice);
+      response.fold(
+        (error) {
+          emit(
+            ProductDetailsError(error.messageAr ??
+                error.messageEn ??
+                "حدث خطاء برجاء المحاوله مره اخري"),
+          );
+        },
+        (data) {
+          url = data;
+        },
+      );
+    } catch (error) {
+      throw Exception(error.toString());
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 }

@@ -10,4 +10,6 @@ abstract class ProductDetailsRepo {
   Future<Either<Failure, CityDataModel>> getState(int id);
 
   Future<Either<Failure, List<StatesDataModel>>> getCityById(int id);
+
+  Future<Either<Failure, String>> payToProduct(double amount) ;
 }
