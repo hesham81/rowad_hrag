@@ -16,6 +16,7 @@ class ProfileSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ShopSettingsCubit>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -47,6 +48,7 @@ class ProfileSettings extends StatelessWidget {
           } else if (state is ShopSettingsLoadedState) {
             return SuccessShopSettings(
               data: state.settings,
+              onDone: cubit.updateSettings,
             );
           } else {
             return Column(

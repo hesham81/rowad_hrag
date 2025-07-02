@@ -13,10 +13,12 @@ import '../../../../core/widget/custom_text_form_field.dart';
 
 class SuccessShopSettings extends StatefulWidget {
   final List<SettingsDataModel> data;
+  final Function() onDone;
 
   const SuccessShopSettings({
     super.key,
     required this.data,
+    required this.onDone,
   });
 
   @override
@@ -200,7 +202,7 @@ class _SuccessShopSettingsState extends State<SuccessShopSettings> {
                               _addressController.text.isNotEmpty ||
                               _phoneNumberController.text.isNotEmpty ||
                               _shopLogo != null)
-                          ? () {}
+                          ? widget.onDone
                           : null,
                       btnColor: Color(0xff2e294e),
                       child: Text(

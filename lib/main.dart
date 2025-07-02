@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rowad_hrag/core/services/loading_manager.dart';
@@ -15,7 +16,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: EasyLoading.init(),
+      builder: EasyLoading.init(
+        builder: BotToastInit(),
+      ),
       theme: AppTheme.lightTheme,
       navigatorKey: navigationKey,
       debugShowCheckedModeBanner: false,

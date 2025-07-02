@@ -6,6 +6,7 @@ import 'package:rowad_hrag/core/failures/failures.dart';
 import 'package:rowad_hrag/features/settings/data/data_sources/home_settings_interface_data_source.dart';
 
 import 'package:rowad_hrag/features/settings/data/models/settings_data_model.dart';
+import 'package:rowad_hrag/features/settings/data/models/update_profile_settings_response_data_model.dart';
 
 import '../../domain/repositories/settings_reposatories.dart';
 
@@ -21,6 +22,23 @@ class SettingsReposatoriesImplementation implements SettingsReposatories {
       var data = (response.data['data'] as List)
           .map((e) => SettingsDataModel.fromJson(e))
           .toList();
+      return Right(data);
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "505",
+          messageAr: error.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, UpdateProfileSettingsResponseDataModel>>
+      updateSettings() async {
+    try {
+      var response = await _interfaceDataSource.updateSettings();
+      var data = UpdateProfileSettingsResponseDataModel.fromJson(response.data);
       return Right(data);
     } on DioException catch (error) {
       return Left(
