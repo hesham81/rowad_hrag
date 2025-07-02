@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/features/profile/data/models/profile_points_data_model.dart';
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 
 import '../../../../../core/widget/custom_elevated_button.dart';
@@ -10,15 +11,52 @@ import '../../widgets/points_item_cart.dart';
 import '../../widgets/profile_item_cart.dart';
 import '../adds_screen.dart';
 
-class SuccessProfileStates extends StatelessWidget {
+class SuccessProfileStates extends StatefulWidget {
   final SellerProfileDataModel profileDataModel;
   final List<AllAddsDataModel> allAddsDataModel;
+  final List<ProfilePointsDataModel> points;
+  final int totalPoints;
 
   const SuccessProfileStates({
     super.key,
     required this.profileDataModel,
     required this.allAddsDataModel,
+    required this.points,
+    required this.totalPoints,
   });
+
+  @override
+  State<SuccessProfileStates> createState() => _SuccessProfileStatesState();
+}
+
+class _SuccessProfileStatesState extends State<SuccessProfileStates> {
+  List<ProfilePointsDataModel> unExpiredPoints = [];
+  List<ProfilePointsDataModel> expiredPoints = [];
+
+  int unExpiredPointsCount = 0;
+  int expiredPointsCount = 0;
+
+  @override
+  void initState() {
+    expiredPoints = widget.points
+        .where(
+          (element) => element.isExpired != 0,
+        )
+        .toList();
+    unExpiredPoints = widget.points
+        .where(
+          (element) => element.isExpired == 0,
+        )
+        .toList();
+    for (var point in unExpiredPoints) {
+      unExpiredPointsCount += point.points;
+    }
+    for (var point in expiredPoints) {
+      expiredPointsCount += point.points;
+    }
+    setState(() {});
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +71,11 @@ class SuccessProfileStates extends StatelessWidget {
                 CircleAvatar(
                   radius: 150,
                   backgroundImage: NetworkImage(
-                    profileDataModel.image,
+                    widget.profileDataModel.image,
                   ),
                 ),
                 Image.network(
-                  profileDataModel.verifiedImg,
+                  widget.profileDataModel.verifiedImg,
                   height: 80,
                 )
               ],
@@ -47,7 +85,7 @@ class SuccessProfileStates extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  profileDataModel.name,
+                  widget.profileDataModel.name,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -61,7 +99,7 @@ class SuccessProfileStates extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
-                    "50 نقاط",
+                    "${widget.totalPoints} نقاط",
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -71,7 +109,7 @@ class SuccessProfileStates extends StatelessWidget {
               ],
             ),
             Text(
-              profileDataModel.email,
+              widget.profileDataModel.email,
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black.withAlpha(50),
@@ -92,7 +130,7 @@ class SuccessProfileStates extends StatelessWidget {
                     ),
                     onPressed: () => slideLeftWidget(
                       newPage: AddsScreen(
-                        adds: allAddsDataModel,
+                        adds: widget.allAddsDataModel,
                       ),
                       context: context,
                     ),
@@ -125,18 +163,18 @@ class SuccessProfileStates extends StatelessWidget {
               callBack: () {
                 slideLeftWidget(
                   newPage: AddsScreen(
-                    adds: allAddsDataModel,
+                    adds: widget.allAddsDataModel,
                   ),
                   context: context,
                 );
               },
-              count: profileDataModel.products.toString(),
+              count: widget.profileDataModel.products.toString(),
             ),
             0.01.height.hSpace,
             ProfileItemCart(
               imagePath: "assets/images/star.jpg",
               title: "تقييم",
-              count: profileDataModel.rating.toString(),
+              count: widget.profileDataModel.rating.toString(),
               withPadding: true,
             ),
             0.01.height.hSpace,
@@ -144,16 +182,16 @@ class SuccessProfileStates extends StatelessWidget {
               color: Color(0xff0abb75),
               title: 'النقاط النشطة',
               desc: "إجمالي النقاط النشطة",
-              totalPoints: "50",
-              balance: "3",
+              totalPoints: unExpiredPointsCount.toString(),
+              balance: (unExpiredPointsCount ~/ 50 * 2).toString(),
             ),
             0.02.height.hSpace,
             PointsItemCart(
               color: Color(0xfff24b6c),
               title: 'النقاط المنتهيه',
               desc: "إجمالي النقاط المنتهيه",
-              totalPoints: "0",
-              balance: "0",
+              totalPoints: expiredPointsCount.toString(),
+              balance: (expiredPointsCount ~/ 50 * 2).toString(),
             ),
             0.02.height.hSpace,
           ],

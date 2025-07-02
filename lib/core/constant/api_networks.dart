@@ -33,5 +33,6 @@ abstract class ApiEndPoints {
   static const String getHomeSettings = '/business-settings';
   static const String payToPlan = '/payments/plan';
   static const String customPayment = '/payments/custom';
+  static const String profilePoints = '/seller/points';
 
 }

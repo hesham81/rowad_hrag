@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:rowad_hrag/core/failures/failure.dart';
 import 'package:rowad_hrag/features/profile/data/data_sources/profile_interface_data_source.dart';
 import 'package:rowad_hrag/features/profile/data/data_sources/remote_profile_data_source.dart';
 import 'package:rowad_hrag/features/profile/data/models/all_adds_data_model.dart';
+import 'package:rowad_hrag/features/profile/data/models/profile_points_data_model.dart';
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 import 'package:rowad_hrag/features/profile/domain/repositories/profile_repositories.dart';
 
@@ -37,6 +39,26 @@ class ProfileRepositoriesImplementation implements ProfileRepositories {
       return Right(data);
     } catch (error) {
       throw Exception(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProfilePointsDataModel>>> getAllPoints() async {
+    try {
+      var response = await _dataSource.getAllPoints();
+      List<ProfilePointsDataModel> data = List.from(response.data['points'])
+          .map(
+            (e) => ProfilePointsDataModel.fromJson(e),
+          )
+          .toList();
+      return Right(data);
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "501",
+          message: error.response?.data["message"],
+        ),
+      );
     }
   }
 }

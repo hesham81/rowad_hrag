@@ -4,4 +4,6 @@ abstract class ProfilesInterfaceDataSource {
   Future<Response> getProfileData();
 
   Future<Response> getAllAdds();
+
+  Future<Response> getAllPoints();
 }
