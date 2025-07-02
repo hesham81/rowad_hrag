@@ -8,4 +8,8 @@ abstract class UrlLauncherFunc {
       ),
     );
   }
+
+  static Future<void> openUrl(String url) async {
+    await launchUrl(Uri.parse(url));
+  }
 }

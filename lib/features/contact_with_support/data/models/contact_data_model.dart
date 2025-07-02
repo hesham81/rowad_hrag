@@ -7,6 +7,8 @@ class ContactDataModel extends ContactEntity {
     required super.details,
     required super.code,
     required super.status,
+    required super.clientViewed,
+    super.files,
   });
 
   factory ContactDataModel.fromJson(Map<String, dynamic> json) {
@@ -16,6 +18,8 @@ class ContactDataModel extends ContactEntity {
       details: json['details'],
       code: json['code'],
       status: json['status'],
+      clientViewed: json['client_viewed'],
+      files: json['files'],
     );
   }
 
@@ -26,6 +30,8 @@ class ContactDataModel extends ContactEntity {
       details: json['details'],
       code: json['code'],
       status: json['status'],
+      clientViewed: json['client_viewed'],
+      files: json['files'],
     );
   }
 }

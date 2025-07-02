@@ -6,11 +6,18 @@ class ContactEntity extends Equatable {
 
   final String details;
 
-  final String code;
+  final int code;
 
   final String status;
 
+  final String? files;
+
+  final int clientViewed;
+
+
   ContactEntity({
+    this.files,
+    required this.clientViewed,
     required this.id,
     required this.subject,
     required this.details,
@@ -25,5 +32,7 @@ class ContactEntity extends Equatable {
         details,
         code,
         status,
+        files,
+        clientViewed,
       ];
 }

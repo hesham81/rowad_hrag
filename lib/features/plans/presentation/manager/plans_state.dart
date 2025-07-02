@@ -12,3 +12,13 @@ class PlansLoadedState extends PlansInitialState {
   final List<PlansDataModel> plans;
   PlansLoadedState(this.plans);
 }
+
+class PaymentSuccessState extends PlansInitialState {
+  final String message;
+  PaymentSuccessState(this.message);
+}
+
+class PaymentErrorState extends PlansInitialState {
+  final String message;
+  PaymentErrorState(this.message);
+}

@@ -9,6 +9,7 @@ import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
+import '../../../../core/services/url_launcher_func.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../manager/product_details_cubit.dart';
 import '../widgets/product_details_review_widget.dart';
@@ -41,10 +42,12 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                     color: AppColors.primaryColor,
                   ),
             ),
-            onPressed: () => slideLeftWidget(
-              newPage: PlansScreen(),
-              context: context,
-            ),
+            onPressed: () async {
+              await cubit.pay();
+              if (cubit.url != null) {
+                UrlLauncherFunc.openUrl(cubit.url!);
+              }
+            },
           ),
           appBar: AppBar(
             title: Text(
