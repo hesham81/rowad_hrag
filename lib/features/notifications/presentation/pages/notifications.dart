@@ -79,7 +79,7 @@ class _NotificationsState extends State<Notifications> {
                 if (state is NotificationError) {
                   return IconError(
                     error: state.message,
-                  );
+                  ).center;
                 } else if (state is NotificationLoaded) {
                   return SuccessNotificationUi(
                     notifications: state.notifications,

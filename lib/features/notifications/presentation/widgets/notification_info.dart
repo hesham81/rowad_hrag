@@ -37,7 +37,7 @@ class NotificationInfo extends StatelessWidget {
                 color: Colors.green,
               ),
               Text(
-                notificationDataModel.conversion.senderName,
+                notificationDataModel.conversion.senderName??notificationDataModel.conversion.subject!,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),

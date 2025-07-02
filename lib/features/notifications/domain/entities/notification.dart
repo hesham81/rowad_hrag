@@ -5,11 +5,11 @@ import 'package:rowad_hrag/features/notifications/domain/entities/conversion_not
 class NotificationEntity extends Equatable {
   final String id;
 
-  final int notificationTypeId;
+  // final int notificationTypeId;
 
   final String type;
 
-  final int notifiableId;
+  // final int notifiableId;
   final String notifiableType;
 
   final ConversionNotificationItemDataModel conversion;
@@ -17,18 +17,18 @@ class NotificationEntity extends Equatable {
   const NotificationEntity({
     required this.conversion,
     required this.id,
-    required this.notificationTypeId,
+    // required this.notificationTypeId,
     required this.type,
-    required this.notifiableId,
+    // required this.notifiableId,
     required this.notifiableType,
   });
 
   @override
   List<Object?> get props => [
         id,
-        notificationTypeId,
+        // notificationTypeId,
         type,
-        notifiableId,
+        // notifiableId,
         conversion,
         notifiableType,
       ];

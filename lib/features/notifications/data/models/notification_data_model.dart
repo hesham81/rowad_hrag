@@ -6,9 +6,9 @@ class NotificationDataModel extends NotificationEntity {
   const NotificationDataModel({
     required super.conversion,
     required super.id,
-    required super.notificationTypeId,
+    // required super.notificationTypeId,
     required super.type,
-    required super.notifiableId,
+    // required super.notifiableId,
     required super.notifiableType,
   });
 
@@ -16,11 +16,11 @@ class NotificationDataModel extends NotificationEntity {
     return NotificationDataModel(
       conversion: ConversionNotificationItemDataModel.fromJson(json['data']),
       id: json['id'],
-      notificationTypeId: (json['notification_type_id'] is num)
-          ? int.parse(json['notification_type_id'])
-          : 0,
+      // notificationTypeId: (json['notification_type_id'] is num)
+      //     ? int.parse(json['notification_type_id'])
+      //     : 0,
       type: json['type'],
-      notifiableId: (json['notifiable_id'] is num) ? json['notifiable_id'] : 0,
+      // notifiableId: (json['notifiable_id'] is num) ? json['notifiable_id'] : 0,
       notifiableType: json['notifiable_type'],
     );
   }
@@ -29,9 +29,9 @@ class NotificationDataModel extends NotificationEntity {
     return {
       'data': conversion,
       'id': id,
-      'notification_type_id': notificationTypeId,
+      // 'notification_type_id': notificationTypeId,
       'type': type,
-      'notifiable_id': notifiableId,
+      // 'notifiable_id': notifiableId,
       'notifiable_type': notifiableType,
     };
   }

@@ -34,19 +34,20 @@ class _NotificationItemState extends State<NotificationItem> {
         ),
         0.01.width.vSpace,
         Text(
-          widget.notificationDataModel.conversion.senderName,
+          widget.notificationDataModel.conversion.senderName ?? widget.notificationDataModel.conversion.subject!,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.green,
               ),
         ),
         0.1.width.vSpace,
-        Text(
-          widget.notificationDataModel.conversion.message,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
+        Expanded(
+          child: Text(
+            widget.notificationDataModel.conversion.message,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
+          ),
         ),
-        Spacer(),
         IconButton(
           onPressed: _openBottomSheet,
           icon: Icon(Icons.more_horiz),
