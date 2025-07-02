@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:rowad_hrag/core/failures/failure.dart';
 import 'package:rowad_hrag/core/failures/failures.dart';
@@ -15,7 +17,13 @@ class ContactWithSupportRepositoriesImplementation
   Future<Either<Failure, List<ContactDataModel>>> getAllContacts() async {
     try {
       var response = await _dataSource.getAllContacts();
-      List<ContactDataModel> contacts = response.data["data"];
+      List<ContactDataModel> contacts =
+          List.from(response.data["tickets"]['data'])
+              .map((e) => ContactDataModel.fromJson(
+                    e,
+                  ))
+              .toList();
+
       return Right(contacts);
     } catch (error) {
       return Left(

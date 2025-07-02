@@ -1,14 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:rowad_hrag/core/widget/custom_container.dart';
+import 'package:rowad_hrag/features/contact_with_support/data/models/contact_data_model.dart';
+
+import '../../../../core/theme/app_colors.dart';
 
 class TicketWidget extends StatelessWidget {
-  const TicketWidget({super.key});
+  final ContactDataModel contactDataModel;
+
+  const TicketWidget({
+    super.key,
+    required this.contactDataModel,
+  });
 
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
       child: Row(
-        children: [],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            contactDataModel.details,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          Text(
+            contactDataModel.subject,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: (contactDataModel.status == "open")
+                  ? Colors.green
+                  : Colors.red,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Text(
+              contactDataModel.status,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+            ),
+          ),
+
+        ],
       ),
     );
   }

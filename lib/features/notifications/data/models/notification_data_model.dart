@@ -14,11 +14,13 @@ class NotificationDataModel extends NotificationEntity {
 
   factory NotificationDataModel.fromJson(Map<String, dynamic> json) {
     return NotificationDataModel(
-      conversion:ConversionNotificationItemDataModel.fromJson(json['data']),
+      conversion: ConversionNotificationItemDataModel.fromJson(json['data']),
       id: json['id'],
-      notificationTypeId: json['notification_type_id'],
+      notificationTypeId: (json['notification_type_id'] is num)
+          ? int.parse(json['notification_type_id'])
+          : 0,
       type: json['type'],
-      notifiableId: json['notifiable_id'],
+      notifiableId: (json['notifiable_id'] is num) ? json['notifiable_id'] : 0,
       notifiableType: json['notifiable_type'],
     );
   }

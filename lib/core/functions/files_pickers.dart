@@ -27,6 +27,18 @@ abstract class FilesPickers {
     return imageFile;
   }
 
+  static Future<File> pickFile() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result == null) {
+      throw Exception("No file selected");
+    }
+
+    final File file = File(result.files.single.path!);
+
+    return file;
+  }
+
   FilesPickers() {
     Future.wait(
       [
