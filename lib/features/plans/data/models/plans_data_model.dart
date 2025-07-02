@@ -1,7 +1,7 @@
 import 'package:rowad_hrag/features/plans/domain/entities/plans_entity.dart';
 
 class PlansDataModel extends PlansEntity {
-  PlansDataModel({
+  const PlansDataModel({
     required super.id,
     required super.title,
     required super.numberOfMonths,

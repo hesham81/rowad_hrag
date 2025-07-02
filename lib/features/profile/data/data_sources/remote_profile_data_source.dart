@@ -13,4 +13,14 @@ class RemoteProfileDataSource implements ProfilesInterfaceDataSource {
   Future<Response> getProfileData() async {
     return await _dio.get(ApiEndPoints.profile);
   }
+
+  @override
+  Future<Response> getAllAdds() async {
+    return await _dio.get(ApiEndPoints.getAllAdds);
+  }
+
+  @override
+  Future<Response> getAllPoints() async {
+    return await _dio.get(ApiEndPoints.profilePoints);
+  }
 }

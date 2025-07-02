@@ -14,6 +14,7 @@ abstract class ApiEndPoints {
   static const String reviews = '/website-reviews';
   static const String subCategories = '/sub-categories';
   static const String specialProducts = '/products/featured';
+  static const String subCategoriesProducts = '/products/category';
   static const String peopleWithSpecialNeeds = '/products/special-needs';
   static const String productiveFamilies = '/products/productive-families';
   static const String visitorState = '/visitor-stats';
@@ -22,5 +23,16 @@ abstract class ApiEndPoints {
   static const String plans = '/seller/plans';
   static const String allCategories = '/all_categories';
   static const String profile = '/seller/shop/info';
+  static const String getAllNotifications = '/user/notifications';
+  static const String getAllAdds = '/seller/products/all';
+  static const String getAllFiles = '/seller/file/all';
+  static const String addsReviews = '/seller/products/reviews';
+  static const String getAllContacts = '/seller/support-tickets';
+  static const String addAdds = '/seller/add-ad';
+  static const String addRate = '/website-review';
+  static const String getHomeSettings = '/business-settings';
+  static const String payToPlan = '/payments/plan';
+  static const String customPayment = '/payments/custom';
+  static const String profilePoints = '/seller/points';
 
 }

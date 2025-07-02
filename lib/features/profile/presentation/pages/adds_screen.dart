@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/add-ads/presentation/pages/adds_page.dart';
+import 'package:rowad_hrag/features/profile/data/models/all_adds_data_model.dart';
+import 'package:rowad_hrag/features/profile/presentation/widgets/add_widget.dart';
 
 class AddsScreen extends StatelessWidget {
-  const AddsScreen({super.key});
+  final List<AllAddsDataModel> adds;
+
+  const AddsScreen({
+    super.key,
+    required this.adds,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +50,9 @@ class AddsScreen extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: GestureDetector(
-                onTap: () => slideLeftWidget(
-                  newPage: AddsPage(),
-                  context: context,
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  RouteNames.addAdds,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -69,13 +77,23 @@ class AddsScreen extends StatelessWidget {
               ),
             ),
             0.02.height.hSpace,
-            Text(
-              "جميع الإعلانات",
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+            (adds.isEmpty)
+                ? Text(
+                    "جميع الإعلانات",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                  ).alignTopRight()
+                : ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => AddWidget(
+                      add: adds[index],
+                    ),
+                    separatorBuilder: (context, index) => 0.01.height.hSpace,
+                    itemCount: adds.length,
                   ),
-            ).alignTopRight(),
           ],
         ).hPadding(0.03.width),
       ),

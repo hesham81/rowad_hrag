@@ -20,9 +20,10 @@ class WebServices {
     tokenDio.options.connectTimeout = Duration(minutes: 1);
     tokenDio.options.baseUrl = ApiNetworks.baseUrl;
     initializeInterceptors();
-    Future.wait([
-      getTokenData(),
-    ]);
+    // Future.wait([
+    //   getTokenData(),
+    // ]);
+    myToken = "114|3DoZ2jw4urc0SZ0dwR0IITMccTEKkfdWUw1TD4eg";
   }
 
   String? myToken;

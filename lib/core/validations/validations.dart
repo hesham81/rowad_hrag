@@ -31,4 +31,29 @@ abstract class Validations {
     }
     return null;
   }
+
+  // Link/URL Validation
+  static String? isLinkValid(String link) {
+    if (link.isEmpty) {
+      return "الرجاء إدخال رابط";
+    }
+
+    // Basic URL regex pattern (supports http, https, with or without www)
+    final urlPattern = RegExp(
+      r'^https?:\/\/' // http:// or https://
+      r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+' // domain name
+      r'(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' // domain extension
+      r'localhost|' // localhost
+      r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' // IP address
+      r'(?::\d+)?' // optional port
+      r'(?:\/(?:[^\s?#])+?(?:\?[^\s#]*)?(?:#[^\s]*)?)?$', // path, query, fragment
+      caseSensitive: false,
+    );
+
+    if (!urlPattern.hasMatch(link)) {
+      return "الرجاء إدخال رابط صالح";
+    }
+
+    return null;
+  }
 }

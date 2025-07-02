@@ -1,20 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/widget/custom_container.dart';
+import 'package:rowad_hrag/features/plans/data/models/plans_data_model.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
 class CardSubscriptionItem extends StatelessWidget {
-  final bool isSelected ;
+  final bool isSelected;
+
+  final PlansDataModel plans;
 
   const CardSubscriptionItem({
     super.key,
     this.isSelected = false,
+    required this.plans,
   });
 
   @override
   Widget build(BuildContext context) {
+    String hexColor = plans.color;
+
+    hexColor = hexColor.replaceAll('#', '');
+
+    if (hexColor.length == 6) {
+      hexColor = 'FF' + hexColor; // Add alpha value (FF = fully opaque)
+    }
+
+    int hexValue = int.parse(hexColor, radix: 16);
+    Color dynamicColor = Color(hexValue);
     return CustomContainer(
+      border: (isSelected)
+          ? Border.all(
+              color: AppColors.secondaryColor,
+              width: 3,
+            )
+          : null,
       color: isSelected ? AppColors.primaryColor : Colors.white,
       child: Row(
         children: [
@@ -23,7 +43,14 @@ class CardSubscriptionItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "الباقه الفضيه",
+                plans.title,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              0.01.height.hSpace,
+              Text(
+                "${plans.numberOfAds} اعلان",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -31,15 +58,7 @@ class CardSubscriptionItem extends StatelessWidget {
               ),
               0.01.height.hSpace,
               Text(
-                "٢٦ اعلان",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-              ),
-              0.01.height.hSpace,
-              Text(
-                "١٢ عمليه بيع وشراء",
+                "${plans.numberOfPublishAndBuy} عمليه بيع وشراء",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -49,10 +68,10 @@ class CardSubscriptionItem extends StatelessWidget {
           ),
           Spacer(),
           Text(
-            "٧٥٠ ريال",
+            "${plans.price} ريال",
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: dynamicColor,
                 ),
           )
         ],

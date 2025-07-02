@@ -24,32 +24,37 @@ class ProductDetailsDataModel extends ProductDetails {
 
   factory ProductDetailsDataModel.fromJson(Map<String, dynamic> json) {
     return ProductDetailsDataModel(
-      image: json['thumbnail']['file_name'],
+      image: json["product"]['thumbnail']['file_name'],
       user: UserDataModel.fromJson(
-        json['user'],
+        json["product"]['user'],
       ),
       reviews: List.from(
-        json['reviews'],
+        json["product"]['reviews'],
       )
           .map(
             (e) => ProductDetailsReviewDataModel.fromJson(e),
           )
           .toList(),
-      id: json['id'],
-      name: json['name'],
-      addedBy: json['added_by'],
+      id: json["product"]['id'],
+      name: json["product"]['name'],
+      addedBy: json["product"]['added_by'],
       categoryId:
-          (json['category_id'] is num) ? json['category_id'].toInt() : 0,
-      photos: (json['photos'] is List<String>) ? json['photos'] : [],
-      videoProvider: json['video_provider'],
-      description: json['description'],
+          (json["product"]['category_id'] is num) ? json["product"]['category_id'].toInt() : 0,
+      videoProvider: json["product"]['video_provider'],
+      photos: json['photos'] is List
+          ? List<String>.from(json['photos'].map((x) => x.toString()))
+          : (json['photos'] as String)
+          .split(',')
+          .map((s) => s.trim())
+          .toList(),
+      description: json["product"]['description'],
       unitPrice:
-          (json['unit_price'] is num) ? json['unit_price'].toDouble() : 0.0,
-      colors: json['colors'],
-      discount: json['discount'].toString(),
-      rating: json['rating'].toString(),
-      cityId: json['city_id'],
-      stateId: json['state_id'],
+          (json["product"]['unit_price'] is num) ? json["product"]['unit_price'].toDouble() : 0.0,
+      colors: json["product"]['colors'],
+      discount: json["product"]['discount'].toString(),
+      rating: json["product"]['rating'].toString(),
+      cityId: json["product"]['city_id'],
+      stateId: json["product"]['state_id'],
     );
   }
 

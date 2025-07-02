@@ -24,7 +24,6 @@ class _BlogsState extends State<Blogs> {
   var service = WebServices();
   @override
   Widget build(BuildContext context) {
-    log("Token Is ${service.myToken}");
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -47,7 +46,7 @@ class _BlogsState extends State<Blogs> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             0.01.height.hSpace,
-            CupertinoSearchTextField(),
+            // CupertinoSearchTextField(),
             0.01.height.hSpace,
             // ListView.separated(
             //   padding: EdgeInsets.zero,

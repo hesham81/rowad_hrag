@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/widget/custom_text_button.dart';
 import 'package:rowad_hrag/features/all_types/data/models/all_types_data_model.dart';
-import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
 
 class AllTypesItemContainer extends StatelessWidget {
   final AllTypesDataModel model;
@@ -44,7 +42,7 @@ class AllTypesItemContainer extends StatelessWidget {
               onPressed: () => {
                 Navigator.pushNamed(
                   context,
-                  RouteNames.productDetails,
+                  RouteNames.subCategoriesProductDetails,
                   arguments: model.children[index].slug,
                 )
               },
