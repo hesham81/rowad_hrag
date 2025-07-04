@@ -20,7 +20,7 @@ class ContactWithSupportRepositoriesImplementation
     try {
       var response = await _dataSource.getAllContacts();
       List<ContactDataModel> contacts =
-          List.from(response.data["tickets"])
+          List.from(response.data["tickets"]['data'])
               .map((e) => ContactDataModel.fromJson(
                     e,
                   ))
