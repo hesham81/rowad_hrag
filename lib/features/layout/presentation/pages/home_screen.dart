@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/alignment.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     "جميع الفئات",
     // "رفع ايصالات التحويل",
     "أضف اعلان",
-    "الخطط",
+    "سداد الرسوم و  الاشتراكات",
     "تواصل مع الدعم",
     "حسابي",
     "تسجيل خروج"
@@ -111,6 +112,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) => GestureDetector(
                     onTap: () {
                       if (index == 0) return;
+                      if (index == 3) {
+                        UrlLauncherFunc.openUrl(
+                          "https://rowad-harag.com/add-ad",
+                        );
+                        return;
+                      }
                       pushNamed(
                         newPage: cubit.pages[index],
                         context: context,
@@ -243,7 +250,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: CarouselSlider(
                   items: cubit.banners
                       .map(
-                        (e) => CachedNetworkImage(imageUrl: e.imageUrl),
+                        (e) => GestureDetector(
+                          onTap: () {
+                            UrlLauncherFunc.openUrl(e.url);
+                          },
+                          child: CachedNetworkImage(imageUrl: e.imageUrl),
+                        ),
                       )
                       .toList(),
                   options: CarouselOptions(
@@ -333,14 +345,21 @@ class _HomeScreenState extends State<HomeScreen> {
               0.01.height.hSpace,
               Divider(),
               0.01.height.hSpace,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: CachedNetworkImage(
-                  imageUrl: (cubit.secondBanner.isEmpty)
-                      ? "https://rowad-harag.com/public/uploads/all/lOO4a6OEYOD4oTWF1v4paCWTD4bxN1wRIcVohrba.png"
-                      : cubit.secondBanner[0].imageUrl,
+              GestureDetector(
+                onTap: () => UrlLauncherFunc.openUrl(
+                  (cubit.secondBanner.isEmpty)
+                      ? "https://www.tiktok.com/@rowadharrag?lang=ar"
+                      : cubit.secondBanner[0].url,
                 ),
-              ).hPadding(0.03.width),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: CachedNetworkImage(
+                    imageUrl: (cubit.secondBanner.isEmpty)
+                        ? "https://rowad-harag.com/public/uploads/all/lOO4a6OEYOD4oTWF1v4paCWTD4bxN1wRIcVohrba.png"
+                        : cubit.secondBanner[0].imageUrl,
+                  ),
+                ).hPadding(0.03.width),
+              ),
               0.03.height.hSpace,
               About(
                 model: cubit.visitorStatesDataModel,
@@ -373,97 +392,108 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ).hPadding(0.03.width),
               0.01.height.hSpace,
-              Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withAlpha(70),
-                  border: Border.all(
-                    color: AppColors.secondaryColor,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    25,
-                  ),
+              GestureDetector(
+                onTap: () => UrlLauncherFunc.openUrl(
+                  "https://rowad-harag.com/add-ad",
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "تقييمك يهمنا ",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: AppColors.blueColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ).rightBottomWidget(),
-                    0.01.height.hSpace,
-                    Text(
-                      "عدد النجوم",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Colors.black,
-                          ),
-                    ).rightBottomWidget(),
-                    0.01.height.hSpace,
-                    RatingBar.builder(
-                      initialRating: 3,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                        setState(() {
-                          rate = rating;
-                        });
-                      },
-                    ).alignRight(),
-                    0.01.height.hSpace,
-                    Text(
-                      "اضف تعليق ",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ).rightBottomWidget(),
-                    0.01.height.hSpace,
-                    CustomTextFormField(
-                      hintText: "تعليقك",
-                      controller: _reviewController,
-                      onChange: (value) {
-                        setState(() {
-                          // Optional: store value in a variable if needed
-                        });
-                      },
-                      minLine: 2,
-                      maxLine: 2,
-                      isFilled: true,
-                      fillColor: Colors.white,
-                      borderRadius: 15,
-                    ),
-                    0.01.height.hSpace,
-                    CustomElevatedButton(
-                      onPressed:
-                          (_reviewController.text.isNotEmpty && rate != null)
-                              ? () async {
-                        var rateDat = AddRateRequest(comment: _reviewController.text  , rate: rate!);
-                        await cubit.addNewReview(rateDat);
-                          }
-                              : null,
-                      child: Text(
-                        "ارسال",
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                      ),
-                    ),
-                  ],
-                ).rightBottomWidget().allPadding(15),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: CachedNetworkImage(
+                    imageUrl: "https://rowad-harag.com/public/uploads/all/grR3OjQBlHOPH9ymqSvOQSBohi0MyxTuC4w9MaYv.png",
+                  ),
+                ).hPadding(0.03.width),
               ),
+              // Container(
+              //   width: double.maxFinite,
+              //   decoration: BoxDecoration(
+              //     color: Colors.grey.withAlpha(70),
+              //     border: Border.all(
+              //       color: AppColors.secondaryColor,
+              //     ),
+              //     borderRadius: BorderRadius.circular(
+              //       25,
+              //     ),
+              //   ),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.stretch,
+              //     mainAxisAlignment: MainAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         "تقييمك يهمنا ",
+              //         style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              //               color: AppColors.blueColor,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //       ).rightBottomWidget(),
+              //       0.01.height.hSpace,
+              //       Text(
+              //         "عدد النجوم",
+              //         style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              //               color: Colors.black,
+              //             ),
+              //       ).rightBottomWidget(),
+              //       0.01.height.hSpace,
+              //       RatingBar.builder(
+              //         initialRating: 3,
+              //         minRating: 1,
+              //         direction: Axis.horizontal,
+              //         allowHalfRating: false,
+              //         itemCount: 5,
+              //         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              //         itemBuilder: (context, _) => Icon(
+              //           Icons.star,
+              //           color: Colors.amber,
+              //         ),
+              //         onRatingUpdate: (rating) {
+              //           setState(() {
+              //             rate = rating;
+              //           });
+              //         },
+              //       ).alignRight(),
+              //       0.01.height.hSpace,
+              //       Text(
+              //         "اضف تعليق ",
+              //         style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              //               color: Colors.black,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //       ).rightBottomWidget(),
+              //       0.01.height.hSpace,
+              //       CustomTextFormField(
+              //         hintText: "تعليقك",
+              //         controller: _reviewController,
+              //         onChange: (value) {
+              //           setState(() {
+              //             // Optional: store value in a variable if needed
+              //           });
+              //         },
+              //         minLine: 2,
+              //         maxLine: 2,
+              //         isFilled: true,
+              //         fillColor: Colors.white,
+              //         borderRadius: 15,
+              //       ),
+              //       0.01.height.hSpace,
+              //       CustomElevatedButton(
+              //         onPressed:
+              //             (_reviewController.text.isNotEmpty && rate != null)
+              //                 ? () async {
+              //           var rateDat = AddRateRequest(comment: _reviewController.text  , rate: rate!);
+              //           await cubit.addNewReview(rateDat);
+              //             }
+              //                 : null,
+              //         child: Text(
+              //           "ارسال",
+              //           style:
+              //               Theme.of(context).textTheme.titleMedium!.copyWith(
+              //                     color: Colors.white,
+              //                     fontWeight: FontWeight.bold,
+              //                   ),
+              //         ),
+              //       ),
+              //     ],
+              //   ).rightBottomWidget().allPadding(15),
+              // ),
               0.01.height.hSpace,
               BiggestInf(
                 list: cubit.topSellers,

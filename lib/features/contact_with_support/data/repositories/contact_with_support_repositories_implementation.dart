@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:rowad_hrag/core/failures/failure.dart';
 import 'package:rowad_hrag/core/failures/failures.dart';
 import 'package:rowad_hrag/features/contact_with_support/data/data_sources/contact_with_support_interface_data_source.dart';
+import 'package:rowad_hrag/features/contact_with_support/data/models/add_new_ticket_data_model.dart';
 import 'package:rowad_hrag/features/contact_with_support/data/models/contact_data_model.dart';
 import 'package:rowad_hrag/features/contact_with_support/domain/repositories/contact_with_support_repositories.dart';
 
@@ -18,7 +20,7 @@ class ContactWithSupportRepositoriesImplementation
     try {
       var response = await _dataSource.getAllContacts();
       List<ContactDataModel> contacts =
-          List.from(response.data["tickets"]['data'])
+          List.from(response.data["tickets"])
               .map((e) => ContactDataModel.fromJson(
                     e,
                   ))
@@ -30,6 +32,25 @@ class ContactWithSupportRepositoriesImplementation
         ServerFailure(
           statusCode: "501",
           message: error.toString(),
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> sendNewTicket(
+      AddNewTicketDataModel ticket) async {
+    try {
+      var response = await _dataSource.sendNewTicket(ticket);
+
+      return Right(true) ;
+    } on DioException catch (error) {
+      log(error.toString());
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? 'Unknown',
+          message:
+              error.response?.data['message'] ?? 'Connection or network error',
         ),
       );
     }

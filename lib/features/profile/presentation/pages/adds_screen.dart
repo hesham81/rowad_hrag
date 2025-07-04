@@ -3,6 +3,7 @@ import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/add-ads/presentation/pages/adds_page.dart';
 import 'package:rowad_hrag/features/profile/data/models/all_adds_data_model.dart';
@@ -50,10 +51,11 @@ class AddsScreen extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: GestureDetector(
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  RouteNames.addAdds,
-                ),
+                onTap: () async {
+                  await UrlLauncherFunc.openUrl(
+                    "https://rowad-harag.com/add-ad",
+                  );
+                },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

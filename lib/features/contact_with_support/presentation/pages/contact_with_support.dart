@@ -9,6 +9,7 @@ import 'package:rowad_hrag/features/contact_with_support/presentation/pages/add_
 import 'package:rowad_hrag/features/contact_with_support/presentation/widgets/ticket_widget.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../data/models/add_new_ticket_data_model.dart';
 
 class ContactWithSupport extends StatelessWidget {
   const ContactWithSupport({super.key});
@@ -39,7 +40,14 @@ class ContactWithSupport extends StatelessWidget {
             CenterTextContainer(
               text: "قم بانشاء تذكره",
               onTap: () => slideLeftWidget(
-                newPage: AddNewContact(),
+                newPage: AddNewContact(
+                  onSend: (AddNewTicketDataModel ticket) async {
+                    context
+                        .read<ContactsCubit>()
+                        .addNewTicket(ticket)
+                        .then((value) => Navigator.pop(context));
+                  },
+                ),
                 context: context,
               ),
             ),

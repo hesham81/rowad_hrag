@@ -15,3 +15,8 @@ class ContactsError extends ContactsState {
 
   ContactsError(this.message);
 }
+
+class TicketAddedSuccessfully extends ContactsState {
+  final ContactDataModel contact;
+  TicketAddedSuccessfully(this.contact);
+}
