@@ -22,4 +22,14 @@ class RemotePlansDataSource implements PlansInterfaceDataSource {
       data: pay.toJson(),
     );
   }
+
+  @override
+  Future<Response> payCustomPlan(double amount) async {
+    return await _dio.post(
+      ApiEndPoints.customPayment,
+      data: {
+        "amount": amount,
+      },
+    );
+  }
 }

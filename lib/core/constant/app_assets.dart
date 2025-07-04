@@ -6,4 +6,5 @@ abstract class AppAssets
   static const String searchIcon = "assets/icons/search.svg";
   static const String notificationIcon = "assets/icons/notification.svg";
   static const String snbBank = "assets/images/snb_bank.svg";
+  static const String noSearchResult = "assets/icons/no_search_result.jpg";
 }

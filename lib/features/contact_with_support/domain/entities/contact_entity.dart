@@ -10,7 +10,7 @@ class ContactEntity extends Equatable {
 
   final String status;
 
-  final String? files;
+  final List<String>? files;
 
   final int clientViewed;
 

@@ -1,24 +1,30 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart'; // Make sure this is imported
+
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
-import 'package:rowad_hrag/core/functions/files_pickers.dart';
 import 'package:rowad_hrag/core/widget/custom_container.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/custom_text_form_field.dart';
+import 'package:rowad_hrag/features/contact_with_support/data/models/add_new_ticket_data_model.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
 class AddNewContact extends StatefulWidget {
-  const AddNewContact({super.key});
+  final Function(AddNewTicketDataModel) onSend;
+
+  const AddNewContact({
+    super.key,
+    required this.onSend,
+  });
 
   @override
   State<AddNewContact> createState() => _AddNewContactState();
 }
 
 class _AddNewContactState extends State<AddNewContact> {
-  File? file;
+  List<File>? files; // Changed from File? to List<File>?
 
   final TextEditingController subjectController = TextEditingController();
   final TextEditingController detailsController = TextEditingController();
@@ -31,11 +37,11 @@ class _AddNewContactState extends State<AddNewContact> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "اضافه تذكره جديده",
+            "اضافة تذكرة جديدة",
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
-                ),
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
+            ),
           ),
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
@@ -51,14 +57,21 @@ class _AddNewContactState extends State<AddNewContact> {
               Expanded(
                 child: CustomElevatedButton(
                   child: Text(
-                    "ارسال التذكره",
+                    "إرسال التذكرة",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryColor,
-                        ),
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
                   onPressed: () {
-                    if (formKey.currentState!.validate()) {}
+                    if (formKey.currentState!.validate()) {
+                      var ticket = AddNewTicketDataModel(
+                        subject: subjectController.text,
+                        details: detailsController.text,
+                        attachments: files,
+                      );
+                      widget.onSend(ticket);
+                    }
                   },
                 ),
               ),
@@ -67,11 +80,11 @@ class _AddNewContactState extends State<AddNewContact> {
                 child: CustomElevatedButton(
                   btnColor: Colors.red,
                   child: Text(
-                    "الغاء",
+                    "إلغاء",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryColor,
-                        ),
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -85,10 +98,10 @@ class _AddNewContactState extends State<AddNewContact> {
             children: [
               0.01.height.hSpace,
               Text(
-                "موضوع",
+                "الموضوع",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ).alignRight(),
               0.01.height.hSpace,
               CustomTextFormField(
@@ -97,91 +110,104 @@ class _AddNewContactState extends State<AddNewContact> {
                 controller: subjectController,
                 validate: (value) {
                   if (value!.isEmpty) {
-                    return "من فضلك ادخل الموضوع";
+                    return "من فضلك أدخل الموضوع";
                   }
                   return null;
                 },
               ),
               0.01.height.hSpace,
               Text(
-                "قدم وصفاً مفصلاً",
+                "وصف مفصل",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ).alignRight(),
               0.01.height.hSpace,
               CustomTextFormField(
-                hintText: "قدم وصفاً مفصلاً",
+                hintText: "قدم وصفًا مفصلًا",
                 borderRadius: 10,
                 controller: detailsController,
                 validate: (value) {
                   if (value!.isEmpty) {
-                    return "من فضلك ادخل الوصف";
+                    return "من فضلك أدخل الوصف";
                   }
                   return null;
                 },
               ),
               0.01.height.hSpace,
               Text(
-                "صورة فوتوغرافية",
+                "مرفق ملفات",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ).alignRight(),
               0.01.height.hSpace,
               CustomElevatedButton(
                 child: Text(
-                  "اختر ملف",
+                  "اختر ملفات",
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryColor,
-                      ),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor,
+                  ),
                 ),
                 onPressed: () async {
-                  file = await FilesPickers.pickFile();
-                  setState(() {});
+                  FilePickerResult? result = await FilePicker.platform.pickFiles(
+                    allowMultiple: true,
+                  );
+
+                  if (result != null) {
+                    setState(() {
+                      files = result.paths.map((path) => File(path!)).toList();
+                    });
+                  }
                 },
               ),
-              if (file != null)
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 16),
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: AppColors.secondaryColor,
+
+              // Show selected files
+              if (files != null && files!.isNotEmpty)
+                ...files!.map((file) {
+                  String fileName = file.path.split('/').last;
+                  String fileExtension =
+                  fileName.split('.').last.toLowerCase();
+
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: AppColors.secondaryColor),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      // Show image preview if it's an image
-                      if (['jpg', 'jpeg', 'png', 'gif']
-                          .contains(file!.path.split('.').last.toLowerCase()))
-                        Image.file(
-                          file!,
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                        )
-                      else
-                        Icon(
-                          Icons.insert_drive_file,
-                          size: 40,
-                          color: AppColors.secondaryColor,
+                    child: Row(
+                      children: [
+                        // Show image preview if it's an image file
+                        if (['jpg', 'jpeg', 'png', 'gif']
+                            .contains(fileExtension))
+                          Image.file(
+                            file,
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
+                          )
+                        else
+                          Icon(
+                            Icons.insert_drive_file,
+                            size: 40,
+                            color: AppColors.secondaryColor,
+                          ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            fileName,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
                         ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          file!.path.split('/').last,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                      ],
+                    ),
+                  );
+                }).toList(),
             ],
           ).hPadding(0.03.width),
         ),

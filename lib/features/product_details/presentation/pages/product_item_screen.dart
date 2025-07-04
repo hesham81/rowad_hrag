@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
@@ -26,6 +27,7 @@ class ProductItemScreen extends StatefulWidget {
 class _ProductItemScreenState extends State<ProductItemScreen> {
   int? selectedIndex;
 
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<ProductDetailsCubit>();
@@ -42,11 +44,11 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                     color: AppColors.primaryColor,
                   ),
             ),
-            onPressed: () async {
-              await cubit.pay();
-              if (cubit.url != null) {
-                UrlLauncherFunc.openUrl(cubit.url!);
-              }
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                RouteNames.plans,
+              );
             },
           ),
           appBar: AppBar(

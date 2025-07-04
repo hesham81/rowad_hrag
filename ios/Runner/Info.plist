@@ -3,8 +3,37 @@
 <plist version="1.0">
 <dict>
 
+
+
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
+
+    <key>NSUserActivityRestorationHandler</key>
+    <string>Flutter Framework</string>
+
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+
+    <!-- Notification Permissions -->
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>armv7</string>
+    </array>
+
+    <key>NSLocalNotificationUsageDescription</key>
+    <string>App would like to show local notifications</string>
+
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>App needs speech recognition permission</string>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>This app needs access to your photo library to select images.</string>
 

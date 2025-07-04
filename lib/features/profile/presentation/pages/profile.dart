@@ -89,6 +89,8 @@ class Profile extends StatelessWidget {
             return SuccessProfileStates(
               profileDataModel: state.sellerProfileDataModel,
               allAddsDataModel: cubit.adds,
+              points: cubit.points,
+              totalPoints: cubit.totalPoints,
             );
           } else if (state is ProfileError) {
             return Center(

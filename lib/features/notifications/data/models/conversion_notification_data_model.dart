@@ -2,19 +2,21 @@ import 'package:rowad_hrag/features/notifications/domain/entities/conversion_not
 
 class ConversionNotificationItemDataModel extends ConversionNotificationItem {
   const ConversionNotificationItemDataModel({
-    required super.conversionId,
-    required super.senderName,
+     super.conversionId,
+    super.senderName,
     required super.message,
     required super.link,
     required super.readAt,
     required super.createdAt,
     required super.updatedAt,
+    super.subject,
   });
 
   factory ConversionNotificationItemDataModel.fromJson(
       Map<String, dynamic> json) {
     return ConversionNotificationItemDataModel(
       conversionId: json['conversation_id'],
+      subject: json['subject'],
       senderName: json['sender_name'],
       message: json['message'],
       link: json['link'],

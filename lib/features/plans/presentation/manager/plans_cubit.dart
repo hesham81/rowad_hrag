@@ -8,6 +8,7 @@ import 'package:rowad_hrag/features/plans/data/models/pay_to_plan_data_model.dar
 import 'package:rowad_hrag/features/plans/data/repositories/plans_repo_implementation.dart';
 import 'package:rowad_hrag/features/plans/domain/repositories/plans_reposatory.dart';
 import 'package:rowad_hrag/features/plans/domain/use_cases/get_all_plans_use_case.dart';
+import 'package:rowad_hrag/features/plans/domain/use_cases/pay_custom_payment_with_1_percent_use_case.dart';
 import 'package:rowad_hrag/features/plans/domain/use_cases/pay_to_plan_use_case.dart';
 
 import '../../data/models/plans_data_model.dart';
@@ -33,7 +34,7 @@ class PlansCubit extends Cubit<PlansInitialState> {
       _getAllPlansUseCase = GetAllPlansUseCase(_plansReposatory);
       var response = await _getAllPlansUseCase.call();
       response.fold(
-        (error) {
+            (error) {
           emit(
             PlansErrorState(
               error.messageAr ??
@@ -42,7 +43,7 @@ class PlansCubit extends Cubit<PlansInitialState> {
             ),
           );
         },
-        (data) {
+            (data) {
           emit(
             PlansLoadedState(
               data,
@@ -75,7 +76,7 @@ class PlansCubit extends Cubit<PlansInitialState> {
       var response = await _payToPlanUseCase.call(payment);
 
       response.fold(
-        (error) {
+            (error) {
           emit(
             PaymentErrorState(
               error.messageAr ??
@@ -84,7 +85,7 @@ class PlansCubit extends Cubit<PlansInitialState> {
             ),
           );
         },
-        (data) async {
+            (data) async {
           await UrlLauncherFunc.openUrl(data);
         },
       );
@@ -96,6 +97,42 @@ class PlansCubit extends Cubit<PlansInitialState> {
       );
     }
     finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  late PayCustomPaymentWith1PercentUseCase _customPaymentWith1PercentUseCase;
+
+
+  Future<void> payCustomAmount(double amount) async {
+    try {
+      EasyLoading.show();
+      _dio = WebServices();
+      _dataSource = RemotePlansDataSource(_dio.tokenDio);
+      _plansReposatory = PlansRepoImplementation(_dataSource);
+      _customPaymentWith1PercentUseCase =
+          PayCustomPaymentWith1PercentUseCase(_plansReposatory);
+      var response = await _customPaymentWith1PercentUseCase.call(amount);
+      response.fold(
+            (error) {
+          emit(
+            PaymentErrorState(
+              error.messageAr ?? error.messageEn ??
+                  "حدث خطاء ما برجاء\nبرجاء المحاوله مره اخري",
+            ),
+          );
+        },
+            (data) async {
+          await UrlLauncherFunc.openUrl(data);
+        },
+      );
+    } catch (error) {
+      emit(
+        PaymentErrorState(
+          error.toString(),
+        ),
+      );
+    } finally {
       EasyLoading.dismiss();
     }
   }

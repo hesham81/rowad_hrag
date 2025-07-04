@@ -5,7 +5,6 @@ import 'package:rowad_hrag/features/settings/data/data_sources/home_settings_int
 
 class RemoteSettingsInterfaceDataSource
     implements HomeSettingsInterfaceDataSource {
-
   final Dio _dio;
 
   const RemoteSettingsInterfaceDataSource(this._dio);
@@ -14,6 +13,14 @@ class RemoteSettingsInterfaceDataSource
   Future<Response> getHomeSettings() async {
     return await _dio.get(
       ApiEndPoints.getHomeSettings,
+    );
+  }
+
+  @override
+  Future<Response> updateSettings() async {
+    return await _dio.post(
+      ApiEndPoints.profileSettingUpdate,
+      data: {},
     );
   }
 }

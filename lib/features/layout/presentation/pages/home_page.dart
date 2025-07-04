@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/home_profile.dart';
@@ -19,7 +20,10 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> pages = [
     HomeScreen(),
-    Profile(isHome: true,), // These pages will access the same Cubit provided at top level
+    Profile(
+      isHome: true,
+    ),
+    // These pages will access the same Cubit provided at top level
   ];
 
   late ProfileCubit profileCubit;
@@ -81,10 +85,11 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => pushNamed(
-            newPage: RouteNames.addAdds,
-            context: context,
-          ),
+          onPressed: () async {
+            await UrlLauncherFunc.openUrl(
+              "https://rowad-harag.com/add-ad",
+            );
+          },
           backgroundColor: const Color(0xff0AB28F),
           shape: CircleBorder(
             side: BorderSide(
