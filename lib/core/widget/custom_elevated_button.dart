@@ -8,6 +8,7 @@ class CustomElevatedButton extends StatefulWidget {
   final Function()? onPressed;
   final Color? btnColor;
   final double borderRadius;
+  final BorderSide? border;
 
   const CustomElevatedButton({
     super.key,
@@ -16,6 +17,7 @@ class CustomElevatedButton extends StatefulWidget {
     this.btnColor,
     this.borderRadius = 12,
     this.padding,
+    this.border,
   });
 
   @override
@@ -33,6 +35,7 @@ class _CustomElevatedButtonState extends State<CustomElevatedButton> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
+        side: widget.border,
       ),
       child: widget.child,
     );
