@@ -92,3 +92,5 @@ class UpdateRate extends Handling{
 
   UpdateRate({required this.rate});
 }
+class LoadedProducts extends Handling{
+}

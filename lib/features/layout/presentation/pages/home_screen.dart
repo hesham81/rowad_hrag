@@ -9,12 +9,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/alignment.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/services/auth_services.dart';
 import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
+import 'package:rowad_hrag/features/all_product_search/presentation/pages/all_product_search.dart';
 import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
+import '../../../../core/widget/custom_text_button.dart';
 import '../../../../core/widget/custom_text_form_field.dart';
 import '/features/layout/presentation/manager/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -116,6 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         UrlLauncherFunc.openUrl(
                           "https://rowad-harag.com/add-ad",
                         );
+                        return;
+                      }
+                      if (index == 7) {
+                        AuthServices.signOut();
                         return;
                       }
                       pushNamed(
@@ -345,6 +352,48 @@ class _HomeScreenState extends State<HomeScreen> {
               0.01.height.hSpace,
               Divider(),
               0.01.height.hSpace,
+
+              Row(
+                children: [
+                  CustomTextButton(
+                    text: "عرض الكل",
+                    // onTap: () => slideLeftWidget(
+                    //   newPage: AllProductsScreen(),
+                    //   context: context,
+                    // ),
+                    onPressed: () => slideLeftWidget(
+                      newPage: AllProductSearch(
+                        products: cubit.allProducts,
+                      ),
+                      context: context,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    "جميع الاعلانات ",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                  ),
+                ],
+              ),
+              0.01.height.hSpace,
+              SizedBox(
+                height: 0.3.height,
+                child: ListView.separated(
+                  padding: EdgeInsets.all(10),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => ProductWidget(
+                    product: cubit.allProducts[index],
+                  ).hPadding(0.03.width),
+                  separatorBuilder: (context, index) => 0.01.width.vSpace,
+                  itemCount: cubit.allProducts.length,
+                ),
+              ),
+              0.01.height.hSpace,
+              Divider(),
+              0.01.height.hSpace,
               GestureDetector(
                 onTap: () => UrlLauncherFunc.openUrl(
                   (cubit.secondBanner.isEmpty)
@@ -399,7 +448,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: CachedNetworkImage(
-                    imageUrl: "https://rowad-harag.com/public/uploads/all/grR3OjQBlHOPH9ymqSvOQSBohi0MyxTuC4w9MaYv.png",
+                    imageUrl:
+                        "https://rowad-harag.com/public/uploads/all/grR3OjQBlHOPH9ymqSvOQSBohi0MyxTuC4w9MaYv.png",
                   ),
                 ).hPadding(0.03.width),
               ),

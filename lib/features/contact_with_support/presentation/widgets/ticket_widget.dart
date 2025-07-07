@@ -18,16 +18,22 @@ class TicketWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            contactDataModel.details,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+          Expanded(
+            child: Text(
+              contactDataModel.details,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
           ),
-          Text(
-            contactDataModel.subject,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              fontWeight: FontWeight.bold,
+          Expanded(
+            child: Text(
+              contactDataModel.subject,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
           ),
           Container(
@@ -46,7 +52,6 @@ class TicketWidget extends StatelessWidget {
                   ),
             ),
           ),
-
         ],
       ),
     );

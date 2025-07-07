@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/services/bot_toast.dart';
 import 'package:rowad_hrag/core/services/cash_helper.dart';
 import 'package:rowad_hrag/features/auth/domain/entities/sign_up_request.dart';
 import 'package:rowad_hrag/features/auth/domain/use_cases/get_city_use_case.dart';
@@ -39,6 +40,12 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController signUpPasswordController = TextEditingController();
   TextEditingController signUpConfirmPasswordController =
       TextEditingController();
+  //
+  //  String? _selectedType ;
+  //
+  // final  setSelectedType = ValueNotifier<String>(_selectedType);
+
+  // get selectedType => _selectedType;
 
   AuthCubit() : super(InitialAuthState());
 
@@ -59,21 +66,32 @@ class AuthCubit extends Cubit<AuthState> {
     getStates(_selectedCity!.id);
   }
 
+  List<StatesDataModel> _states = [];
+
   Future<void> getStates(int cityId) async {
+    EasyLoading.show();
     try {
       _authInterfaceDataSource = RemoteAuthDataSource(_services.freePrimaryDio);
       _authReposatoriesImp = AuthReposatoriesImp(_authInterfaceDataSource);
       _getStateUseCase = GetStateUseCase(_authReposatoriesImp);
       final response = await _getStateUseCase.call(cityId);
       return response.fold((error) {
-        throw Exception(error.messageEn);
-      }, (states) {
-        return emit(
-          CompletedStateLoaded(states),
+        emit(
+          ErrorSignUp(
+            error.messageEn ?? error.messageAr ?? "حدث خطاء ما",
+          ),
         );
+      }, (states) {
+        _states = states;
       });
     } catch (error) {
-      throw Exception(error);
+      emit(
+        ErrorSignUp(
+          error.toString(),
+        ),
+      );
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 
@@ -106,15 +124,14 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> getAllCities() async {
+    EasyLoading.show();
     _authInterfaceDataSource = RemoteAuthDataSource(_services.freePrimaryDio);
     _authReposatoriesImp = AuthReposatoriesImp(_authInterfaceDataSource);
     _getCityUseCase = GetCityUseCase(_authReposatoriesImp);
     try {
       final response = await _getCityUseCase.call();
       return response.fold(
-        (error) {
-          throw Exception(error.messageEn);
-        },
+        (error) {},
         (cities) async {
           await CashHelper.setStringList(
             "Cities",
@@ -124,17 +141,20 @@ class AuthCubit extends Cubit<AuthState> {
                 )
                 .toList(),
           );
-          emit(
-            CompletedCityLoaded(cities),
-          );
         },
       );
     } catch (error) {
-      throw Exception(error);
+      emit(
+        ErrorSignUp(
+          error.toString(),
+        ),
+      );
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 
-  Future<bool> signUp() async {
+  Future<void> signUp(BuildContext context) async {
     try {
       _authInterfaceDataSource = RemoteAuthDataSource(_services.freePrimaryDio);
       _authReposatoriesImp = AuthReposatoriesImp(_authInterfaceDataSource);
@@ -144,30 +164,41 @@ class AuthCubit extends Cubit<AuthState> {
         name: signUpNameController.text,
         emailOrPhone: signUpEmailController.text,
         sex: 'male',
-        stateId: "3147", // handle
-        cityId: "4001", // handle
+        stateId: "3147",
+        // handle
+        cityId: "4001",
+        // handle
         password: signUpPasswordController.text,
         confirmPassword: signUpConfirmPasswordController.text,
         loginBy: "email",
       );
       var response = await _signUpUseCase.call(data);
-      return response.fold(
+      response.fold(
         (l) {
-          EasyLoading.dismiss();
-          return false;
+          BotToastServices.showErrorMessage(
+              l.messageEn ?? "Something Went Wrong");
+          emit(
+            ErrorSignUp(
+              l.messageEn ?? l.messageAr ?? "حدث خطأ ما",
+            ),
+          );
         },
         (r) {
-          EasyLoading.dismiss();
+          BotToastServices.showSuccessMessage("Welcome Back ${r.name}");
           navigationKey.currentState!.pushNamed(
             RouteNames.home,
           );
           _services.myToken = r.accessToken;
-          return true;
         },
       );
     } catch (error) {
+      emit(
+        ErrorSignUp(
+          error.toString(),
+        ),
+      );
+    } finally {
       EasyLoading.dismiss();
-      return false;
     }
   }
 }

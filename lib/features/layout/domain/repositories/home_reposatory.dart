@@ -40,4 +40,6 @@ abstract class HomeReposatory {
   Future<Either<Failure, AddRateResponseDataModel>> addRate(
     AddRateRequest rate,
   );
+
+  Future<Either<Failure , List<ProductsDataModel>>> getAllProducts();
 }

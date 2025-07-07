@@ -36,5 +36,6 @@ abstract class ApiEndPoints {
   static const String profilePoints = '/seller/points';
   static const String profileSettingUpdate = '/seller/shop-update';
   static const String addTicket = '/seller/support-tickets/store';
+  static const String allProducts = '/products/search';
 
 }

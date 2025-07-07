@@ -3,11 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:rowad_hrag/core/services/auth_services.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/top_sellers_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/visitor_status_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/add_new_rate_on_home_layout_use_case.dart';
+import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_special_products.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_people_with_special_needs_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_second_banner.dart';
@@ -44,6 +46,7 @@ class HomeCubit extends Cubit<HomeState> {
       getProductiveFamiliesProducts(),
       getVisitorState(),
       getTopSellers(),
+      getAllProducts(),
     ]);
   }
 
@@ -418,6 +421,44 @@ class HomeCubit extends Cubit<HomeState> {
       log("Error On GetTopSellers $error");
     } finally {
       EasyLoading.dismiss();
+    }
+  }
+
+  static Future<void> logOut() async {
+    await AuthServices.signOut();
+  }
+
+  late final GetAllProductsUseCase _getAllProductsUseCase;
+
+  List<ProductsDataModel> _allProducts = [];
+
+  List<ProductsDataModel> get allProducts => _allProducts;
+
+  Future<void> getAllProducts() async {
+    _services = WebServices();
+    _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
+    _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
+    _getAllProductsUseCase = GetAllProductsUseCase(_homeReposatory);
+    try {
+      var response = await _getAllProductsUseCase.call();
+      response.fold(
+        (error) {
+          emit(
+            ErrorSpecialProducts(
+              error.messageAr ?? error.messageEn ?? "Error",
+            ),
+          );
+        },
+        (data) {
+          _allProducts = data;
+        },
+      );
+    } catch (error) {
+      emit(
+        ErrorSpecialProducts(
+          error.toString(),
+        ),
+      );
     }
   }
 }

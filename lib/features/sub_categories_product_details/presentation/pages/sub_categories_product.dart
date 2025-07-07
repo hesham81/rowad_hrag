@@ -37,23 +37,43 @@ class SubCategoriesProduct extends StatelessWidget {
             BlocBuilder<SubCategoriesProductCubit, SubCategoriesProductState>(
               builder: (context, state) {
                 if (state is SubCategoriesProductSuccess) {
-                  return ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        RouteNames.productDetails,
-                        arguments: state.subCategoriesProducts[index].slug,
-                      ),
-                      child: SubCategoryProductWidget(
-                        subCategoriesProductsDataModel:
-                            state.subCategoriesProducts[index],
-                      ),
-                    ),
-                    separatorBuilder: (context, index) => 0.03.height.hSpace,
-                    itemCount: state.subCategoriesProducts.length,
-                  );
+                  // return ListView.separated(
+                  //   shrinkWrap: true,
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   itemBuilder: (context, index) => GestureDetector(
+                  //     onTap: () => Navigator.pushNamed(
+                  //       context,
+                  //       RouteNames.productDetails,
+                  //       arguments: state.subCategoriesProducts[index].slug,
+                  //     ),
+                  //     child: SubCategoryProductWidget(
+                  //       subCategoriesProductsDataModel:
+                  //           state.subCategoriesProducts[index],
+                  //     ),
+                  //   ),
+                  //   separatorBuilder: (context, index) => 0.03.height.hSpace,
+                  //   itemCount: state.subCategoriesProducts.length,
+                  // );
+                 return GridView.builder(
+                   shrinkWrap: true,
+                   physics: const NeverScrollableScrollPhysics(),
+                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                     crossAxisCount: 2,
+                     mainAxisSpacing: 7,
+                   ),
+                   itemBuilder: (context, index) => GestureDetector(
+                     onTap: () => Navigator.pushNamed(
+                       context,
+                       RouteNames.productDetails,
+                       arguments: state.subCategoriesProducts[index].slug,
+                     ),
+                     child: SubCategoryProductWidget(
+                       subCategoriesProductsDataModel:
+                       state.subCategoriesProducts[index],
+                     ),
+                   ),
+                   itemCount: state.subCategoriesProducts.length,
+                 );
                 } else {
                   return const Center(child: CircularProgressIndicator());
                 }
