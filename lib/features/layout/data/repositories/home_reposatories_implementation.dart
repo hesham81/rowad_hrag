@@ -288,4 +288,29 @@ class HomeReposatoriesImplementation implements HomeReposatory {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, List<ProductsDataModel>>> getAllProducts() async {
+    try {
+      var response = await _interfaceDataSource.getAllProducts();
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = response.data["data"];
+        final List<ProductsDataModel> reviews =
+            jsonData.map((e) => ProductsDataModel.fromJson(e)).toList();
+        return Right(reviews);
+      } else {
+        return Left(ServerFailure(
+          statusCode: response.statusCode.toString(),
+          message: response.data["message"],
+        ));
+      }
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "",
+          message: error.message,
+        ),
+      );
+    }
+  }
 }

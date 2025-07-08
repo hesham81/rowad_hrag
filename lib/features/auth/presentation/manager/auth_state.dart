@@ -19,3 +19,8 @@ class CompletedStateLoaded extends HandlingAuth {
 
   CompletedStateLoaded(this.states);
 }
+
+class ErrorSignUp extends HandlingAuth {
+  final String message;
+  ErrorSignUp(this.message);
+}

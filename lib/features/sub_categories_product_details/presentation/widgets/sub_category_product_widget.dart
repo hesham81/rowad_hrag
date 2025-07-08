@@ -18,43 +18,63 @@ class SubCategoryProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
+        // height: 0.3.height,
+        //   width: double,,
         padding: EdgeInsets.zero,
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-              ),
-              child: CachedNetworkImage(
-                imageUrl: subCategoriesProductsDataModel.image,
-              ),
-            ),
-            0.01.height.hSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    subCategoriesProductsDataModel.name,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+            Expanded(
+              flex: 10,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: subCategoriesProductsDataModel.image,
+                      fit: BoxFit.cover,
+                      width: double.maxFinite,
+                    ),
                   ),
-                ),
-                IconText(rate: subCategoriesProductsDataModel.rating),
-
-              ],
-            ).hPadding(0.02.width),
-            0.01.height.hSpace,
-            Text(
-              subCategoriesProductsDataModel.price,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: IconText(
+                  //     rate: subCategoriesProductsDataModel.rating,
+                  //   ),
+                  // ),
+                ],
               ),
             ),
-
+            0.01.height.hSpace,
+            Expanded(
+              flex: 3,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      subCategoriesProductsDataModel.name,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      subCategoriesProductsDataModel.price.replaceAll("ريال", ""),
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                    ),
+                  ),
+                ],
+              ).hPadding(0.02.width),
+            ),
+            0.01.height.hSpace,
           ],
         )).hPadding(0.03.width);
   }

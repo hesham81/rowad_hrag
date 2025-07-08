@@ -41,6 +41,7 @@ class ProductWidget extends StatelessWidget {
                   imageUrl: product.thumbnailImage,
                   width: double.maxFinite,
                   fit: BoxFit.cover,
+                  // fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -50,17 +51,17 @@ class ProductWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
+                    product.mainPrice,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: AppColors.secondaryColor,
+                        ),
+                  ),
+                  Text(
                     product.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  Text(
-                    product.mainPrice,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: AppColors.secondaryColor,
                         ),
                   ),
                 ],

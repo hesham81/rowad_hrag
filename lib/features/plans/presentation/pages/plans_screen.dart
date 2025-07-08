@@ -90,14 +90,14 @@ class _PlansScreenState extends State<PlansScreen> {
                         ),
                   ).alignRight(),
                   0.04.height.hSpace,
-                  Text(
-                    "حساب الرسوم",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                  ),
-                  0.02.height.hSpace,
+                  // Text(
+                  //   "حساب الرسوم",
+                  //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  //         fontWeight: FontWeight.bold,
+                  //         color: Colors.black,
+                  //       ),
+                  // ),
+                  // 0.02.height.hSpace,
                   Text(
                     "ادخل المبلغ",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -111,7 +111,7 @@ class _PlansScreenState extends State<PlansScreen> {
                       controller: amountController,
                       borderColor: Colors.black,
                       keyboardType: TextInputType.number,
-                      borderRadius: 0,
+                      borderRadius: 10,
                       isReadOnly: (selectedPlan != null) ? true : false,
                       onChange: (p0) => setState(() {
                         if (p0 == null || amountController.text.isEmpty) {
@@ -134,11 +134,11 @@ class _PlansScreenState extends State<PlansScreen> {
                   SizedBox(
                     width: 0.3.width,
                     child: CustomTextFormField(
-                      hintText: "",
+                      hintText: resultController.text,
                       isReadOnly: true,
                       controller: resultController,
                       borderColor: Colors.black,
-                      borderRadius: 0,
+                      borderRadius: 10,
                     ),
                   ),
                   0.04.height.hSpace,

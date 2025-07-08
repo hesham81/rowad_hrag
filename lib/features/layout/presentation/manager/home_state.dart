@@ -87,8 +87,45 @@ class ErrorSpecialProducts extends Handling {
 
   ErrorSpecialProducts(this.message);
 }
-class UpdateRate extends Handling{
+
+class UpdateRate extends Handling {
   final int rate;
 
   UpdateRate({required this.rate});
+}
+
+class LoadedProducts extends Handling {}
+
+class LoadedHomeScreen extends Handling {
+  final List<CategoryDataModel> categories;
+  final List<BannerDataModel> banner;
+
+  final List<BannerDataModel> secondBanner;
+
+  final List<ProductsDataModel> specialProducts;
+
+  final List<ProductsDataModel> productiveFamiliesProducts;
+
+  final List<ProductsDataModel> specialNeedsProducts;
+
+  final List<ProductsDataModel> allProducts;
+
+  final List<ReviewsDataModel> reviews;
+
+  final VisitorStatesDataModel visitorStatesDataModel;
+
+  final List<TopSellersDataModel> topSellers;
+
+  const LoadedHomeScreen({
+    required this.categories,
+    required this.banner,
+    required this.secondBanner,
+    required this.specialProducts,
+    required this.productiveFamiliesProducts,
+    required this.specialNeedsProducts,
+    required this.allProducts,
+    required this.reviews,
+    required this.visitorStatesDataModel,
+    required this.topSellers,
+  });
 }
