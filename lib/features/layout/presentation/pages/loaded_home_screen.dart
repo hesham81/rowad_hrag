@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/widget/custom_text_button.dart';
+import 'package:rowad_hrag/features/all_product_search/presentation/pages/all_product_search.dart';
 import 'package:rowad_hrag/features/layout/data/models/banner_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/top_sellers_data_model.dart';
@@ -113,7 +115,11 @@ class LoadedHomeScreenUi extends StatelessWidget {
             children: [
               CustomTextButton(
                 text: "عرض الكل",
-                onPressed: () {},
+                onPressed: () => slideLeftWidget(
+                    newPage: AllProductSearch(
+                      products: allProducts,
+                    ),
+                    context: context),
               ),
               Spacer(),
               Text(
@@ -126,7 +132,7 @@ class LoadedHomeScreenUi extends StatelessWidget {
           ),
           0.01.height.hSpace,
           ProductiveFamiliesProductsWidgetHomeScreen(
-            productiveFamiliesProducts: allProducts,
+            productiveFamiliesProducts: allProducts.take(10).toList(),
           ),
           0.01.height.hSpace,
           Divider(),
