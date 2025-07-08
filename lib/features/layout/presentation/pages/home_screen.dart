@@ -15,6 +15,7 @@ import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/all_product_search/presentation/pages/all_product_search.dart';
 import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
+import 'package:rowad_hrag/features/layout/presentation/pages/loaded_home_screen.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
 import '../../../../core/widget/custom_text_button.dart';
@@ -212,342 +213,140 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ).hPadding(0.02.width),
               0.01.height.hSpace,
+              // BlocBuilder<HomeCubit, HomeState>(
+              //   builder: (context, state) {
+              //     var handler = state as Handling;
+              //     if (state is HomeLoading) {
+              //       return Center(
+              //         child: CircularProgressIndicator(
+              //           color: AppColors.secondaryColor,
+              //         ),
+              //       );
+              //     } else if (handler is HomeLoaded) {
+              //       return SizedBox(
+              //         height: 0.17.height,
+              //         child: ListView.separated(
+              //           scrollDirection: Axis.horizontal,
+              //           itemBuilder: (context, index) => GestureDetector(
+              //             onTap: () async {
+              //               await cubit.getAllSubCategories(
+              //                   handler.categories[index].id);
+              //               slideLeftWidget(
+              //                 newPage: SubCategoriesScreen(
+              //                   data: cubit.subCategories,
+              //                   title: handler.categories[index].name,
+              //                 ),
+              //                 context: context,
+              //               );
+              //             },
+              //             child: Categories(
+              //               imageUrl: handler.categories[index].icon,
+              //               text: handler.categories[index].name,
+              //             ),
+              //           ),
+              //           separatorBuilder: (context, index) => 0.05.width.vSpace,
+              //           itemCount: handler.categories.length,
+              //         ),
+              //       );
+              //     } else {
+              //       return SizedBox();
+              //     }
+              //   },
+              // ),
+              // Skeletonizer(
+              //   enabled: cubit.isBannersLoading,
+              //   child: CarouselSlider(
+              //     items: cubit.banners
+              //         .map(
+              //           (e) => GestureDetector(
+              //             onTap: () {
+              //               UrlLauncherFunc.openUrl(e.url);
+              //             },
+              //             child: CachedNetworkImage(imageUrl: e.imageUrl),
+              //           ),
+              //         )
+              //         .toList(),
+              //     options: CarouselOptions(
+              //       initialPage: 0,
+              //       height: 0.4.height,
+              //       enableInfiniteScroll: true,
+              //       reverse: false,
+              //       autoPlay: true,
+              //       autoPlayInterval: Duration(seconds: 3),
+              //       autoPlayAnimationDuration: Duration(milliseconds: 800),
+              //       autoPlayCurve: Curves.fastOutSlowIn,
+              //       enlargeCenterPage: true,
+              //       enlargeFactor: 0.3,
+              //       scrollDirection: Axis.horizontal,
+              //     ),
+              //   ),
+              // ),
+              // 0.01.height.hSpace,
+              // Divider(),
+              // 0.01.height.hSpace,
+              // Text(
+              //   "اعلانات مميزه",
+              //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.black,
+              //       ),
+              // ).alignRight(),
+              // 0.01.height.hSpace,
+              // SizedBox(
+              //   height: 0.3.height,
+              //   child: ListView.separated(
+              //     padding: EdgeInsets.all(10),
+              //     scrollDirection: Axis.horizontal,
+              //     itemBuilder: (context, index) => ProductWidget(
+              //       product: cubit.specialProducts[index],
+              //     ).hPadding(0.03.width),
+              //     separatorBuilder: (context, index) => 0.01.width.vSpace,
+              //     itemCount: cubit.specialProducts.length,
+              //   ),
+              // ),
+              // 0.01.height.hSpace,
+              // Divider(),
+              // 0.01.height.hSpace,
+              // Text(
+              //   "اعلانات ذوي الاحتياجات الخاصه",
+              //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.black,
+              //       ),
+              // ).alignRight(),
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
-                  var handler = state as Handling;
-                  if (state is HomeLoading) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.secondaryColor,
-                      ),
-                    );
-                  } else if (handler is HomeLoaded) {
-                    return SizedBox(
-                      height: 0.17.height,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => GestureDetector(
-                          onTap: () async {
-                            await cubit.getAllSubCategories(
-                                handler.categories[index].id);
-                            slideLeftWidget(
-                              newPage: SubCategoriesScreen(
-                                data: cubit.subCategories,
-                                title: handler.categories[index].name,
-                              ),
-                              context: context,
-                            );
-                          },
-                          child: Categories(
-                            imageUrl: handler.categories[index].icon,
-                            text: handler.categories[index].name,
+                  if (state is LoadedHomeScreen) {
+                    return LoadedHomeScreenUi(
+                      categories: state.categories,
+                      banner: state.banner,
+                      secondBanner: state.secondBanner,
+                      specialProducts: state.specialProducts,
+                      productiveFamiliesProducts:
+                          state.productiveFamiliesProducts,
+                      specialNeedsProducts: state.specialNeedsProducts,
+                      allProducts: state.allProducts,
+                      reviews: state.reviews,
+                      visitorStatesDataModel: state.visitorStatesDataModel,
+                      topSellers: state.topSellers,
+                      subCategoriesFunc: (name, id) async {
+                        await cubit.getAllSubCategories(id);
+                        slideLeftWidget(
+                          newPage: SubCategoriesScreen(
+                            data: cubit.subCategories,
+                            title: name,
                           ),
-                        ),
-                        separatorBuilder: (context, index) => 0.05.width.vSpace,
-                        itemCount: handler.categories.length,
-                      ),
+                          context: context,
+                        );
+                      },
                     );
                   } else {
-                    return SizedBox();
+                    return CircularProgressIndicator(
+                      color: AppColors.secondaryColor,
+                    );
                   }
                 },
               ),
-              Skeletonizer(
-                enabled: cubit.isBannersLoading,
-                child: CarouselSlider(
-                  items: cubit.banners
-                      .map(
-                        (e) => GestureDetector(
-                          onTap: () {
-                            UrlLauncherFunc.openUrl(e.url);
-                          },
-                          child: CachedNetworkImage(imageUrl: e.imageUrl),
-                        ),
-                      )
-                      .toList(),
-                  options: CarouselOptions(
-                    initialPage: 0,
-                    height: 0.4.height,
-                    enableInfiniteScroll: true,
-                    reverse: false,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    enlargeCenterPage: true,
-                    enlargeFactor: 0.3,
-                    scrollDirection: Axis.horizontal,
-                  ),
-                ),
-              ),
-              0.01.height.hSpace,
-              Divider(),
-              0.01.height.hSpace,
-              Text(
-                "اعلانات مميزه",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-              ).alignRight(),
-              0.01.height.hSpace,
-              SizedBox(
-                height: 0.3.height,
-                child: ListView.separated(
-                  padding: EdgeInsets.all(10),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => ProductWidget(
-                    product: cubit.specialProducts[index],
-                  ).hPadding(0.03.width),
-                  separatorBuilder: (context, index) => 0.01.width.vSpace,
-                  itemCount: cubit.specialProducts.length,
-                ),
-              ),
-              0.01.height.hSpace,
-              Divider(),
-              0.01.height.hSpace,
-              Text(
-                "اعلانات ذوي الاحتياجات الخاصه",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-              ).alignRight(),
-              0.01.height.hSpace,
-              SizedBox(
-                height: 0.3.height,
-                child: ListView.separated(
-                  padding: EdgeInsets.all(10),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => ProductWidget(
-                    product: cubit.peopleWithSpecialNeed[index],
-                  ).hPadding(0.03.width),
-                  separatorBuilder: (context, index) => 0.01.width.vSpace,
-                  itemCount: cubit.peopleWithSpecialNeed.length,
-                ),
-              ),
-              0.01.height.hSpace,
-              Divider(),
-              0.01.height.hSpace,
-              Text(
-                "إعلانات الأسر المنتجة",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-              ).alignRight(),
-              0.01.height.hSpace,
-              SizedBox(
-                height: 0.3.height,
-                child: ListView.separated(
-                  padding: EdgeInsets.all(10),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => ProductWidget(
-                    product: cubit.productiveFamiliesProducts[index],
-                  ).hPadding(0.03.width),
-                  separatorBuilder: (context, index) => 0.01.width.vSpace,
-                  itemCount: cubit.productiveFamiliesProducts.length,
-                ),
-              ),
-              0.01.height.hSpace,
-              Divider(),
-              0.01.height.hSpace,
-
-              Row(
-                children: [
-                  CustomTextButton(
-                    text: "عرض الكل",
-                    // onTap: () => slideLeftWidget(
-                    //   newPage: AllProductsScreen(),
-                    //   context: context,
-                    // ),
-                    onPressed: () => slideLeftWidget(
-                      newPage: AllProductSearch(
-                        products: cubit.allProducts,
-                      ),
-                      context: context,
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "جميع الاعلانات ",
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                  ),
-                ],
-              ),
-              0.01.height.hSpace,
-              SizedBox(
-                height: 0.3.height,
-                child: ListView.separated(
-                  padding: EdgeInsets.all(10),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => ProductWidget(
-                    product: cubit.allProducts[index],
-                  ).hPadding(0.03.width),
-                  separatorBuilder: (context, index) => 0.01.width.vSpace,
-                  itemCount: cubit.allProducts.length,
-                ),
-              ),
-              0.01.height.hSpace,
-              Divider(),
-              0.01.height.hSpace,
-              GestureDetector(
-                onTap: () => UrlLauncherFunc.openUrl(
-                  (cubit.secondBanner.isEmpty)
-                      ? "https://www.tiktok.com/@rowadharrag?lang=ar"
-                      : cubit.secondBanner[0].url,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: CachedNetworkImage(
-                    imageUrl: (cubit.secondBanner.isEmpty)
-                        ? "https://rowad-harag.com/public/uploads/all/lOO4a6OEYOD4oTWF1v4paCWTD4bxN1wRIcVohrba.png"
-                        : cubit.secondBanner[0].imageUrl,
-                  ),
-                ).hPadding(0.03.width),
-              ),
-              0.03.height.hSpace,
-              About(
-                model: cubit.visitorStatesDataModel,
-              ).hPadding(0.03.width),
-              0.01.height.hSpace,
-              Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    color: AppColors.secondaryColor,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    0.01.height.hSpace,
-                    Text(
-                      "المراجعات والتقيمات",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: AppColors.blueColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ).alignRight().allPadding(5),
-                    ReviewsWidget(
-                      reviews: (cubit.reviews.length < 3)
-                          ? cubit.reviews
-                          : cubit.reviews.sublist(0, 3),
-                    ),
-                  ],
-                ),
-              ).hPadding(0.03.width),
-              0.01.height.hSpace,
-              GestureDetector(
-                onTap: () => UrlLauncherFunc.openUrl(
-                  "https://rowad-harag.com/add-ad",
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        "https://rowad-harag.com/public/uploads/all/grR3OjQBlHOPH9ymqSvOQSBohi0MyxTuC4w9MaYv.png",
-                  ),
-                ).hPadding(0.03.width),
-              ),
-              // Container(
-              //   width: double.maxFinite,
-              //   decoration: BoxDecoration(
-              //     color: Colors.grey.withAlpha(70),
-              //     border: Border.all(
-              //       color: AppColors.secondaryColor,
-              //     ),
-              //     borderRadius: BorderRadius.circular(
-              //       25,
-              //     ),
-              //   ),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.stretch,
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     children: [
-              //       Text(
-              //         "تقييمك يهمنا ",
-              //         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              //               color: AppColors.blueColor,
-              //               fontWeight: FontWeight.bold,
-              //             ),
-              //       ).rightBottomWidget(),
-              //       0.01.height.hSpace,
-              //       Text(
-              //         "عدد النجوم",
-              //         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              //               color: Colors.black,
-              //             ),
-              //       ).rightBottomWidget(),
-              //       0.01.height.hSpace,
-              //       RatingBar.builder(
-              //         initialRating: 3,
-              //         minRating: 1,
-              //         direction: Axis.horizontal,
-              //         allowHalfRating: false,
-              //         itemCount: 5,
-              //         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              //         itemBuilder: (context, _) => Icon(
-              //           Icons.star,
-              //           color: Colors.amber,
-              //         ),
-              //         onRatingUpdate: (rating) {
-              //           setState(() {
-              //             rate = rating;
-              //           });
-              //         },
-              //       ).alignRight(),
-              //       0.01.height.hSpace,
-              //       Text(
-              //         "اضف تعليق ",
-              //         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              //               color: Colors.black,
-              //               fontWeight: FontWeight.bold,
-              //             ),
-              //       ).rightBottomWidget(),
-              //       0.01.height.hSpace,
-              //       CustomTextFormField(
-              //         hintText: "تعليقك",
-              //         controller: _reviewController,
-              //         onChange: (value) {
-              //           setState(() {
-              //             // Optional: store value in a variable if needed
-              //           });
-              //         },
-              //         minLine: 2,
-              //         maxLine: 2,
-              //         isFilled: true,
-              //         fillColor: Colors.white,
-              //         borderRadius: 15,
-              //       ),
-              //       0.01.height.hSpace,
-              //       CustomElevatedButton(
-              //         onPressed:
-              //             (_reviewController.text.isNotEmpty && rate != null)
-              //                 ? () async {
-              //           var rateDat = AddRateRequest(comment: _reviewController.text  , rate: rate!);
-              //           await cubit.addNewReview(rateDat);
-              //             }
-              //                 : null,
-              //         child: Text(
-              //           "ارسال",
-              //           style:
-              //               Theme.of(context).textTheme.titleMedium!.copyWith(
-              //                     color: Colors.white,
-              //                     fontWeight: FontWeight.bold,
-              //                   ),
-              //         ),
-              //       ),
-              //     ],
-              //   ).rightBottomWidget().allPadding(15),
-              // ),
-              0.01.height.hSpace,
-              BiggestInf(
-                list: cubit.topSellers,
-              ).hPadding(0.03.width),
               0.01.height.hSpace,
             ],
           ),
