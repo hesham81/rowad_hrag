@@ -12,7 +12,7 @@ import '/features/auth/domain/entities/sign_in_request.dart';
 abstract class AuthReposatories {
   Future<Either<Failure, SignInResponse>> signIn(SignInRequest data);
 
-  Future<Either<Failure, SignInResponse>> signUp(SignUpDataModel data);
+  Future<Either<Failure, String>> signUp(SignUpDataModel data);
 
   forgetPassword();
 

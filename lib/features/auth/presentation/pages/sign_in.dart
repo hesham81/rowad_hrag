@@ -93,29 +93,14 @@ class _SignInState extends State<SignIn> {
                         children: [
                           CustomTextButton(
                             text: " نسيت كلمه السر؟ ",
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                RouteNames.forgetPassword,
+                              );
+                            },
                           ),
                           Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                "تذكرني",
-                                style: theme.textTheme.titleMedium!.copyWith(
-                                  color: AppColors.blueColor,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              Radio(
-                                value: "value",
-                                groupValue: "groupValue",
-                                onChanged: (value) {},
-                                fillColor: WidgetStatePropertyAll(
-                                  AppColors.secondaryColor,
-                                ),
-                              ),
-                            ],
-                          )
                         ],
                       ),
                       0.04.height.hSpace,

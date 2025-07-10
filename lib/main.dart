@@ -5,6 +5,8 @@ import 'package:rowad_hrag/core/services/loading_manager.dart';
 import '/core/route/on_generate_route.dart';
 import '/core/theme/app_theme.dart';
 
+final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
+
 void main() {
   runApp(const MyApp());
   configLoading();
@@ -26,5 +28,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-var navigationKey = GlobalKey<NavigatorState>();

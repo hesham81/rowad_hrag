@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rowad_hrag/features/adds_reviews/presentation/pages/adds_reviews.dart';
 import 'package:rowad_hrag/features/all_types/presentation/manager/all_categories_cubit.dart';
 import 'package:rowad_hrag/features/all_uploaded_files/presentation/pages/all_uploaded_files.dart';
+import 'package:rowad_hrag/features/auth/presentation/pages/forget_password/pages/forget_password.dart';
 import 'package:rowad_hrag/features/bills/presentation/pages/upload_bills_page.dart';
 import 'package:rowad_hrag/features/blogs/presentation/manager/blog_cubit.dart';
 import 'package:rowad_hrag/features/blogs/presentation/pages/blogs.dart';
@@ -51,6 +52,10 @@ abstract class OnGenerateRoute {
             child: HomePage(),
           ),
         );
+        case RouteNames.forgetPassword:
+          return MaterialPageRoute(
+            builder: (context) => ForgetPassword(),
+          );
       case RouteNames.blogs:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<BlogCubit>(

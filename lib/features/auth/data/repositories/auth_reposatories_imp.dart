@@ -53,14 +53,12 @@ class AuthReposatoriesImp implements AuthReposatories {
   }
 
   @override
-  Future<Either<Failure, SignInResponse>> signUp(SignUpRequest data) async {
+  Future<Either<Failure, String>> signUp(SignUpRequest data) async {
     try {
       final response = await _authInterfaceDataSource.signUp(data);
       if (response.statusCode == 200) {
         return Right(
-          SignInModel.fromJson(
-            response.data["user"],
-          ),
+          response.data['access_token'],
         );
       } else {
         return Left(

@@ -10,7 +10,7 @@ class SignUpUseCase {
 
   SignUpUseCase(this._authReposatoriesImp);
 
-  Future<Either<Failure, SignInResponse>> call(SignUpRequest data) async {
+  Future<Either<Failure, String>> call(SignUpRequest data) async {
     return _authReposatoriesImp.signUp(data);
   }
 }
