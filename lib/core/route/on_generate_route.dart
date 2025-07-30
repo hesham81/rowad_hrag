@@ -14,6 +14,7 @@ import 'package:rowad_hrag/features/notifications/presentation/manager/notificat
 import 'package:rowad_hrag/features/notifications/presentation/pages/notifications.dart';
 import 'package:rowad_hrag/features/plans/presentation/manager/plans_cubit.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
+import 'package:rowad_hrag/features/plans_subscriptions%20/presentation/pages/plans_subscriptions.dart';
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
@@ -22,6 +23,7 @@ import 'package:rowad_hrag/features/settings/presentation/pages/profile_settings
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
 import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
 import 'package:rowad_hrag/features/sub_categories_product_details/presentation/pages/sub_categories_product.dart';
+import 'package:rowad_hrag/features/terms_and_conditions/presentation/pages/terms_and_conditions.dart';
 import '../../features/add-ads/presentation/manager/addAdCubit.dart';
 import '../../features/add-ads/presentation/pages/adds_page.dart';
 import '../../features/adds_reviews/presentation/manager/adds_reviews_cubit.dart';
@@ -52,10 +54,18 @@ abstract class OnGenerateRoute {
             child: HomePage(),
           ),
         );
-        case RouteNames.forgetPassword:
-          return MaterialPageRoute(
-            builder: (context) => ForgetPassword(),
-          );
+      case RouteNames.termsAndConditions:
+        return MaterialPageRoute(
+          builder: (context) => TermsAndConditions(),
+        );
+      case RouteNames.plansSubscriptions:
+        return MaterialPageRoute(
+          builder: (context) => PlansSubscriptions(),
+        );
+      case RouteNames.forgetPassword:
+        return MaterialPageRoute(
+          builder: (context) => ForgetPassword(),
+        );
       case RouteNames.blogs:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<BlogCubit>(

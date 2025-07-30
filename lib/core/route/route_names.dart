@@ -19,4 +19,6 @@ abstract class RouteNames {
   static const String subCategoriesProductDetails = '/subCategoriesProductDetails';
   static const String shopSettings = '/shopSettings';
   static const String forgetPassword   = '/forgetPassword';
+  static const String termsAndConditions   = '/termsAndConditions';
+  static const String plansSubscriptions   = '/plansSubscriptions';
 }

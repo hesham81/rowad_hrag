@@ -17,7 +17,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.rowad_hrag.app"
+    namespace = "com.rowad_hrag.application"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -31,7 +31,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.rowad_hrag.app"
+        applicationId = "com.rowad_hrag.application"
         minSdk 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
