@@ -21,4 +21,6 @@ abstract class RouteNames {
   static const String forgetPassword   = '/forgetPassword';
   static const String termsAndConditions   = '/termsAndConditions';
   static const String plansSubscriptions   = '/plansSubscriptions';
+  static const String privacyAndPolicy   = '/privacyAndPolicy';
+  static const String allReviews   = '/allReviews';
 }

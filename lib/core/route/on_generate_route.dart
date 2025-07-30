@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rowad_hrag/features/adds_reviews/presentation/pages/adds_reviews.dart';
+import 'package:rowad_hrag/features/all_reviews/presentation/pages/all_reviews_screen.dart';
 import 'package:rowad_hrag/features/all_types/presentation/manager/all_categories_cubit.dart';
 import 'package:rowad_hrag/features/all_uploaded_files/presentation/pages/all_uploaded_files.dart';
 import 'package:rowad_hrag/features/auth/presentation/pages/forget_password/pages/forget_password.dart';
@@ -15,6 +16,7 @@ import 'package:rowad_hrag/features/notifications/presentation/pages/notificatio
 import 'package:rowad_hrag/features/plans/presentation/manager/plans_cubit.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/plans_subscriptions%20/presentation/pages/plans_subscriptions.dart';
+import 'package:rowad_hrag/features/privacy_and_policy/presentation/pages/privacy_and_policy.dart';
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
@@ -62,6 +64,14 @@ abstract class OnGenerateRoute {
         return MaterialPageRoute(
           builder: (context) => PlansSubscriptions(),
         );
+      case RouteNames.privacyAndPolicy:
+        return MaterialPageRoute(
+          builder: (context) => PrivacyAndPolicy(),
+        );
+      // case RouteNames.allReviews:
+      //   return MaterialPageRoute(
+      //     builder: (context) => AllReviewsScreen(),
+      //   );
       case RouteNames.forgetPassword:
         return MaterialPageRoute(
           builder: (context) => ForgetPassword(),

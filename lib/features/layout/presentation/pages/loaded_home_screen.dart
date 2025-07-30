@@ -149,10 +149,11 @@ class LoadedHomeScreenUi extends StatelessWidget {
           BiggestInf(
             list: topSellers,
           ),
-
-          HomeButtonsSelectorFooterWidget()
+          HomeButtonsSelectorFooterWidget(
+            allReviews: reviews,
+          )
         ],
-      ).hPadding(0.03.width),
+      ),
     );
   }
 }
