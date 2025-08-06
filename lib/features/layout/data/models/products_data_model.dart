@@ -12,6 +12,10 @@ class ProductsDataModel extends Products {
     required super.mainPrice,
     required super.rating,
     required super.sales,
+    super.stateName,
+    super.cityName,
+    required super.userName,
+    super.createdAt,
     // required super.sales,
   });
 
@@ -27,6 +31,12 @@ class ProductsDataModel extends Products {
       mainPrice: json["main_price"],
       rating: json["rating"].toString(),
       sales: json["sales"].toString(),
+      stateName: json["state_name"],
+      cityName: json["city_name"],
+      createdAt: (json["created_ago"] != null)
+          ? DateTime.parse(json["created_ago"])
+          : DateTime.now(),
+      userName: json["user_name"],
     );
   }
 
@@ -42,6 +52,10 @@ class ProductsDataModel extends Products {
       "main_price": mainPrice,
       "rating": rating,
       "sales": sales,
+      "state_name": stateName,
+      "city_name": cityName,
+      "created_ago": createdAt,
+      "user_name": userName,
     };
   }
 }
