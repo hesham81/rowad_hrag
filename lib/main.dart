@@ -7,7 +7,7 @@ import '/core/theme/app_theme.dart';
 
 final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
 
-void main() {
+void main() async{
   runApp(const MyApp());
   configLoading();
 }

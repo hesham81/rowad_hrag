@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:route_transitions/route_transitions.dart';
-import 'package:rowad_hrag/core/extensions/align.dart';
-import 'package:rowad_hrag/core/extensions/extensions.dart';
-import 'package:rowad_hrag/core/route/route_names.dart';
-import 'package:rowad_hrag/core/services/url_launcher_func.dart';
-import 'package:rowad_hrag/core/theme/app_colors.dart';
-import 'package:rowad_hrag/features/add-ads/presentation/pages/adds_page.dart';
-import 'package:rowad_hrag/features/profile/data/models/all_adds_data_model.dart';
-import 'package:rowad_hrag/features/profile/presentation/widgets/add_widget.dart';
+import '/core/extensions/align.dart';
+import '/core/extensions/extensions.dart';
+import '/core/services/url_launcher_func.dart';
+import '/core/theme/app_colors.dart';
+import '/features/profile/data/models/all_adds_data_model.dart';
+import '/features/profile/presentation/widgets/add_widget.dart';
 
 class AddsScreen extends StatelessWidget {
   final List<AllAddsDataModel> adds;

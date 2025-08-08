@@ -25,34 +25,27 @@ class AllProductsWidget extends StatelessWidget {
       ),
       child: CustomContainer(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             CachedNetworkImage(
               imageUrl: product.thumbnailImage,
               width: double.maxFinite,
               fit: BoxFit.cover,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    product.name,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ),
-                Spacer(),
-                Expanded(
-                  child: Text(
-                    product.strokedPrice,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.secondaryColor),
-                  ),
-                ),
-              ],
-            ).allPadding(4)
+            Text(
+              product.name,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              product.strokedPrice,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.secondaryColor),
+            ),
           ],
         ),
       ),

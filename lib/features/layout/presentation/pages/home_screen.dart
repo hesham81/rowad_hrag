@@ -101,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var cubit = context.read<HomeCubit>();
     return Scaffold(
+
       floatingActionButton: WhatsappIconButton(),
       body: SingleChildScrollView(
         child: Form(

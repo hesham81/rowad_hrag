@@ -10,6 +10,7 @@ import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
+import 'package:rowad_hrag/features/product_details/data/models/message_request_data_model.dart';
 import 'package:rowad_hrag/features/product_details/presentation/widgets/message_content.dart';
 import '../../../../core/services/url_launcher_func.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -28,7 +29,11 @@ class ProductItemScreen extends StatefulWidget {
 class _ProductItemScreenState extends State<ProductItemScreen> {
   int? selectedIndex;
 
-  _showMessageContent(String hint) {
+  _showMessageContent(
+    String hint,
+    Function(MessageRequestDataModel) onSend,
+    int conversationId,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -37,6 +42,8 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
           width: double.maxFinite,
           child: MessageContent(
             hintText: hint,
+            onSend: onSend,
+            userId: conversationId,
           ), // But make sure MessageContent doesn't use Scaffold
         ),
         contentPadding: EdgeInsets.zero, // Optional: remove default padding
@@ -209,6 +216,8 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                       onTap: () {
                         _showMessageContent(
                           state.productDetailsDataModel.name,
+                          cubit.sendMessage,
+                          state.productDetailsDataModel.user.id,
                         );
                       },
                       child: Container(

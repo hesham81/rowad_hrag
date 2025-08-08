@@ -7,6 +7,7 @@ import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
 import 'package:rowad_hrag/features/auth/data/models/city_data_model.dart';
 import 'package:rowad_hrag/features/auth/data/models/states_data_model.dart';
 import 'package:rowad_hrag/features/product_details/data/data_sources/product_interface_data_source.dart';
+import 'package:rowad_hrag/features/product_details/data/models/message_request_data_model.dart';
 import 'package:rowad_hrag/features/product_details/data/models/pay_to_product_request_data_model.dart';
 import 'package:rowad_hrag/features/product_details/data/models/product_details_data_model.dart';
 import 'package:rowad_hrag/features/product_details/domain/repositories/product_details_repo.dart';
@@ -90,6 +91,25 @@ class ProdcutDetailsRepositoriesImp implements ProductDetailsRepo {
       var response = await _interfaceDataSource.pay(payment);
       return Right(
         response.data['payment_url'],
+      );
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "",
+          message: error.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> sendMessage(
+    MessageRequestDataModel message,
+  ) async {
+    try {
+      var response = await _interfaceDataSource.sendMessage(message);
+      return Right(
+        response.data['message'],
       );
     } on DioException catch (error) {
       return Left(

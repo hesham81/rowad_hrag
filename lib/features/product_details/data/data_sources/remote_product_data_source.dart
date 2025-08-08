@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 import 'package:rowad_hrag/features/product_details/data/data_sources/product_interface_data_source.dart';
+import 'package:rowad_hrag/features/product_details/data/models/message_request_data_model.dart';
 import 'package:rowad_hrag/features/product_details/data/models/pay_to_product_request_data_model.dart';
 
 import '../../../../core/constant/api_networks.dart';
@@ -30,6 +31,14 @@ class RemoteProductDataSource implements ProductInterfaceDataSource {
     return await _dio.post(
       ApiEndPoints.customPayment,
       data: payment.toJson(),
+    );
+  }
+
+  @override
+  Future<Response> sendMessage(MessageRequestDataModel message) async {
+    return await _dio.post(
+      ApiEndPoints.conversion,
+      data: message.toJson(),
     );
   }
 }

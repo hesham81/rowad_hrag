@@ -37,5 +37,6 @@ abstract class ApiEndPoints {
   static const String profileSettingUpdate = '/seller/shop-update';
   static const String addTicket = '/seller/support-tickets/store';
   static const String allProducts = '/products/search';
+  static const String conversion = '/seller/conversations/message/store';
 
 }

@@ -25,11 +25,10 @@ class _ProductWidgetState extends State<ProductWidget> {
       return "اليوم";
     }
 
-    // حساب عدد الشهور التقريبي (بمتوسط 30 يوم للشهر)
     int months = (days / 30).floor();
 
     if (months == 0) {
-      return "$days يوم";
+      return "منذ$days يوم";
     } else if (months == 1) {
       return "منذ شهر";
     } else if (months == 2) {
