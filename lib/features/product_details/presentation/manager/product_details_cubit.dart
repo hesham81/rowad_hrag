@@ -69,8 +69,6 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     } catch (error) {
       throw Exception(error.toString());
     } finally {
-      log(productDetailsDataModel?.name.toString() ??
-          "حدث خطأ ما برجاء\nبرجاء المحاوله مره اخري");
       EasyLoading.dismiss();
     }
   }

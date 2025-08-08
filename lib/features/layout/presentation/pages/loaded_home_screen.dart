@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/features/plans/presentation/manager/plans_cubit.dart';
 import '/core/extensions/align.dart';
 import '/core/extensions/extensions.dart';
 import '/core/widget/custom_text_button.dart';
@@ -151,7 +153,10 @@ class LoadedHomeScreenUi extends StatelessWidget {
           HomeButtonsSelectorFooterWidget(
             allReviews: reviews,
           ),
-          NavigatorHomeFooterWidget()
+          BlocProvider(
+            create: (context) => PlansCubit(),
+            child: NavigatorHomeFooterWidget(),
+          )
         ],
       ),
     );
