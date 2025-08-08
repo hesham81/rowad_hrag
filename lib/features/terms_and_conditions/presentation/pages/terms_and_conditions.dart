@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/home_buttons_selector_footer_widget.dart';
 
@@ -27,7 +28,6 @@ class TermsAndConditions extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -155,6 +155,6 @@ class TermsAndConditions extends StatelessWidget {
         const SizedBox(height: 16),
 
       ],
-    );
+    ).hPadding(0.03.width);
   }
 }
