@@ -14,6 +14,7 @@ import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/all_product_search/presentation/pages/all_product_search.dart';
+import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/loaded_home_screen.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
@@ -49,6 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _reviewController = TextEditingController();
   double? rate;
 
+  // search(String? searchParameter) {
+  //   List<ProductsDataModel> allProducts =
+  //
+  // }
+
   TextEditingController searchController = TextEditingController();
   List<String> labels = [
     "الصفحة الرئيسية",
@@ -65,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final formKey = GlobalKey<FormState>();
   bool isSend = false;
 
+  List<ProductsDataModel> searchedProducts = [];
   @override
   void initState() {
     super.initState();
@@ -94,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var cubit = context.read<HomeCubit>();
     return Scaffold(
+
       floatingActionButton: WhatsappIconButton(),
       body: SingleChildScrollView(
         child: Form(
@@ -106,7 +114,55 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 color: AppColors.primaryColor,
-                child: UpperBar(),
+                child: Row(
+                  children: [
+                    0.02.width.vSpace,
+                    GestureDetector(
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: AppColors.blueColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: SvgPicture.asset(
+                          AppAssets.notificationIcon,
+                        ).allPadding(12),
+                      ),
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        RouteNames.notifications,
+                      ),
+                    ),
+                    0.04.width.vSpace,
+                    SvgPicture.asset(
+                      AppAssets.coloredLogo,
+                      height: 40,
+                      width: 40,
+                      fit: BoxFit.cover,
+                    ),
+                    0.04.width.vSpace,
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: AppColors.secondaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: SvgPicture.asset(
+                        AppAssets.searchIcon,
+                      ).allPadding(12),
+                    ),
+                    0.02.width.vSpace,
+                    Expanded(
+                      child: CustomTextFormField(
+                        hintText: "أبحث عن ",
+                        controller: searchController,
+                        // onChange: search,
+                      ),
+                    ),
+                  ],
+                ).hPadding(0.02.width).vPadding(0.01.height),
               ),
               Container(
                 height: 0.05.height,
@@ -213,107 +269,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ).hPadding(0.02.width),
               0.01.height.hSpace,
-              // BlocBuilder<HomeCubit, HomeState>(
-              //   builder: (context, state) {
-              //     var handler = state as Handling;
-              //     if (state is HomeLoading) {
-              //       return Center(
-              //         child: CircularProgressIndicator(
-              //           color: AppColors.secondaryColor,
-              //         ),
-              //       );
-              //     } else if (handler is HomeLoaded) {
-              //       return SizedBox(
-              //         height: 0.17.height,
-              //         child: ListView.separated(
-              //           scrollDirection: Axis.horizontal,
-              //           itemBuilder: (context, index) => GestureDetector(
-              //             onTap: () async {
-              //               await cubit.getAllSubCategories(
-              //                   handler.categories[index].id);
-              //               slideLeftWidget(
-              //                 newPage: SubCategoriesScreen(
-              //                   data: cubit.subCategories,
-              //                   title: handler.categories[index].name,
-              //                 ),
-              //                 context: context,
-              //               );
-              //             },
-              //             child: Categories(
-              //               imageUrl: handler.categories[index].icon,
-              //               text: handler.categories[index].name,
-              //             ),
-              //           ),
-              //           separatorBuilder: (context, index) => 0.05.width.vSpace,
-              //           itemCount: handler.categories.length,
-              //         ),
-              //       );
-              //     } else {
-              //       return SizedBox();
-              //     }
-              //   },
-              // ),
-              // Skeletonizer(
-              //   enabled: cubit.isBannersLoading,
-              //   child: CarouselSlider(
-              //     items: cubit.banners
-              //         .map(
-              //           (e) => GestureDetector(
-              //             onTap: () {
-              //               UrlLauncherFunc.openUrl(e.url);
-              //             },
-              //             child: CachedNetworkImage(imageUrl: e.imageUrl),
-              //           ),
-              //         )
-              //         .toList(),
-              //     options: CarouselOptions(
-              //       initialPage: 0,
-              //       height: 0.4.height,
-              //       enableInfiniteScroll: true,
-              //       reverse: false,
-              //       autoPlay: true,
-              //       autoPlayInterval: Duration(seconds: 3),
-              //       autoPlayAnimationDuration: Duration(milliseconds: 800),
-              //       autoPlayCurve: Curves.fastOutSlowIn,
-              //       enlargeCenterPage: true,
-              //       enlargeFactor: 0.3,
-              //       scrollDirection: Axis.horizontal,
-              //     ),
-              //   ),
-              // ),
-              // 0.01.height.hSpace,
-              // Divider(),
-              // 0.01.height.hSpace,
-              // Text(
-              //   "اعلانات مميزه",
-              //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.black,
-              //       ),
-              // ).alignRight(),
-              // 0.01.height.hSpace,
-              // SizedBox(
-              //   height: 0.3.height,
-              //   child: ListView.separated(
-              //     padding: EdgeInsets.all(10),
-              //     scrollDirection: Axis.horizontal,
-              //     itemBuilder: (context, index) => ProductWidget(
-              //       product: cubit.specialProducts[index],
-              //     ).hPadding(0.03.width),
-              //     separatorBuilder: (context, index) => 0.01.width.vSpace,
-              //     itemCount: cubit.specialProducts.length,
-              //   ),
-              // ),
-              // 0.01.height.hSpace,
-              // Divider(),
-              // 0.01.height.hSpace,
-              // Text(
-              //   "اعلانات ذوي الاحتياجات الخاصه",
-              //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.black,
-              //       ),
-              // ).alignRight(),
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
                   if (state is LoadedHomeScreen) {

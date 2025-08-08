@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:route_transitions/route_transitions.dart';
-import 'package:rowad_hrag/core/extensions/align.dart';
-import 'package:rowad_hrag/core/extensions/extensions.dart';
-import 'package:rowad_hrag/core/widget/custom_text_button.dart';
-import 'package:rowad_hrag/features/all_product_search/presentation/pages/all_product_search.dart';
-import 'package:rowad_hrag/features/layout/data/models/banner_data_model.dart';
-import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
-import 'package:rowad_hrag/features/layout/data/models/top_sellers_data_model.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/banners_home_screen.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/biggest_inf.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/productive_families_products_widget_home_screen.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/rating_widget_home_screen.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/second_banners_widget_home_screen.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/special_needs_widget_home_screen.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/special_products_home_screen.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/sub_categories_home_widget.dart';
-
+import '/core/extensions/align.dart';
+import '/core/extensions/extensions.dart';
+import '/core/widget/custom_text_button.dart';
+import '/features/all_product_search/presentation/pages/all_product_search.dart';
+import '/features/layout/data/models/banner_data_model.dart';
+import '/features/layout/data/models/category_data_model.dart';
+import '/features/layout/data/models/top_sellers_data_model.dart';
+import '/features/layout/presentation/widget/banners_home_screen.dart';
+import '/features/layout/presentation/widget/biggest_inf.dart';
+import '/features/layout/presentation/widget/home_buttons_selector_footer_widget.dart';
+import '/features/layout/presentation/widget/productive_families_products_widget_home_screen.dart';
+import '/features/layout/presentation/widget/rating_widget_home_screen.dart';
+import '/features/layout/presentation/widget/second_banners_widget_home_screen.dart';
+import '/features/layout/presentation/widget/special_products_home_screen.dart';
+import '/features/layout/presentation/widget/sub_categories_home_widget.dart';
 import '../../data/models/products_data_model.dart';
 import '../../data/models/reviews_data_model.dart';
 import '../../data/models/visitor_status_data_model.dart';
+import '../widget/navigator_home_footer_widget.dart';
 
 class LoadedHomeScreenUi extends StatelessWidget {
   final List<CategoryDataModel> categories;
@@ -61,6 +61,7 @@ class LoadedHomeScreenUi extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           SubCategoriesHomeWidget(
             categories: categories,
@@ -92,21 +93,21 @@ class LoadedHomeScreenUi extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ).alignRight().hPadding(0.03.width),
-          SpecialNeedsWidgetHomeScreen(
-            peopleWithSpecialNeed: specialNeedsProducts,
+          SpecialProductsHomeScreen(
+            specialProducts: specialNeedsProducts,
           ),
           0.01.height.hSpace,
           Divider(),
           0.01.height.hSpace,
           Text(
-            "إعلانات لذوي الاحتياجات الخاصة",
+            "إعلانات الأسر المنتجة والحرف اليدوية",
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
           ).alignRight().hPadding(0.03.width),
           0.01.height.hSpace,
-          ProductiveFamiliesProductsWidgetHomeScreen(
-            productiveFamiliesProducts: productiveFamiliesProducts,
+          SpecialProductsHomeScreen(
+            specialProducts: productiveFamiliesProducts,
           ),
           0.01.height.hSpace,
           Divider(),
@@ -146,7 +147,11 @@ class LoadedHomeScreenUi extends StatelessWidget {
           0.01.height.hSpace,
           BiggestInf(
             list: topSellers,
-          )
+          ),
+          HomeButtonsSelectorFooterWidget(
+            allReviews: reviews,
+          ),
+          NavigatorHomeFooterWidget()
         ],
       ),
     );

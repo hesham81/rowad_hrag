@@ -31,30 +31,28 @@ class Categories extends StatelessWidget {
           child: Stack(
             children: [
               // Background SVG Image
-              Expanded(
-                child: CachedNetworkImage(
-                  height: 0.15.height,
-                  imageUrl: imageUrl,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => CircularProgressIndicator(
-                    color: AppColors.secondaryColor,
-                  ).center,
-                  errorWidget: (context, url, error) => Column(
-                    children: [
-                      Icon(
-                        Icons.error_outline,
-                        color: AppColors.secondaryColor,
-                        size: 30,
-                      ),
-                      0.01.height.hSpace,
-                      Text(
-                        "خطأ",
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: AppColors.secondaryColor,
-                            ),
-                      ),
-                    ],
-                  ),
+              CachedNetworkImage(
+                height: 0.15.height,
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => CircularProgressIndicator(
+                  color: AppColors.secondaryColor,
+                ).center,
+                errorWidget: (context, url, error) => Column(
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: AppColors.secondaryColor,
+                      size: 30,
+                    ),
+                    0.01.height.hSpace,
+                    Text(
+                      "خطأ",
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            color: AppColors.secondaryColor,
+                          ),
+                    ),
+                  ],
                 ),
               ),
 
