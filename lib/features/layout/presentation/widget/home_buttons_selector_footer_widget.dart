@@ -123,6 +123,7 @@ class _HomeButtonsSelectorFooterWidgetState
           ),
         ),
         NavigatorHomeFooterWidget(),
+
       ],
     );
   }

@@ -1,39 +1,23 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:marquee/marquee.dart';
 import 'package:route_transitions/route_transitions.dart';
-import 'package:rowad_hrag/core/extensions/alignment.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/services/auth_services.dart';
 import 'package:rowad_hrag/core/services/url_launcher_func.dart';
-import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
-import 'package:rowad_hrag/features/all_product_search/presentation/pages/all_product_search.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
-import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/loaded_home_screen.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
-import '../../../../core/widget/custom_text_button.dart';
 import '../../../../core/widget/custom_text_form_field.dart';
 import '/features/layout/presentation/manager/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../widget/biggest_inf.dart';
-import '../widget/rate_us.dart';
-import '../widget/about.dart';
-import '../widget/reviews.dart';
-import '../widget/special_ads_widget.dart';
-import '../widget/categories.dart';
 import '/core/extensions/align.dart';
 import '/core/constant/app_assets.dart';
 import '/core/extensions/extensions.dart';
 import '/core/theme/app_colors.dart';
-import '../widget/upper_bar.dart';
 import 'package:video_player/video_player.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -55,6 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
   //
   // }
 
+  List<String> images = [
+    "",
+    "https://rowad-harag.com/public/uploads/all/rszSya92uYGmmNDrRsdrR0u3BQvzT29xTC8E8sYh.png",
+    "https://rowad-harag.com/public/uploads/all/NQcldX63YJlRKfbjxHvbVBkCNDnWDBNVwur2Pqbd.png",
+  ];
+
   TextEditingController searchController = TextEditingController();
   List<String> labels = [
     "الصفحة الرئيسية",
@@ -72,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isSend = false;
 
   List<ProductsDataModel> searchedProducts = [];
+
   @override
   void initState() {
     super.initState();
@@ -97,11 +88,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  int selectedStarterIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<HomeCubit>();
     return Scaffold(
-
       floatingActionButton: WhatsappIconButton(),
       body: SingleChildScrollView(
         child: Form(
@@ -208,66 +200,126 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ).hPadding(0.01.width),
               Divider(
-                color: Colors.black,
+                color: Colors.grey,
                 thickness: 1, // Optional: Adjust thickness if needed
               ),
-              0.01.height.hSpace,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: double.maxFinite,
-                      height: 0.23.height,
-                      child: _isVideoInitialized
-                          ? AspectRatio(
-                              aspectRatio: _controller.value.aspectRatio,
-                              child: VideoPlayer(_controller),
-                            )
-                          : Center(
-                              child: Container(
-                                width: double.maxFinite,
-                                height: 0.23.height,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: AppColors.secondaryColor,
+              SizedBox(
+                height: 0.04.height,
+                child: Marquee(
+
+                  text: 'سجل معنا برواد حراج واكسب ٥٠ نقطة       نزل أربعة إعلانات واكسب ٢٠٠ نقطة       شارك الآن واحصل على مكافآت خاصة',
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  velocity: 60, // Speed of scroll (pixels per second)
+                  numberOfRounds: 1000, // Number of times the text scrolls (high = long time)
+                  startPadding: 20, // Add padding at the start
+                  blankSpace: 50, // Extra space after text before it loops
+                  textDirection: TextDirection.rtl, // Essential for Arabic
+                  accelerationDuration: Duration.zero, // No acceleration (constant speed)
+                  accelerationCurve: Curves.linear,
+                  decelerationDuration: Duration.zero,
+                  decelerationCurve: Curves.linear,
+                  pauseAfterRound: const Duration(milliseconds: 500), // Small pause between loops
+                ),
+              ),
+              Divider(
+                color: Colors.grey,
+                thickness: 1, // Optional: Adjust thickness if needed
+              ),
+              GestureDetector(
+                onHorizontalDragEnd: (DragEndDetails details) {
+                  // Define a threshold for velocity to detect intentional drag
+                  const double velocityThreshold = 300;
+
+                  if (details.primaryVelocity != null) {
+                    if (details.primaryVelocity! > velocityThreshold) {
+                      // Dragged right → increase index
+                      if (selectedStarterIndex < 2) {
+                        setState(() {
+                          selectedStarterIndex++;
+                        });
+                      }
+                    } else if (details.primaryVelocity! < -velocityThreshold) {
+                      // Dragged left → decrease index
+                      if (selectedStarterIndex > 0) {
+                        setState(() {
+                          selectedStarterIndex--;
+                        });
+                      }
+                    }
+                  }
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: (selectedStarterIndex != 0)
+                      ? GestureDetector(
+                          onTap: () {
+                            UrlLauncherFunc.openUrl(
+                                images[selectedStarterIndex]);
+                          },
+                          child: CachedNetworkImage(
+                              imageUrl: images[selectedStarterIndex]),
+                        )
+                      : Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SizedBox(
+                              width: double.maxFinite,
+                              height: 0.23.height,
+                              child: _isVideoInitialized
+                                  ? AspectRatio(
+                                      aspectRatio:
+                                          _controller.value.aspectRatio,
+                                      child: VideoPlayer(_controller),
+                                    )
+                                  : Center(
+                                      child: Container(
+                                        width: double.maxFinite,
+                                        height: 0.23.height,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                            color: AppColors.secondaryColor,
+                                          ),
+                                        ),
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.secondaryColor,
+                                        ).center,
+                                      ),
+                                    ),
+                            ),
+                            // Play/Pause Button
+                            if (_isVideoInitialized)
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (_controller.value.isPlaying) {
+                                      _controller.pause();
+                                    } else {
+                                      _controller.play();
+                                    }
+                                  });
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.black54,
+                                  radius: 30,
+                                  child: Icon(
+                                    _controller.value.isPlaying
+                                        ? Icons.pause
+                                        : Icons.play_arrow,
+                                    color: Colors.white,
+                                    size: 40,
                                   ),
                                 ),
-                                child: CircularProgressIndicator(
-                                  color: AppColors.secondaryColor,
-                                ).center,
                               ),
-                            ),
-                    ),
-                    // Play/Pause Button
-                    if (_isVideoInitialized)
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (_controller.value.isPlaying) {
-                              _controller.pause();
-                            } else {
-                              _controller.play();
-                            }
-                          });
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black54,
-                          radius: 30,
-                          child: Icon(
-                            _controller.value.isPlaying
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                            color: Colors.white,
-                            size: 40,
-                          ),
+                          ],
                         ),
-                      ),
-                  ],
-                ),
-              ).hPadding(0.02.width),
+                ).hPadding(0.02.width),
+              ),
               0.01.height.hSpace,
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
@@ -302,7 +354,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
-              0.01.height.hSpace,
             ],
           ),
         ),
