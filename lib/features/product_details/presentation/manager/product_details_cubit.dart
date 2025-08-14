@@ -192,12 +192,10 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       );
       response.fold(
         (error) {
-          emit(
-            ProductDetailsError(
-              error.messageAr ??
-                  error.messageEn ??
-                  "حدث خطاء برجاء المحاوله مره اخري",
-            ),
+          BotToastServices.showErrorMessage(
+            error.messageAr ??
+                error.messageEn ??
+                "حدث خطاء برجاء المحاوله مره اخري",
           );
         },
         (data) {

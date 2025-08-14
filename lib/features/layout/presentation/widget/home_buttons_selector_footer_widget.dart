@@ -122,7 +122,8 @@ class _HomeButtonsSelectorFooterWidgetState
             ),
           ),
         ),
-        // NavigatorHomeFooterWidget(),
+        NavigatorHomeFooterWidget(),
+
       ],
     );
   }

@@ -150,12 +150,12 @@ class LoadedHomeScreenUi extends StatelessWidget {
           BiggestInf(
             list: topSellers,
           ),
-          HomeButtonsSelectorFooterWidget(
-            allReviews: reviews,
-          ),
+
           BlocProvider(
             create: (context) => PlansCubit(),
-            child: NavigatorHomeFooterWidget(),
+            child:  HomeButtonsSelectorFooterWidget(
+              allReviews: reviews,
+            ),
           )
         ],
       ),
