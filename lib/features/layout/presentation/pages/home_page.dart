@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/services/url_launcher_func.dart';
+import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/home_profile.dart';
@@ -49,7 +51,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
-          backgroundColor: const Color(0xff0AB28F),
+          backgroundColor: Colors.grey.shade50.withAlpha(80),
           showUnselectedLabels: false,
           showSelectedLabels: false,
           onTap: (index) {
