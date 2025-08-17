@@ -20,20 +20,88 @@ class ProductWidget extends StatefulWidget {
 }
 
 class _ProductWidgetState extends State<ProductWidget> {
-  String _formatDateArabic(int days) {
-    if (days == 0) return "اليوم";
+  String _formatDateArabic(DateTime past) {
+    final now = DateTime.now();
+    final diff = now.difference(past);
 
-    int months = (days / 30).floor();
+    final int totalMinutes = diff.inMinutes;
+    final int totalHours = diff.inHours;
+    final int days = totalHours ~/ 24;
+    final int months = days ~/ 30;
 
-    if (months == 0) {
+    // Helper: Convert Latin numbers to Arabic if needed (optional)
+    String toArabicNum(int num) {
+      const Map<String, String> arabicDigits = {
+        '0': '٠',
+        '1': '١',
+        '2': '٢',
+        '3': '٣',
+        '4': '٤',
+        '5': '٥',
+        '6': '٦',
+        '7': '٧',
+        '8': '٨',
+        '9': '٩',
+      };
+      return num.toString()
+          .split('')
+          .map((digit) => arabicDigits[digit] ?? digit)
+          .join('');
+    }
+
+    // Less than 1 minute
+    if (totalMinutes < 1) {
+      return "الآن";
+    }
+
+    // Less than 1 hour → show in minutes
+    if (totalMinutes < 60) {
+      if (totalMinutes == 1) {
+        return "منذ دقيقة";
+      } else if (totalMinutes == 2) {
+        return "منذ دقيقتين";
+      } else if (totalMinutes >= 3 && totalMinutes <= 10) {
+        const arabicNumerals = ['٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠'];
+        return "منذ ${arabicNumerals[totalMinutes - 3]} دقائق";
+      } else {
+        return "منذ $totalMinutes دقيقة";
+      }
+    }
+
+    // Less than 24 hours → show in hours
+    if (totalHours < 24) {
+      if (totalHours == 1) {
+        return "منذ ساعة";
+      } else if (totalHours == 2) {
+        return "منذ ساعتين";
+      } else if (totalHours >= 3 && totalHours <= 10) {
+        const arabicNumerals = ['٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠'];
+        return "منذ ${arabicNumerals[totalHours - 3]} ساعات";
+      } else {
+        return "منذ $totalHours ساعة";
+      }
+    }
+
+    // 1 day or more, less than a month
+    if (days == 1) {
+      return "منذ يوم";
+    } else if (days == 2) {
+      return "منذ يومين";
+    } else if (days >= 3 && days <= 10) {
+      const arabicNumerals = ['٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠'];
+      return "منذ ${arabicNumerals[days - 3]} أيام";
+    } else if (months == 0) {
       return "منذ $days يوم";
-    } else if (months == 1) {
+    }
+
+    // Months
+    if (months == 1) {
       return "منذ شهر";
     } else if (months == 2) {
       return "منذ شهرين";
     } else if (months >= 3 && months <= 10) {
-      final arabicNumbers = ['٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠'];
-      return "منذ ${arabicNumbers[months - 3]} شهور";
+      const arabicNumerals = ['٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠'];
+      return "منذ ${arabicNumerals[months - 3]} شهور";
     } else {
       return "منذ $months شهر";
     }
@@ -120,7 +188,7 @@ class _ProductWidgetState extends State<ProductWidget> {
 
                   // Price
                   Text(
-                    widget.product.mainPrice,
+                    widget.product.mainPrice??"",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontSize: _responsiveFontSize() + 1,
                           color: AppColors.secondaryColor,
@@ -162,7 +230,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                   ),
                   0.01.height.hSpace,
                   Text(
-                    widget.product.userName,
+                    widget.product.userName??"",
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontSize: _responsiveFontSize(),
@@ -177,9 +245,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                   0.01.height.hSpace,
                   Text(
                     _formatDateArabic(
-                      DateTime.now()
-                          .difference(widget.product.createdAt!)
-                          .inDays,
+                      widget.product.createdAt!,
                     ),
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(

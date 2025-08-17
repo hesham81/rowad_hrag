@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/constant/app_assets.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/custom_text_form_field.dart';
 import 'package:rowad_hrag/features/payment_footer/presentation/manager/plans_cubit.dart';
+
+import '../../../../core/services/cash_helper.dart';
 
 class NavigatorHomeFooterWidget extends StatefulWidget {
   const NavigatorHomeFooterWidget({super.key});
@@ -22,6 +26,24 @@ class NavigatorHomeFooterWidget extends StatefulWidget {
 class _NavigatorHomeFooterWidgetState extends State<NavigatorHomeFooterWidget> {
   var amountController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+
+  String? token;
+
+  Future<void> _getCurrentToken() async {
+    token = await CashHelper.getString("token");
+    // log("Current Token is $token");
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    Future.wait(
+      [
+        _getCurrentToken(),
+      ],
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +111,16 @@ class _NavigatorHomeFooterWidgetState extends State<NavigatorHomeFooterWidget> {
                     SizedBox(
                       width: 0.3.width,
                       child: CustomElevatedButton(
+                        onPressed: (token == null)
+                            ? () => pushNamed(
+                                newPage: RouteNames.signIn, context: context)
+                            : () {
+                                if (formKey.currentState!.validate()) {
+                                  cubit.payCustomAmount(
+                                    double.parse(amountController.text),
+                                  );
+                                }
+                              },
                         child: Text(
                           "ادفع الأن",
                           style:
@@ -97,13 +129,6 @@ class _NavigatorHomeFooterWidgetState extends State<NavigatorHomeFooterWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                         ),
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            cubit.payCustomAmount(
-                              double.parse(amountController.text),
-                            );
-                          }
-                        },
                       ),
                     ),
                   ],

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
@@ -16,6 +17,7 @@ class SuccessProfileStates extends StatefulWidget {
   final List<AllAddsDataModel> allAddsDataModel;
   final List<ProfilePointsDataModel> points;
   final int totalPoints;
+  final Function() deleteAccount;
 
   const SuccessProfileStates({
     super.key,
@@ -23,6 +25,7 @@ class SuccessProfileStates extends StatefulWidget {
     required this.allAddsDataModel,
     required this.points,
     required this.totalPoints,
+    required this.deleteAccount,
   });
 
   @override
@@ -194,6 +197,21 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
               balance: (expiredPointsCount ~/ 50 * 2).toString(),
             ),
             0.02.height.hSpace,
+            SizedBox(
+              width: double.maxFinite,
+              child: CustomElevatedButton(
+                btnColor: Colors.red,
+                onPressed: widget.deleteAccount,
+                child: Text(
+                  "حذف الحساب",
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                ),
+              ),
+            ),
+            0.05.height.hSpace,
           ],
         ).hPadding(0.03.width),
       ),

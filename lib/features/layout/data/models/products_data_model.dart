@@ -21,22 +21,22 @@ class ProductsDataModel extends Products {
 
   factory ProductsDataModel.fromJson(Map<String, dynamic> json) {
     return ProductsDataModel(
-      id: json["id"],
-      slug: json["slug"],
-      name: json["name"],
-      thumbnailImage: json["thumbnail_image"],
-      hasDiscount: json["has_discount"],
-      discount: json["discount"],
-      strokedPrice: json["stroked_price"],
-      mainPrice: json["main_price"],
-      rating: json["rating"].toString(),
-      sales: json["sales"].toString(),
-      stateName: json["state_name"],
-      cityName: json["city_name"],
+      id: json["id"] ?? 0,
+      slug: json["slug"] ?? "",
+      name: json["name"] ?? "",
+      thumbnailImage: json["thumbnail_image"] ?? "",
+      hasDiscount: json["has_discount"] ?? false,
+      discount: json["discount"] ?? 0,
+      strokedPrice: json["stroked_price"] ?? 0,
+      mainPrice: json["main_price"] ?? 0,
+      rating: json["rating"].toString() ?? "",
+      sales: json["sales"].toString() ?? "",
+      stateName: json["state_name"] ?? "",
+      cityName: json["city_name"] ?? "",
       createdAt: (json["created_ago"] != null)
           ? DateTime.parse(json["created_ago"])
           : DateTime.now(),
-      userName: json["user_name"],
+      userName: json["user_name"] ?? "",
     );
   }
 

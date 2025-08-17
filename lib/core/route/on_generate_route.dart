@@ -32,6 +32,7 @@ import '../../features/adds_reviews/presentation/manager/adds_reviews_cubit.dart
 import '../../features/all_types/presentation/pages/all_types.dart';
 import '../../features/all_uploaded_files/presentation/manager/files_cubit.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
+import '../../features/login_to_continue/presentation/pages/login_to_continue.dart';
 import '../../features/sub_categories_product_details/presentation/manager/sub_categories_product_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
 import '../../features/auth/presentation/pages/sign_in.dart';
@@ -72,6 +73,10 @@ abstract class OnGenerateRoute {
       //   return MaterialPageRoute(
       //     builder: (context) => AllReviewsScreen(),
       //   );
+      case RouteNames.loginToContinue:
+        return MaterialPageRoute(
+          builder: (context) => LoginToContinue(),
+        );
       case RouteNames.forgetPassword:
         return MaterialPageRoute(
           builder: (context) => ForgetPassword(),

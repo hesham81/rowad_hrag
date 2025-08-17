@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/all_product_search/presentation/widgets/all_products_widget.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
@@ -55,6 +56,7 @@ class _AllProductSearchState extends State<AllProductSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: WhatsappIconButton(),
       appBar: AppBar(
         title: Text(
           "الاعلانات الجديده",

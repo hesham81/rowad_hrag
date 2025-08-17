@@ -8,9 +8,13 @@ import 'package:rowad_hrag/features/profile/data/data_sources/remote_profile_dat
 import 'package:rowad_hrag/features/profile/data/models/all_adds_data_model.dart';
 import 'package:rowad_hrag/features/profile/data/repositories/profile_repositories_implementation.dart';
 import 'package:rowad_hrag/features/profile/domain/repositories/profile_repositories.dart';
+import 'package:rowad_hrag/features/profile/domain/use_cases/delete_account_use_case.dart';
 import 'package:rowad_hrag/features/profile/domain/use_cases/get_profile_data_use_case.dart';
 import 'package:rowad_hrag/features/profile/domain/use_cases/get_profile_points_use_case.dart';
 
+import '../../../../core/route/route_names.dart';
+import '../../../../core/services/bot_toast.dart';
+import '../../../../main.dart';
 import '../../data/models/profile_points_data_model.dart';
 import '../../data/models/seller_profile_data_model.dart';
 
@@ -56,7 +60,6 @@ class ProfileCubit extends Cubit<ProfileState> {
         );
       }, (data) async {
         await _getAllPoints(data);
-
       });
     } catch (error) {
       emit(
@@ -121,6 +124,40 @@ class ProfileCubit extends Cubit<ProfileState> {
           message: error.toString(),
         ),
       );
+    }
+  }
+
+  late DeleteAccountUseCase _deleteAccountUseCase;
+
+  Future<void> deleteAccount() async {
+    try {
+      EasyLoading.show();
+      _services = WebServices();
+      _dataSource = RemoteProfileDataSource(_services.tokenDio);
+      _profileRepositories = ProfileRepositoriesImplementation(_dataSource);
+      _deleteAccountUseCase = DeleteAccountUseCase(_profileRepositories);
+      var response = await _deleteAccountUseCase.call();
+      response.fold(
+        (failure) {
+          emit(
+            ProfileError(
+              message: failure.messageEn ?? failure.messageAr ?? " حدث خطاء ما",
+            ),
+          );
+        },
+        (data) {
+          BotToastServices.showSuccessMessage(data);
+          navigationKey.currentState!.pushNamed(RouteNames.signIn);
+        },
+      );
+    } catch (error) {
+      emit(
+        ProfileError(
+          message: error.toString(),
+        ),
+      );
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 }

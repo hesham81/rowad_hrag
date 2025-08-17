@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/services/url_launcher_func.dart';
+import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_screen.dart';
+import 'package:rowad_hrag/features/login_to_continue/presentation/pages/login_to_continue.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/home_profile.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
+
+import '../../../../core/services/cash_helper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,12 +22,28 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
+  String? token;
 
-  final List<Widget> pages = [
+  Future<void> _getCurrentToken() async {
+    token = await CashHelper.getString("token");
+    (token == null)
+        ? pages.addAll(pagesUnAuth)
+        : pages.addAll(pagesUnConverted);
+    setState(() {});
+  }
+
+  final List<Widget> pages = [];
+
+  final List<Widget> pagesUnConverted = [
     HomeScreen(),
     Profile(
       isHome: true,
     ),
+    // These pages will access the same Cubit provided at top level
+  ];
+  final List<Widget> pagesUnAuth = [
+    HomeScreen(),
+    LoginToContinue(),
     // These pages will access the same Cubit provided at top level
   ];
 
@@ -30,8 +51,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    Future.wait(
+      [
+        _getCurrentToken(),
+      ],
+    );
     super.initState();
     profileCubit = ProfileCubit();
+
+    setState(() {});
     // You can load data here if needed
     // profileCubit.loadData();
   }
@@ -49,7 +77,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
-          backgroundColor: const Color(0xff0AB28F),
+          backgroundColor: Colors.grey.shade50.withAlpha(80),
           showUnselectedLabels: false,
           showSelectedLabels: false,
           onTap: (index) {

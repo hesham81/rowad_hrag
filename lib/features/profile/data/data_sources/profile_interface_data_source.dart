@@ -6,4 +6,6 @@ abstract class ProfilesInterfaceDataSource {
   Future<Response> getAllAdds();
 
   Future<Response> getAllPoints();
+
+  Future<Response> deleteAccount();
 }
