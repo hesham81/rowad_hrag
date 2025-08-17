@@ -23,4 +23,11 @@ class RemoteProfileDataSource implements ProfilesInterfaceDataSource {
   Future<Response> getAllPoints() async {
     return await _dio.get(ApiEndPoints.profilePoints);
   }
+
+  @override
+  Future<Response> deleteAccount() async {
+    return await _dio.get(
+      ApiEndPoints.deleteAccount,
+    );
+  }
 }

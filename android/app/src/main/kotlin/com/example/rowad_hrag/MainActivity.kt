@@ -1,4 +1,4 @@
-package com.example.rowad_hrag
+package com.rowad_hrag.application
 
 import io.flutter.embedding.android.FlutterActivity
 

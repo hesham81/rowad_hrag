@@ -3,17 +3,21 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:rowad_hrag/core/services/auth_services.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/top_sellers_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/visitor_status_data_model.dart';
 import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/add_new_rate_on_home_layout_use_case.dart';
+import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_special_products.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_people_with_special_needs_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_second_banner.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_special_products_needs_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_top_sellers_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_visitor_state_use_case.dart';
+import '../../data/models/banner_data_model.dart';
+import '../../data/models/reviews_data_model.dart';
 import '../../data/models/sub_categories_data_model.dart';
 import '../../domain/use_cases/get_all_sub_categories_use_case.dart';
 import '/core/route/route_names.dart';
@@ -44,6 +48,7 @@ class HomeCubit extends Cubit<HomeState> {
       getProductiveFamiliesProducts(),
       getVisitorState(),
       getTopSellers(),
+      getAllProducts(),
     ]);
   }
 
@@ -86,12 +91,12 @@ class HomeCubit extends Cubit<HomeState> {
 
   List<SubCategoriesDataModel> get subCategories => _subCategories;
 
-  List<Reviews> _reviews = [];
+  List<ReviewsDataModel> _reviews = [];
 
-  List<BannerEntity> _banners = [];
-  List<BannerEntity> _secondBanner = [];
+  List<BannerDataModel> _banners = [];
+  List<BannerDataModel> _secondBanner = [];
 
-  List<BannerEntity> get secondBanner => _secondBanner;
+  List<BannerDataModel> get secondBanner => _secondBanner;
 
   List<Category> _categories = [];
   bool _specialProductsLoading = true;
@@ -102,7 +107,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   List<ProductsDataModel> get specialProducts => _specialProducts;
 
-  List<BannerEntity> get banners => _banners;
+  List<BannerDataModel> get banners => _banners;
 
   bool _isBannersLoading = true;
 
@@ -148,7 +153,6 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> getAllCategories() async {
     try {
-      EasyLoading.show();
       _services = WebServices();
       _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
       _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
@@ -156,25 +160,26 @@ class HomeCubit extends Cubit<HomeState> {
       var response = await _getAllCategoriesUseCase.call();
       response.fold(
         (error) {
-          throw Exception(
-            "${error.messageAr} ${error.messageEn}",
+          // throw Exception(
+          //   "${error.messageAr} ${error.messageEn}",
+          // );
+          emit(
+            HomeError(
+              "${error.messageAr ?? error.messageEn ?? "Error"} on Get All Categories",
+            ),
           );
         },
-        (list) {
-          list = list
-              .where(
-                (element) =>
-                    element.icon !=
-                    "https://rowad-harag.com/public/assets/img/placeholder.jpg",
-              )
-              .toList();
-          emit(
-            HomeLoaded(list),
-          );
+        (list) async {
+          _categoriesData = list;
+          await getAllBanners();
         },
       );
     } catch (error) {
-      throw Exception(error.toString());
+      emit(
+        HomeError(
+          error.toString(),
+        ),
+      );
     }
   }
 
@@ -187,7 +192,11 @@ class HomeCubit extends Cubit<HomeState> {
     _isBannersLoading = false;
     response.fold(
       (fail) {
-        throw Exception(fail.messageAr);
+        emit(
+          HomeError(
+            "${fail.messageAr ?? fail.messageEn ?? "Error"} On Get All Banners",
+          ),
+        );
       },
       (banners) {
         _banners = banners;
@@ -203,7 +212,11 @@ class HomeCubit extends Cubit<HomeState> {
     var response = await _getSecondBannerUseCase.call();
     response.fold(
       (fail) {
-        throw Exception(fail.messageAr);
+        emit(
+          HomeError(
+            "${fail.messageAr ?? fail.messageEn ?? "Error"} On Get Second Banner",
+          ),
+        );
       },
       (banners) {
         _secondBanner = banners;
@@ -220,31 +233,40 @@ class HomeCubit extends Cubit<HomeState> {
       var response = await _getAllReviewsUseCase.call();
       response.fold(
         (error) {
-          throw Exception(error.messageAr);
+          emit(
+            HomeError(
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Reviews",
+            ),
+          );
         },
         (data) {
           _reviews = data;
-          emit(LoadedReviews(data));
         },
       );
-      EasyLoading.dismiss();
     } on DioException catch (error) {
-      throw Exception(error.message);
+      emit(
+        HomeError(
+          "${error.response?.data["message"]} On Get All Reviews",
+        ),
+      );
     }
   }
 
   Future<void> getAllSubCategories(int id) async {
     try {
+      EasyLoading.show();
       _services = WebServices();
       _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
       _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
       _getAllSubCategoriesUseCase = GetAllSubCategoriesUseCase(_homeReposatory);
-      EasyLoading.show();
       var response = await _homeReposatory.getSubCategories(id);
-      EasyLoading.dismiss();
       response.fold(
         (error) {
-          throw Exception(error.messageAr);
+          emit(
+            HomeError(
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Sub Categories",
+            ),
+          );
         },
         (data) {
           _subCategories = data;
@@ -253,7 +275,7 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (error) {
       emit(
         ErrorSubCategories(
-          error.toString(),
+          "${error.toString()} on Get All Sub Categories",
         ),
       );
     } finally {
@@ -269,20 +291,22 @@ class HomeCubit extends Cubit<HomeState> {
       _getAllSpecialProductsUseCase = GetAllSpecialProducts(_homeReposatory);
       var response = await _getAllSpecialProductsUseCase.call();
       _specialProductsLoading = false;
-      log("Called");
       response.fold(
         (error) {
-          log("This is Exception ------------------------");
+          emit(
+            ErrorSpecialProducts(
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Special Products",
+            ),
+          );
         },
         (data) {
           _specialProducts = data;
         },
       );
     } catch (error) {
-      log("error $error}");
       emit(
         ErrorSpecialProducts(
-          error.toString(),
+          "${error.toString()} On Get All Special Products",
         ),
       );
     }
@@ -297,20 +321,22 @@ class HomeCubit extends Cubit<HomeState> {
           GetPeopleWithSpecialNeedsUseCase(_homeReposatory);
       var response = await _getPeopleWithSpecialNeedsUseCase.call();
       _specialProductsLoading = false;
-      log("Called");
       response.fold(
         (error) {
-          log("This is Exception ------------------------");
+          emit(
+            HomeError(
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All People With Special Needs",
+            ),
+          );
         },
         (data) {
           _peopleWithSpecialNeed = data;
         },
       );
     } catch (error) {
-      log("error $error}");
       emit(
-        ErrorSpecialProducts(
-          error.toString(),
+        HomeError(
+          "${error.toString()} On Get All People With Special Needs",
         ),
       );
     }
@@ -325,20 +351,22 @@ class HomeCubit extends Cubit<HomeState> {
           getProductiveFamiliesProductsUseCase(_homeReposatory);
       var response = await _getProductiveFamiliesProductsUseCase.call();
       _specialProductsLoading = false;
-      log("Called");
       response.fold(
         (error) {
-          log("This is Exception ------------------------");
+          emit(
+            HomeError(
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get Productive Families Products",
+            ),
+          );
         },
         (data) {
           _productiveFamiliesProducts = data;
         },
       );
     } catch (error) {
-      log("error $error}");
       emit(
-        ErrorSpecialProducts(
-          error.toString(),
+        HomeError(
+          "${error.toString()} On Get Productive Families Products",
         ),
       );
     }
@@ -355,14 +383,22 @@ class HomeCubit extends Cubit<HomeState> {
       var response = await _visitorStateUseCase.getVisitorStates();
       response.fold(
         (error) {
-          throw Exception(error.messageAr);
+          emit(
+            HomeError(
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get Visitor States",
+            ),
+          );
         },
         (data) {
           _visitorStatesDataModel = data;
         },
       );
     } catch (error) {
-      log("Error On GetVisitorState $error");
+      emit(
+        HomeError(
+          "${error.toString()} On Get Visitor States",
+        ),
+      );
     }
   }
 
@@ -377,14 +413,22 @@ class HomeCubit extends Cubit<HomeState> {
       var response = await _getTopSellersUseCase.call();
       response.fold(
         (error) {
-          throw Exception(error.messageAr);
+          emit(
+            HomeError(
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get Top Sellers",
+            ),
+          );
         },
         (data) {
           _topSellers = data;
         },
       );
     } catch (error) {
-      log("Error On GetTopSellers $error");
+      emit(
+        HomeError(
+          "${error.toString()} On Get Top Sellers",
+        ),
+      );
     }
   }
 
@@ -395,7 +439,6 @@ class HomeCubit extends Cubit<HomeState> {
   bool get isRateSubmited => _isRateSubmited;
 
   Future<void> addNewReview(AddRateRequest rate) async {
-    EasyLoading.show();
     _services = WebServices();
     _interfaceDataSource = RemoteHomeDataSource(_services.tokenDio);
     _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
@@ -405,10 +448,11 @@ class HomeCubit extends Cubit<HomeState> {
       var response = await _addNewRateOnHomeLayoutUseCase.call(rate);
       response.fold(
         (error) {
-          EasyLoading.showError(
-            error.messageEn ?? error.messageAr ?? "Error",
+          emit(
+            HomeError(
+              error.messageAr ?? error.messageEn ?? "Error",
+            ),
           );
-          throw Exception(error.messageAr);
         },
         (data) {
           _isRateSubmited = true;
@@ -416,8 +460,58 @@ class HomeCubit extends Cubit<HomeState> {
       );
     } catch (error) {
       log("Error On GetTopSellers $error");
-    } finally {
-      EasyLoading.dismiss();
+    } finally {}
+  }
+
+  static Future<void> logOut() async {
+    await AuthServices.signOut();
+  }
+
+  late final GetAllProductsUseCase _getAllProductsUseCase;
+
+  List<ProductsDataModel> _allProducts = [];
+
+  List<ProductsDataModel> get allProducts => _allProducts;
+
+  Future<void> getAllProducts() async {
+    _services = WebServices();
+    _interfaceDataSource = RemoteHomeDataSource(_services.freePrimaryDio);
+    _homeReposatory = HomeReposatoriesImplementation(_interfaceDataSource);
+    _getAllProductsUseCase = GetAllProductsUseCase(_homeReposatory);
+    try {
+      var response = await _getAllProductsUseCase.call();
+      response.fold(
+        (error) {
+          emit(
+            HomeError(
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Products",
+            ),
+          );
+        },
+        (data) {
+          _allProducts = data;
+          emit(
+            LoadedHomeScreen(
+              categories: _categoriesData,
+              banner: _banners,
+              secondBanner: _secondBanner,
+              specialProducts: _specialProducts,
+              productiveFamiliesProducts: _productiveFamiliesProducts,
+              specialNeedsProducts: _peopleWithSpecialNeed,
+              allProducts: _allProducts,
+              reviews: _reviews,
+              visitorStatesDataModel: _visitorStatesDataModel!,
+              topSellers: _topSellers,
+            ),
+          );
+        },
+      );
+    } catch (error) {
+      emit(
+        HomeError(
+          "${error.toString()} On Get All Products",
+        ),
+      );
     }
   }
 }

@@ -1,4 +1,6 @@
-class Reviews {
+import 'package:equatable/equatable.dart';
+
+class Reviews extends Equatable {
   final String? shopName;
 
   final String? shopSlug;
@@ -13,4 +15,13 @@ class Reviews {
     required this.rate,
     required this.review,
   });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        shopName,
+        shopSlug,
+        rate,
+        review,
+      ];
 }

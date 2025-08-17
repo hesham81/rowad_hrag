@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rowad_hrag/core/extensions/alignment.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
+import 'package:rowad_hrag/core/functions/files_pickers.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/custom_text_form_field.dart';
@@ -23,6 +26,7 @@ class _AddsPageState extends State<AddsPage> {
   final formKey = GlobalKey<FormState>();
   CityDataModel? city;
   String? state;
+  File? image;
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +133,20 @@ class _AddsPageState extends State<AddsPage> {
                     ),
                   ],
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  image = await FilesPickers.pickImage();
+                  setState(() {});
+                },
               ),
+              0.01.height.hSpace,
+              (image != null)
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.file(
+                        image!,
+                      ),
+                    )
+                  : SizedBox(),
               0.01.height.hSpace,
               Text(
                 "إظهار الهاتف",

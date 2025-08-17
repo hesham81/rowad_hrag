@@ -17,6 +17,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool isReadOnly;
   final bool isFilled;
   final Color? borderColor;
+  final double? borderWidth;
 
   final Color? fillColor;
 
@@ -36,6 +37,7 @@ class CustomTextFormField extends StatefulWidget {
     this.isFilled = false,
     this.fillColor,
     this.onChange,
+    this.borderWidth,
   });
 
   @override
@@ -85,14 +87,15 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         border: OutlineInputBorder(
           borderSide: BorderSide(
             color: widget.borderColor ?? AppColors.secondaryColor,
-            width: 1.5,
+            width: widget.borderWidth ?? 1.5,
           ),
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-              color: widget.borderColor ?? AppColors.secondaryColor,
-              width: 1.5),
+            color: widget.borderColor ?? AppColors.secondaryColor,
+            width: widget.borderWidth ?? 1.5,
+          ),
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
         errorBorder: OutlineInputBorder(
@@ -103,8 +106,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-              color: widget.borderColor ?? AppColors.secondaryColor,
-              width: 1.5),
+            color: widget.borderColor ?? AppColors.secondaryColor,
+            width: widget.borderWidth ?? 1.5,
+          ),
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
       ),

@@ -8,4 +8,6 @@ abstract class PlansReposatory {
   Future<Either<Failure, List<PlansDataModel>>> getAllPlans();
 
   Future<Either<Failure, String>> payToPlan(PayToPlanDataModel pay);
+
+  Future<Either<Failure, String>> payCustomPlan(double amount);
 }

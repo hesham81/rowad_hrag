@@ -32,6 +32,7 @@ class BiggestSellerCart extends StatelessWidget {
         Expanded(
           child: Text(
             "(${topSellersDataModel.rating}) التقييمات",
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),

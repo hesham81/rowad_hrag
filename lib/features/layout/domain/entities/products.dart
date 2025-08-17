@@ -10,16 +10,27 @@ class Products {
 
   final String? discount;
 
-  final String strokedPrice;
+  final String? strokedPrice;
 
-  final String mainPrice;
+  final String? mainPrice;
 
-  final String rating;
+  final String? rating;
 
-  //
-  final String sales;
+  final String? sales;
+
+  final String? userName;
+
+  final String? stateName;
+
+  final String? cityName;
+
+  final DateTime? createdAt;
 
   Products({
+    required this.userName,
+    this.stateName,
+    this.cityName,
+    this.createdAt,
     required this.id,
     required this.slug,
     required this.name,
@@ -46,7 +57,10 @@ class Products {
           strokedPrice == other.strokedPrice &&
           mainPrice == other.mainPrice &&
           rating == other.rating &&
-          sales == other.sales;
+          sales == other.sales &&
+          stateName == other.stateName &&
+          createdAt == other.createdAt &&
+          cityName == other.cityName;
 
   @override
   int get hashCode =>
@@ -59,5 +73,8 @@ class Products {
       strokedPrice.hashCode ^
       mainPrice.hashCode ^
       rating.hashCode ^
+      stateName.hashCode ^
+      cityName.hashCode ^
+      createdAt.hashCode ^
       sales.hashCode;
 }

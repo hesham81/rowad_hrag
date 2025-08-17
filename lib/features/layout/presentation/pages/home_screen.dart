@@ -1,33 +1,25 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:marquee/marquee.dart';
 import 'package:route_transitions/route_transitions.dart';
-import 'package:rowad_hrag/core/extensions/alignment.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
-import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
+import 'package:rowad_hrag/core/services/auth_services.dart';
+import 'package:rowad_hrag/core/services/url_launcher_func.dart';
+import 'package:rowad_hrag/core/widget/icon_error.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
-import 'package:rowad_hrag/features/layout/domain/entities/add_rate_request.dart';
-import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
+import 'package:rowad_hrag/features/all_product_search/presentation/widgets/all_products_widget.dart';
+import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
+import 'package:rowad_hrag/features/layout/presentation/pages/loaded_home_screen.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
 import '../../../../core/widget/custom_text_form_field.dart';
 import '/features/layout/presentation/manager/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../widget/biggest_inf.dart';
-import '../widget/rate_us.dart';
-import '../widget/about.dart';
-import '../widget/reviews.dart';
-import '../widget/special_ads_widget.dart';
-import '../widget/categories.dart';
 import '/core/extensions/align.dart';
 import '/core/constant/app_assets.dart';
 import '/core/extensions/extensions.dart';
 import '/core/theme/app_colors.dart';
-import '../widget/upper_bar.dart';
 import 'package:video_player/video_player.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,6 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _reviewController = TextEditingController();
   double? rate;
 
+  // search(String? searchParameter) {
+  //   List<ProductsDataModel> allProducts =
+  //
+  // }
+
+  List<String> images = [
+    "",
+    "https://rowad-harag.com/public/uploads/all/rszSya92uYGmmNDrRsdrR0u3BQvzT29xTC8E8sYh.png",
+    "https://rowad-harag.com/public/uploads/all/NQcldX63YJlRKfbjxHvbVBkCNDnWDBNVwur2Pqbd.png",
+  ];
+
   TextEditingController searchController = TextEditingController();
   List<String> labels = [
     "الصفحة الرئيسية",
@@ -51,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     "جميع الفئات",
     // "رفع ايصالات التحويل",
     "أضف اعلان",
-    "الخطط",
+    "سداد الرسوم و  الاشتراكات",
     "تواصل مع الدعم",
     "حسابي",
     "تسجيل خروج"
@@ -59,6 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController controller = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool isSend = false;
+
+  List<ProductsDataModel> searchedProducts = [];
 
   @override
   void initState() {
@@ -85,6 +90,22 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  int selectedStarterIndex = 0;
+
+  List<ProductsDataModel> products = [];
+
+  _search(String? query) {
+    searchedProducts = [];
+    if (query != null && query.trim().isNotEmpty) {
+      searchedProducts = products
+          .where((product) =>
+              product.name.toLowerCase().contains(query.toLowerCase().trim()))
+          .toSet()
+          .toList();
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<HomeCubit>();
@@ -101,7 +122,56 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 color: AppColors.primaryColor,
-                child: UpperBar(),
+                child: Row(
+                  children: [
+                    0.02.width.vSpace,
+                    GestureDetector(
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: AppColors.blueColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: SvgPicture.asset(
+                          AppAssets.notificationIcon,
+                        ).allPadding(12),
+                      ),
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        RouteNames.notifications,
+                      ),
+                    ),
+                    0.04.width.vSpace,
+                    SvgPicture.asset(
+                      AppAssets.coloredLogo,
+                      height: 40,
+                      width: 40,
+                      fit: BoxFit.cover,
+                    ),
+                    0.04.width.vSpace,
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: AppColors.secondaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: SvgPicture.asset(
+                        AppAssets.searchIcon,
+                      ).allPadding(12),
+                    ),
+                    0.02.width.vSpace,
+                    Expanded(
+                      child: CustomTextFormField(
+                        hintText: "أبحث عن ",
+                        controller: searchController,
+                        onChange: _search,
+                        // onChange: search,
+                      ),
+                    ),
+                  ],
+                ).hPadding(0.02.width).vPadding(0.01.height),
               ),
               Container(
                 height: 0.05.height,
@@ -111,6 +181,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) => GestureDetector(
                     onTap: () {
                       if (index == 0) return;
+                      if (index == 3) {
+                        UrlLauncherFunc.openUrl(
+                          "https://rowad-harag.com/add-ad",
+                        );
+                        return;
+                      }
+                      if (index == 7) {
+                        AuthServices.signOut();
+                        return;
+                      }
                       pushNamed(
                         newPage: cubit.pages[index],
                         context: context,
@@ -137,338 +217,252 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ).hPadding(0.01.width),
               Divider(
-                color: Colors.black,
+                color: Colors.grey,
                 thickness: 1, // Optional: Adjust thickness if needed
               ),
-              0.01.height.hSpace,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: double.maxFinite,
-                      height: 0.23.height,
-                      child: _isVideoInitialized
-                          ? AspectRatio(
-                              aspectRatio: _controller.value.aspectRatio,
-                              child: VideoPlayer(_controller),
-                            )
-                          : Center(
-                              child: Container(
-                                width: double.maxFinite,
-                                height: 0.23.height,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: AppColors.secondaryColor,
+              SizedBox(
+                height: 0.04.height,
+                child: Marquee(
+                  text:
+                      'سجل معنا برواد حراج واكسب ٥٠ نقطة       نزل أربعة إعلانات واكسب ٢٠٠ نقطة       شارك الآن واحصل على مكافآت خاصة',
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  velocity: 60,
+                  // Speed of scroll (pixels per second)
+                  numberOfRounds: 1000,
+                  // Number of times the text scrolls (high = long time)
+                  startPadding: 20,
+                  // Add padding at the start
+                  blankSpace: 50,
+                  // Extra space after text before it loops
+                  textDirection: TextDirection.rtl,
+                  // Essential for Arabic
+                  accelerationDuration: Duration.zero,
+                  // No acceleration (constant speed)
+                  accelerationCurve: Curves.linear,
+                  decelerationDuration: Duration.zero,
+                  decelerationCurve: Curves.linear,
+                  pauseAfterRound: const Duration(
+                      milliseconds: 500), // Small pause between loops
+                ),
+              ),
+              Divider(
+                color: Colors.grey,
+                thickness: 1, // Optional: Adjust thickness if needed
+              ),
+              Visibility(
+                  visible: searchController.text.isEmpty,
+                  replacement: (searchedProducts.isEmpty)
+                      ? Column(
+                          textDirection: TextDirection.ltr,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '" نتيجة البحث عن"${searchController.text}',
+                              textAlign: TextAlign.right,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ),
-                                child: CircularProgressIndicator(
-                                  color: AppColors.secondaryColor,
-                                ).center,
-                              ),
+                            ).alignRight().hPadding(0.02.width),
+                            0.1.height.hSpace,
+                            Icon(
+                              Icons.do_not_disturb_outlined,
+                              color: Colors.grey,
+                              size: 0.3.height,
+                            ).center,
+                            0.01.height.hSpace,
+                            Text(
+                              "لايوجد نتائج",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
-                    ),
-                    // Play/Pause Button
-                    if (_isVideoInitialized)
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            Text(
+                              '" نتيجة البحث عن"${searchController.text}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ).alignRight().hPadding(0.02.width),
+                            0.01.height.hSpace,
+                            ListView.separated(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) =>
+                                  AllProductsWidget(
+                                          product: searchedProducts[index])
+                                      .hPadding(0.03.width),
+                              separatorBuilder: (context, index) =>
+                                  0.01.height.hSpace,
+                              itemCount: searchedProducts.length,
+                            ),
+                          ],
+                        ),
+                  child: Column(
+                    children: [
                       GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (_controller.value.isPlaying) {
-                              _controller.pause();
-                            } else {
-                              _controller.play();
+                        onHorizontalDragEnd: (DragEndDetails details) {
+                          // Define a threshold for velocity to detect intentional drag
+                          const double velocityThreshold = 300;
+
+                          if (details.primaryVelocity != null) {
+                            if (details.primaryVelocity! > velocityThreshold) {
+                              // Dragged right → increase index
+                              if (selectedStarterIndex < 2) {
+                                setState(() {
+                                  selectedStarterIndex++;
+                                });
+                              }
+                            } else if (details.primaryVelocity! <
+                                -velocityThreshold) {
+                              // Dragged left → decrease index
+                              if (selectedStarterIndex > 0) {
+                                setState(() {
+                                  selectedStarterIndex--;
+                                });
+                              }
                             }
-                          });
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black54,
-                          radius: 30,
-                          child: Icon(
-                            _controller.value.isPlaying
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ).hPadding(0.02.width),
-              0.01.height.hSpace,
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  var handler = state as Handling;
-                  if (state is HomeLoading) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.secondaryColor,
-                      ),
-                    );
-                  } else if (handler is HomeLoaded) {
-                    return SizedBox(
-                      height: 0.17.height,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => GestureDetector(
-                          onTap: () async {
-                            await cubit.getAllSubCategories(
-                                handler.categories[index].id);
-                            slideLeftWidget(
-                              newPage: SubCategoriesScreen(
-                                data: cubit.subCategories,
-                                title: handler.categories[index].name,
-                              ),
-                              context: context,
-                            );
-                          },
-                          child: Categories(
-                            imageUrl: handler.categories[index].icon,
-                            text: handler.categories[index].name,
-                          ),
-                        ),
-                        separatorBuilder: (context, index) => 0.05.width.vSpace,
-                        itemCount: handler.categories.length,
-                      ),
-                    );
-                  } else {
-                    return SizedBox();
-                  }
-                },
-              ),
-              Skeletonizer(
-                enabled: cubit.isBannersLoading,
-                child: CarouselSlider(
-                  items: cubit.banners
-                      .map(
-                        (e) => CachedNetworkImage(imageUrl: e.imageUrl),
-                      )
-                      .toList(),
-                  options: CarouselOptions(
-                    initialPage: 0,
-                    height: 0.4.height,
-                    enableInfiniteScroll: true,
-                    reverse: false,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    enlargeCenterPage: true,
-                    enlargeFactor: 0.3,
-                    scrollDirection: Axis.horizontal,
-                  ),
-                ),
-              ),
-              0.01.height.hSpace,
-              Divider(),
-              0.01.height.hSpace,
-              Text(
-                "اعلانات مميزه",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-              ).alignRight(),
-              0.01.height.hSpace,
-              SizedBox(
-                height: 0.3.height,
-                child: ListView.separated(
-                  padding: EdgeInsets.all(10),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => ProductWidget(
-                    product: cubit.specialProducts[index],
-                  ).hPadding(0.03.width),
-                  separatorBuilder: (context, index) => 0.01.width.vSpace,
-                  itemCount: cubit.specialProducts.length,
-                ),
-              ),
-              0.01.height.hSpace,
-              Divider(),
-              0.01.height.hSpace,
-              Text(
-                "اعلانات ذوي الاحتياجات الخاصه",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-              ).alignRight(),
-              0.01.height.hSpace,
-              SizedBox(
-                height: 0.3.height,
-                child: ListView.separated(
-                  padding: EdgeInsets.all(10),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => ProductWidget(
-                    product: cubit.peopleWithSpecialNeed[index],
-                  ).hPadding(0.03.width),
-                  separatorBuilder: (context, index) => 0.01.width.vSpace,
-                  itemCount: cubit.peopleWithSpecialNeed.length,
-                ),
-              ),
-              0.01.height.hSpace,
-              Divider(),
-              0.01.height.hSpace,
-              Text(
-                "إعلانات الأسر المنتجة",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-              ).alignRight(),
-              0.01.height.hSpace,
-              SizedBox(
-                height: 0.3.height,
-                child: ListView.separated(
-                  padding: EdgeInsets.all(10),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => ProductWidget(
-                    product: cubit.productiveFamiliesProducts[index],
-                  ).hPadding(0.03.width),
-                  separatorBuilder: (context, index) => 0.01.width.vSpace,
-                  itemCount: cubit.productiveFamiliesProducts.length,
-                ),
-              ),
-              0.01.height.hSpace,
-              Divider(),
-              0.01.height.hSpace,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: CachedNetworkImage(
-                  imageUrl: (cubit.secondBanner.isEmpty)
-                      ? "https://rowad-harag.com/public/uploads/all/lOO4a6OEYOD4oTWF1v4paCWTD4bxN1wRIcVohrba.png"
-                      : cubit.secondBanner[0].imageUrl,
-                ),
-              ).hPadding(0.03.width),
-              0.03.height.hSpace,
-              About(
-                model: cubit.visitorStatesDataModel,
-              ).hPadding(0.03.width),
-              0.01.height.hSpace,
-              Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    color: AppColors.secondaryColor,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    0.01.height.hSpace,
-                    Text(
-                      "المراجعات والتقيمات",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: AppColors.blueColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ).alignRight().allPadding(5),
-                    ReviewsWidget(
-                      reviews: (cubit.reviews.length < 3)
-                          ? cubit.reviews
-                          : cubit.reviews.sublist(0, 3),
-                    ),
-                  ],
-                ),
-              ).hPadding(0.03.width),
-              0.01.height.hSpace,
-              Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withAlpha(70),
-                  border: Border.all(
-                    color: AppColors.secondaryColor,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    25,
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "تقييمك يهمنا ",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: AppColors.blueColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ).rightBottomWidget(),
-                    0.01.height.hSpace,
-                    Text(
-                      "عدد النجوم",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Colors.black,
-                          ),
-                    ).rightBottomWidget(),
-                    0.01.height.hSpace,
-                    RatingBar.builder(
-                      initialRating: 3,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                        setState(() {
-                          rate = rating;
-                        });
-                      },
-                    ).alignRight(),
-                    0.01.height.hSpace,
-                    Text(
-                      "اضف تعليق ",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ).rightBottomWidget(),
-                    0.01.height.hSpace,
-                    CustomTextFormField(
-                      hintText: "تعليقك",
-                      controller: _reviewController,
-                      onChange: (value) {
-                        setState(() {
-                          // Optional: store value in a variable if needed
-                        });
-                      },
-                      minLine: 2,
-                      maxLine: 2,
-                      isFilled: true,
-                      fillColor: Colors.white,
-                      borderRadius: 15,
-                    ),
-                    0.01.height.hSpace,
-                    CustomElevatedButton(
-                      onPressed:
-                          (_reviewController.text.isNotEmpty && rate != null)
-                              ? () async {
-                        var rateDat = AddRateRequest(comment: _reviewController.text  , rate: rate!);
-                        await cubit.addNewReview(rateDat);
                           }
-                              : null,
-                      child: Text(
-                        "ارسال",
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: (selectedStarterIndex != 0)
+                              ? GestureDetector(
+                                  onTap: () {
+                                    UrlLauncherFunc.openUrl(
+                                        images[selectedStarterIndex]);
+                                  },
+                                  child: CachedNetworkImage(
+                                      imageUrl: images[selectedStarterIndex]),
+                                )
+                              : Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: double.maxFinite,
+                                      height: 0.23.height,
+                                      child: _isVideoInitialized
+                                          ? AspectRatio(
+                                              aspectRatio:
+                                                  _controller.value.aspectRatio,
+                                              child: VideoPlayer(_controller),
+                                            )
+                                          : Center(
+                                              child: Container(
+                                                width: double.maxFinite,
+                                                height: 0.23.height,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                    color: AppColors
+                                                        .secondaryColor,
+                                                  ),
+                                                ),
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color:
+                                                      AppColors.secondaryColor,
+                                                ).center,
+                                              ),
+                                            ),
+                                    ),
+                                    // Play/Pause Button
+                                    if (_isVideoInitialized)
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            if (_controller.value.isPlaying) {
+                                              _controller.pause();
+                                            } else {
+                                              _controller.play();
+                                            }
+                                          });
+                                        },
+                                        child: CircleAvatar(
+                                          backgroundColor: Colors.black54,
+                                          radius: 30,
+                                          child: Icon(
+                                            _controller.value.isPlaying
+                                                ? Icons.pause
+                                                : Icons.play_arrow,
+                                            color: Colors.white,
+                                            size: 40,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
                                 ),
+                        ).hPadding(0.02.width),
                       ),
-                    ),
-                  ],
-                ).rightBottomWidget().allPadding(15),
-              ),
-              0.01.height.hSpace,
-              BiggestInf(
-                list: cubit.topSellers,
-              ).hPadding(0.03.width),
-              0.01.height.hSpace,
+                      0.01.height.hSpace,
+                      BlocBuilder<HomeCubit, HomeState>(
+                        builder: (context, state) {
+                          if (state is LoadedHomeScreen) {
+                            products.addAll(
+                                state.specialProducts.map((e) => e).toList());
+                            products.addAll(state.productiveFamiliesProducts
+                                .map((e) => e)
+                                .toList());
+                            products.addAll(state.specialNeedsProducts
+                                .map((e) => e)
+                                .toList());
+                            products.addAll(
+                                state.allProducts.map((e) => e).toList());
+                            return LoadedHomeScreenUi(
+                              categories: state.categories,
+                              banner: state.banner,
+                              secondBanner: state.secondBanner,
+                              specialProducts: state.specialProducts,
+                              productiveFamiliesProducts:
+                                  state.productiveFamiliesProducts,
+                              specialNeedsProducts: state.specialNeedsProducts,
+                              allProducts: state.allProducts,
+                              reviews: state.reviews,
+                              visitorStatesDataModel:
+                                  state.visitorStatesDataModel,
+                              topSellers: state.topSellers,
+                              subCategoriesFunc: (name, id) async {
+                                await cubit.getAllSubCategories(id);
+                                slideLeftWidget(
+                                  newPage: SubCategoriesScreen(
+                                    data: cubit.subCategories,
+                                    title: name,
+                                  ),
+                                  context: context,
+                                );
+                              },
+                            );
+                          } else if (state is HomeError) {
+                            return IconError(
+                              error: state.message,
+                            );
+                          } else {
+                            return CircularProgressIndicator(
+                              color: AppColors.secondaryColor,
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ))
             ],
           ),
         ),

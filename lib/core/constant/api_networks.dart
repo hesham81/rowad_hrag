@@ -5,7 +5,9 @@ abstract class ApiNetworks {
 abstract class ApiEndPoints {
   static const String login = '/auth/login';
   static const String signUp = '/auth/signup';
-  static const String categories = '/categories'; ///categories/home
+  static const String categories = '/categories';
+
+  ///categories/home
   static const String states = '/states';
   static const String cityByStateId = '/cities-by-state';
   static const String banners = '/banners-one';
@@ -34,5 +36,9 @@ abstract class ApiEndPoints {
   static const String payToPlan = '/payments/plan';
   static const String customPayment = '/payments/custom';
   static const String profilePoints = '/seller/points';
-
+  static const String profileSettingUpdate = '/seller/shop-update';
+  static const String addTicket = '/seller/support-tickets/store';
+  static const String allProducts = '/products/search';
+  static const String conversion = '/seller/conversations/message/store';
+  static const String deleteAccount = '/auth/account-deletion';
 }

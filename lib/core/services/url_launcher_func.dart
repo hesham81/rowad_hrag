@@ -1,3 +1,4 @@
+import 'package:rowad_hrag/core/services/cash_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class UrlLauncherFunc {
@@ -10,6 +11,13 @@ abstract class UrlLauncherFunc {
   }
 
   static Future<void> openUrl(String url) async {
-    await launchUrl(Uri.parse(url));
+    var token = await CashHelper.getString("Auth");
+    await launchUrl(
+      Uri.parse(
+        url,
+
+      ),
+
+    );
   }
 }

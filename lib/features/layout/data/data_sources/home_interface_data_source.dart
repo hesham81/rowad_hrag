@@ -26,4 +26,6 @@ abstract class HomeInterfaceDataSource {
   Future<Response> getTopSellers();
 
   Future<Response> sendComment(AddRateRequest rate);
+
+  Future<Response> getAllProducts();
 }

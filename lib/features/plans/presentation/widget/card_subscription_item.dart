@@ -23,19 +23,22 @@ class CardSubscriptionItem extends StatelessWidget {
     hexColor = hexColor.replaceAll('#', '');
 
     if (hexColor.length == 6) {
-      hexColor = 'FF' + hexColor; // Add alpha value (FF = fully opaque)
+      hexColor = 'FF$hexColor'; // Add alpha value (FF = fully opaque)
     }
 
-    int hexValue = int.parse(hexColor, radix: 16);
+    int hexValue = int.parse(
+      hexColor,
+      radix: 16,
+    );
     Color dynamicColor = Color(hexValue);
     return CustomContainer(
       border: (isSelected)
           ? Border.all(
-              color: AppColors.secondaryColor,
+              color: dynamicColor,
               width: 3,
             )
           : null,
-      color: isSelected ? AppColors.primaryColor : Colors.white,
+      color: isSelected ? dynamicColor : Colors.white,
       child: Row(
         children: [
           0.02.width.vSpace,
@@ -71,7 +74,7 @@ class CardSubscriptionItem extends StatelessWidget {
             "${plans.price} ريال",
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: dynamicColor,
+                  color: (isSelected) ? Colors.black : dynamicColor,
                 ),
           )
         ],

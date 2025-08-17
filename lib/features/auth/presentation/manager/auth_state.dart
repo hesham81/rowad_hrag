@@ -19,3 +19,24 @@ class CompletedStateLoaded extends HandlingAuth {
 
   CompletedStateLoaded(this.states);
 }
+
+
+class ErrorSignUp extends HandlingAuth {
+  final String message;
+  ErrorSignUp(this.message);
+}
+class SelectedGender extends HandlingAuth {
+  final String gender;
+  SelectedGender(this.gender);
+}
+class SelectedState extends HandlingAuth {
+  final StatesDataModel state;
+  SelectedState(this.state);
+}
+class SelectedCity extends HandlingAuth {
+  final CityDataModel city;
+  SelectedCity(this.city);
+}
+
+
+
