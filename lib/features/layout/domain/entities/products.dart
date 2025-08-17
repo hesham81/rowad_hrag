@@ -10,15 +10,15 @@ class Products {
 
   final String? discount;
 
-  final String strokedPrice;
+  final String? strokedPrice;
 
-  final String mainPrice;
+  final String? mainPrice;
 
-  final String rating;
+  final String? rating;
 
-  final String sales;
+  final String? sales;
 
-  final String userName;
+  final String? userName;
 
   final String? stateName;
 

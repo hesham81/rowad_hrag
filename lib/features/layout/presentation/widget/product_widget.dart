@@ -188,7 +188,7 @@ class _ProductWidgetState extends State<ProductWidget> {
 
                   // Price
                   Text(
-                    widget.product.mainPrice,
+                    widget.product.mainPrice??"",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontSize: _responsiveFontSize() + 1,
                           color: AppColors.secondaryColor,
@@ -230,7 +230,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                   ),
                   0.01.height.hSpace,
                   Text(
-                    widget.product.userName,
+                    widget.product.userName??"",
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontSize: _responsiveFontSize(),

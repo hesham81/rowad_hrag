@@ -134,7 +134,7 @@ class _AllProductsWidgetState extends State<AllProductsWidget> {
                             ),
                             SizedBox(height: verticalSpacing * 0.5),
                             Text(
-                              widget.product!.mainPrice,
+                              widget.product?.mainPrice??"",
                               textAlign: TextAlign.right,
                               style: Theme.of(context)
                                   .textTheme

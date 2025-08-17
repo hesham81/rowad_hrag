@@ -6,6 +6,8 @@ import 'package:rowad_hrag/features/all_reviews/presentation/pages/all_reviews_s
 import 'package:rowad_hrag/features/layout/data/models/reviews_data_model.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/navigator_home_footer_widget.dart';
 
+import '../../../../core/services/cash_helper.dart';
+
 class HomeButtonsSelectorFooterWidget extends StatefulWidget {
   final List<ReviewsDataModel>? allReviews;
 
@@ -21,6 +23,25 @@ class HomeButtonsSelectorFooterWidget extends StatefulWidget {
 
 class _HomeButtonsSelectorFooterWidgetState
     extends State<HomeButtonsSelectorFooterWidget> {
+
+  String? token;
+
+  Future<void> _getCurrentToken() async {
+    token = await CashHelper.getString("token");
+    // log("Current Token is $token");
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    Future.wait(
+      [
+        _getCurrentToken(),
+      ],
+    );
+    super.initState();
+  }
+
   var texts = [
     "البنود والظروف",
     "باقات الاشتراكات",

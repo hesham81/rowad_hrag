@@ -226,7 +226,7 @@ class _SpecialProductsHomeScreenState extends State<SpecialProductsHomeScreen> {
                                   ),
                                   SizedBox(height: verticalSpacing * 0.5),
                                   Text(
-                                    selectedProduct!.mainPrice,
+                                    selectedProduct?.mainPrice??"",
                                     textAlign: TextAlign.right,
                                     style: Theme.of(context)
                                         .textTheme

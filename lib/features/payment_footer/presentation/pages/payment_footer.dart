@@ -8,8 +8,33 @@ import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/custom_text_form_field.dart';
 
-class PaymentFooter extends StatelessWidget {
+import '../../../../core/services/cash_helper.dart';
+
+class PaymentFooter extends StatefulWidget {
   const PaymentFooter({super.key});
+
+  @override
+  State<PaymentFooter> createState() => _PaymentFooterState();
+}
+
+class _PaymentFooterState extends State<PaymentFooter> {
+
+  String? token;
+
+  Future<void> _getCurrentToken() async {
+    token = await CashHelper.getString("token");
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    Future.wait(
+      [
+        _getCurrentToken(),
+      ],
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

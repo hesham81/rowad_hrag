@@ -8,6 +8,10 @@ import '../../../../core/failures/failure.dart';
 
 abstract class ProfileRepositories {
   Future<Either<Failure, SellerProfileDataModel>> getProfileData();
+
   Future<Either<Failure, List<AllAddsDataModel>>> getAllAdds();
-  Future<Either<Failure , List<ProfilePointsDataModel>>> getAllPoints();
+
+  Future<Either<Failure, List<ProfilePointsDataModel>>> getAllPoints();
+
+  Future<Either<Failure, String>> deleteAccount();
 }

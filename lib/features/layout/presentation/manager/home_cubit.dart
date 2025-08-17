@@ -165,7 +165,7 @@ class HomeCubit extends Cubit<HomeState> {
           // );
           emit(
             HomeError(
-              error.messageAr ?? error.messageEn ?? "Error",
+              "${error.messageAr ?? error.messageEn ?? "Error"} on Get All Categories",
             ),
           );
         },
@@ -194,7 +194,7 @@ class HomeCubit extends Cubit<HomeState> {
       (fail) {
         emit(
           HomeError(
-            fail.messageAr ?? fail.messageEn ?? "Error",
+            "${fail.messageAr ?? fail.messageEn ?? "Error"} On Get All Banners",
           ),
         );
       },
@@ -214,7 +214,7 @@ class HomeCubit extends Cubit<HomeState> {
       (fail) {
         emit(
           HomeError(
-            fail.messageAr ?? fail.messageEn ?? "Error",
+            "${fail.messageAr ?? fail.messageEn ?? "Error"} On Get Second Banner",
           ),
         );
       },
@@ -235,7 +235,7 @@ class HomeCubit extends Cubit<HomeState> {
         (error) {
           emit(
             HomeError(
-              error.messageAr ?? error.messageEn ?? "Error",
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Reviews",
             ),
           );
         },
@@ -246,7 +246,7 @@ class HomeCubit extends Cubit<HomeState> {
     } on DioException catch (error) {
       emit(
         HomeError(
-          error.response?.data["message"],
+          "${error.response?.data["message"]} On Get All Reviews",
         ),
       );
     }
@@ -264,7 +264,7 @@ class HomeCubit extends Cubit<HomeState> {
         (error) {
           emit(
             HomeError(
-              error.messageAr ?? error.messageEn ?? "Error",
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Sub Categories",
             ),
           );
         },
@@ -275,7 +275,7 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (error) {
       emit(
         ErrorSubCategories(
-          error.toString(),
+          "${error.toString()} on Get All Sub Categories",
         ),
       );
     } finally {
@@ -295,7 +295,7 @@ class HomeCubit extends Cubit<HomeState> {
         (error) {
           emit(
             ErrorSpecialProducts(
-              error.messageAr ?? error.messageEn ?? "Error",
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Special Products",
             ),
           );
         },
@@ -306,7 +306,7 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (error) {
       emit(
         ErrorSpecialProducts(
-          error.toString(),
+          "${error.toString()} On Get All Special Products",
         ),
       );
     }
@@ -325,18 +325,18 @@ class HomeCubit extends Cubit<HomeState> {
         (error) {
           emit(
             HomeError(
-              error.messageAr ?? error.messageEn ?? "Error",
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All People With Special Needs",
             ),
           );
         },
-        (data)  {
+        (data) {
           _peopleWithSpecialNeed = data;
         },
       );
     } catch (error) {
       emit(
         HomeError(
-          error.toString(),
+          "${error.toString()} On Get All People With Special Needs",
         ),
       );
     }
@@ -355,18 +355,18 @@ class HomeCubit extends Cubit<HomeState> {
         (error) {
           emit(
             HomeError(
-              error.messageAr ?? error.messageEn ?? "Error",
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get Productive Families Products",
             ),
           );
         },
-        (data)  {
+        (data) {
           _productiveFamiliesProducts = data;
         },
       );
     } catch (error) {
       emit(
         HomeError(
-          error.toString(),
+          "${error.toString()} On Get Productive Families Products",
         ),
       );
     }
@@ -385,18 +385,18 @@ class HomeCubit extends Cubit<HomeState> {
         (error) {
           emit(
             HomeError(
-              error.messageAr ?? error.messageEn ?? "Error",
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get Visitor States",
             ),
           );
         },
-        (data)  {
+        (data) {
           _visitorStatesDataModel = data;
         },
       );
     } catch (error) {
       emit(
         HomeError(
-          error.toString(),
+          "${error.toString()} On Get Visitor States",
         ),
       );
     }
@@ -415,18 +415,18 @@ class HomeCubit extends Cubit<HomeState> {
         (error) {
           emit(
             HomeError(
-              error.messageAr ?? error.messageEn ?? "Error",
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get Top Sellers",
             ),
           );
         },
-        (data)  {
+        (data) {
           _topSellers = data;
         },
       );
     } catch (error) {
       emit(
         HomeError(
-          error.toString(),
+          "${error.toString()} On Get Top Sellers",
         ),
       );
     }
@@ -459,7 +459,6 @@ class HomeCubit extends Cubit<HomeState> {
         },
       );
     } catch (error) {
-
       log("Error On GetTopSellers $error");
     } finally {}
   }
@@ -485,7 +484,7 @@ class HomeCubit extends Cubit<HomeState> {
         (error) {
           emit(
             HomeError(
-              error.messageAr ?? error.messageEn ?? "Error",
+              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Products",
             ),
           );
         },
@@ -510,11 +509,9 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (error) {
       emit(
         HomeError(
-          error.toString(),
+          "${error.toString()} On Get All Products",
         ),
       );
     }
   }
-
-
 }

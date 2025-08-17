@@ -12,6 +12,7 @@ import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/product_details/data/models/message_request_data_model.dart';
 import 'package:rowad_hrag/features/product_details/presentation/widgets/message_content.dart';
+import '../../../../core/services/cash_helper.dart';
 import '../../../../core/services/url_launcher_func.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../manager/product_details_cubit.dart';
@@ -28,6 +29,23 @@ class ProductItemScreen extends StatefulWidget {
 
 class _ProductItemScreenState extends State<ProductItemScreen> {
   int? selectedIndex;
+  String? token;
+
+  Future<void> _getCurrentToken() async {
+    token = await CashHelper.getString("token");
+    log("Current Token is $token");
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    Future.wait(
+      [
+        _getCurrentToken(),
+      ],
+    );
+    super.initState();
+  }
 
   _showMessageContent(
     String hint,
@@ -58,22 +76,23 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
     return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
         builder: (context, state) {
       if (state is ProductDetailsLoaded) {
-        log("${state.productDetailsDataModel.photos.length}");
         return Scaffold(
           floatingActionButton: WhatsappIconButton(),
           bottomNavigationBar: CustomElevatedButton(
+            onPressed: (token == null)
+                ? () => pushNamed(newPage: RouteNames.signIn, context: context)
+                : () {
+                    Navigator.pushNamed(
+                      context,
+                      RouteNames.plans,
+                    );
+                  },
             child: Text(
               "دفع الرسوم",
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: AppColors.primaryColor,
                   ),
             ),
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                RouteNames.plans,
-              );
-            },
           ),
           appBar: AppBar(
             title: Text(
@@ -213,13 +232,16 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                     ),
                     0.01.height.hSpace,
                     InkWell(
-                      onTap: () {
-                        _showMessageContent(
-                          state.productDetailsDataModel.name,
-                          cubit.sendMessage,
-                          state.productDetailsDataModel.user.id,
-                        );
-                      },
+                      onTap: (token == null)
+                          ? () => pushNamed(
+                              newPage: RouteNames.signIn, context: context)
+                          : () {
+                              _showMessageContent(
+                                state.productDetailsDataModel.name,
+                                cubit.sendMessage,
+                                state.productDetailsDataModel.user.id,
+                              );
+                            },
                       child: Container(
                         width: 0.25.width,
                         height: 0.04.height,

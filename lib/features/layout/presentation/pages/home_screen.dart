@@ -7,6 +7,7 @@ import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/services/auth_services.dart';
 import 'package:rowad_hrag/core/services/url_launcher_func.dart';
+import 'package:rowad_hrag/core/widget/icon_error.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/all_product_search/presentation/widgets/all_products_widget.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
@@ -306,7 +307,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) =>
                                   AllProductsWidget(
-                                      product: searchedProducts[index]).hPadding(0.03.width),
+                                          product: searchedProducts[index])
+                                      .hPadding(0.03.width),
                               separatorBuilder: (context, index) =>
                                   0.01.height.hSpace,
                               itemCount: searchedProducts.length,
@@ -447,6 +449,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context: context,
                                 );
                               },
+                            );
+                          } else if (state is HomeError) {
+                            return IconError(
+                              error: state.message,
                             );
                           } else {
                             return CircularProgressIndicator(

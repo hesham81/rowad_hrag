@@ -3,12 +3,15 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:rowad_hrag/core/failures/failure.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/services/bot_toast.dart';
 import 'package:rowad_hrag/features/profile/data/data_sources/profile_interface_data_source.dart';
 import 'package:rowad_hrag/features/profile/data/data_sources/remote_profile_data_source.dart';
 import 'package:rowad_hrag/features/profile/data/models/all_adds_data_model.dart';
 import 'package:rowad_hrag/features/profile/data/models/profile_points_data_model.dart';
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 import 'package:rowad_hrag/features/profile/domain/repositories/profile_repositories.dart';
+import 'package:rowad_hrag/main.dart';
 
 import '../../../../core/failures/server_failure.dart';
 
@@ -59,6 +62,26 @@ class ProfileRepositoriesImplementation implements ProfileRepositories {
           message: error.response?.data["message"],
         ),
       );
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> deleteAccount() async {
+    try {
+      var response = await _dataSource.deleteAccount();
+
+      return Right(
+        response.data["message"],
+      );
+    } on DioException catch (error) {
+      return Left(
+        ServerFailure(
+          statusCode: error.response?.statusCode.toString() ?? "501",
+          message: error.response?.data["message"],
+        ),
+      );
+    } catch (error) {
+      throw Exception(error);
     }
   }
 }
