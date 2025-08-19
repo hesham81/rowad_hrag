@@ -3,7 +3,7 @@ import '/core/theme/app_colors.dart';
 
 class CustomTextButton extends StatefulWidget {
   final String text;
-  final Function() onPressed;
+  final Function()? onPressed;
   final Color? btnColor;
   final double? fontSize;
   final FontWeight? fontWeight;

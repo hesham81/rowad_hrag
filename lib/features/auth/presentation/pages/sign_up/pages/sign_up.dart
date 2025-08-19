@@ -4,6 +4,8 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/route/route_names.dart';
 import '../../../../../../core/services/bot_toast.dart';
 import '/core/services/cash_helper.dart';
 import '/core/validations/validations.dart';
@@ -325,6 +327,7 @@ class SignUp extends StatefulWidget {
 //       ),
 //     )
 class _SignUpState extends State<SignUp> {
+  bool _isChecked = false;
   String? _selectedGender;
 
   @override
@@ -608,19 +611,22 @@ class _SignUpState extends State<SignUp> {
                         horizontal: 0.1.width,
                         vertical: 0.02.height,
                       ),
-                      onPressed: () async {
-                        if (cubit.signUpFormKey.currentState!.validate() &&
-                            cubit.selectedGender != null &&
-                            cubit.selectedGender!.isNotEmpty &&
-                            cubit.selectedCity != null &&
-                            cubit.selectedState != null) {
-                          await cubit.signUp(context);
-                        } else {
-                          BotToastServices.showErrorMessage(
-                            "يرجى تعبئة جميع الحقول",
-                          );
-                        }
-                      },
+                      onPressed: (!_isChecked)
+                          ? null
+                          : () async {
+                              if (cubit.signUpFormKey.currentState!
+                                      .validate() &&
+                                  cubit.selectedGender != null &&
+                                  cubit.selectedGender!.isNotEmpty &&
+                                  cubit.selectedCity != null &&
+                                  cubit.selectedState != null) {
+                                await cubit.signUp(context);
+                              } else {
+                                BotToastServices.showErrorMessage(
+                                  "يرجى تعبئة جميع الحقول",
+                                );
+                              }
+                            },
                       borderRadius: 10,
                       child: Text(
                         "إنشاء حساب",
@@ -656,6 +662,49 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ],
               ).hPadding(0.05.width),
+              Row(
+                textDirection: TextDirection.rtl,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // Checkbox for agreement
+                  Checkbox(
+
+                    value: _isChecked,
+                    // <-- You need a bool variable in your state
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _isChecked = value!;
+                      });
+                    },
+
+                    activeColor: AppColors.secondaryColor,
+                    // Optional: customize check color
+                    visualDensity:
+                        VisualDensity.compact, // Makes it smaller if needed
+                  ),
+
+                  // Agreement text
+                  Text(
+                    "بالتسجيل فأنت توافق على",
+                    style: theme.textTheme.labelMedium!.copyWith(
+                      color: AppColors.blueColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+
+                  // Privacy policy button
+                  CustomTextButton(
+                    text: "سياسة الإشتراك",
+                    onPressed: () => pushNamed(
+                      newPage: RouteNames.privacyAndPolicy,
+                      context: context,
+                    ),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    btnColor: AppColors.secondaryColor,
+                  ),
+                ],
+              ),
               0.1.height.hSpace,
             ],
           ),
