@@ -82,11 +82,11 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
     getStates(_selectedCity!.id);
   }
 
-  String? _selectedGender;
+  String  _selectedGender = "male";
 
-  String? get selectedGender => _selectedGender;
+  String get selectedGender => _selectedGender;
 
-  void setSelectedGender(String? value) {
+  void setSelectedGender(String value) {
     _selectedGender = value;
     emit(
       SelectedGender(

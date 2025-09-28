@@ -327,13 +327,13 @@ class SignUp extends StatefulWidget {
 //       ),
 //     )
 class _SignUpState extends State<SignUp> {
-  bool _isChecked = false;
-  String? _selectedGender;
+  bool _isChecked = true;
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var cubit = context.read<AuthCubit>();
+    cubit.setSelectedGender("male");
     return Form(
       key: cubit.signUpFormKey,
       child: Scaffold(
@@ -460,59 +460,59 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                     0.01.height.hSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          children: [
-                            Radio<String>(
-                              value: "female",
-                              groupValue: _selectedGender,
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedGender = value;
-                                });
-                                cubit.setSelectedGender(_selectedGender);
-                              },
-                              fillColor: MaterialStateProperty.all(
-                                  AppColors.secondaryColor),
-                            ),
-                            Text(
-                              "انثى",
-                              style: theme.textTheme.labelMedium!.copyWith(
-                                color: AppColors.blueColor,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(width: 0.02.width),
-                        // Use SizedBox instead of .vSpace for width
-                        Row(
-                          children: [
-                            Radio<String>(
-                              value: "male",
-                              groupValue: _selectedGender,
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedGender = value;
-                                });
-                                cubit.setSelectedGender(_selectedGender);
-                              },
-                              fillColor: MaterialStateProperty.all(
-                                  AppColors.secondaryColor),
-                            ),
-                            Text(
-                              "ذكر",
-                              style: theme.textTheme.labelMedium!.copyWith(
-                                color: AppColors.blueColor,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ).hPadding(0.03.width),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     Row(
+                    //       children: [
+                    //         Radio<String>(
+                    //           value: "female",
+                    //           groupValue: _selectedGender,
+                    //           onChanged: (value) {
+                    //             setState(() {
+                    //               _selectedGender = value;
+                    //             });
+                    //             cubit.setSelectedGender(_selectedGender);
+                    //           },
+                    //           fillColor: MaterialStateProperty.all(
+                    //               AppColors.secondaryColor),
+                    //         ),
+                    //         Text(
+                    //           "انثى",
+                    //           style: theme.textTheme.labelMedium!.copyWith(
+                    //             color: AppColors.blueColor,
+                    //             fontWeight: FontWeight.w600,
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     SizedBox(width: 0.02.width),
+                    //     // Use SizedBox instead of .vSpace for width
+                    //     Row(
+                    //       children: [
+                    //         Radio<String>(
+                    //           value: "male",
+                    //           groupValue: _selectedGender,
+                    //           onChanged: (value) {
+                    //             setState(() {
+                    //               _selectedGender = value;
+                    //             });
+                    //             cubit.setSelectedGender(_selectedGender);
+                    //           },
+                    //           fillColor: MaterialStateProperty.all(
+                    //               AppColors.secondaryColor),
+                    //         ),
+                    //         Text(
+                    //           "ذكر",
+                    //           style: theme.textTheme.labelMedium!.copyWith(
+                    //             color: AppColors.blueColor,
+                    //             fontWeight: FontWeight.w600,
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ],
+                    // ).hPadding(0.03.width),
                     0.01.height.hSpace,
                     CustomTextFormField(
                       hintText: "كلمة المرور",
