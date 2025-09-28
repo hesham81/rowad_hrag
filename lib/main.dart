@@ -7,6 +7,8 @@ import 'package:rowad_hrag/features/payment_footer/presentation/manager/plans_cu
 import '/core/route/on_generate_route.dart';
 import '/core/theme/app_theme.dart';
 
+///this is testing comment
+
 final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
 
 void main() async {
