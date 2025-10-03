@@ -12,8 +12,10 @@ import 'package:rowad_hrag/features/contact_with_support/presentation/pages/cont
 import 'package:rowad_hrag/features/layout/presentation/pages/home_page.dart';
 import 'package:rowad_hrag/features/notifications/presentation/manager/notification_cubit.dart';
 import 'package:rowad_hrag/features/notifications/presentation/pages/notifications.dart';
+import 'package:rowad_hrag/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:rowad_hrag/features/plans/presentation/manager/plans_cubit.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
+import 'package:rowad_hrag/features/plans_subscriptions/presentation/pages/plans_subscriptions.dart';
 import 'package:rowad_hrag/features/privacy_and_policy/presentation/pages/privacy_and_policy.dart';
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
@@ -50,10 +52,14 @@ abstract class OnGenerateRoute {
             create: (context) => AuthCubit(),
           ),
         );
-      case RouteNames.searchTab:
+      
+      case RouteNames.onboarding:
+        return MaterialPageRoute(
+          builder: (context) =>OnboardingScreen(),
+        );
+        case RouteNames.searchTab:
         return MaterialPageRoute(
           builder: (context) => SearchTab(),
-        );
       case RouteNames.home:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<HomeCubit>(
