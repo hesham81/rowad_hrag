@@ -12,9 +12,9 @@ abstract class FilesPickers {
   }
 
   static Future<File> pickImage({ImageSource? source}) async {
-    final ImagePicker _imagePicker = ImagePicker();
+    final ImagePicker imagePicker = ImagePicker();
 
-    final XFile? image = await _imagePicker.pickImage(
+    final XFile? image = await imagePicker.pickImage(
       source: source ?? ImageSource.gallery,
     );
 
