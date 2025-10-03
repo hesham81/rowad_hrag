@@ -16,25 +16,55 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   String? _token;
+  bool _isFirstTime = false;
 
   Future<void> _getToken() async {
+    _isFirstTime = !(await CashHelper.getBool("isFirstTime"));
     _token = await CashHelper.getString("token");
-    setState(() {});
-  }
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (_isFirstTime) {
+      // mark as visited next time
+      pushNamedWhileRemove(
+        newPage: RouteNames.onboarding,
+        context: context,
+      );
+    } else if (_token != null) {
+      pushNamedWhileRemove(
+        newPage: RouteNames.home,
+        context: context,
+      );
+    } else {
+      pushNamedWhileRemove(
+        newPage: RouteNames.signIn,
+        context: context,
+      );
+    }
+  } 
 
   @override
   void initState() {
-    Future.wait([_getToken()]);
+    // Future.wait([_getToken()]);
     // TODO: implement initState
     super.initState();
     Future.delayed(
       Duration(seconds: 3),
       () => pushNamedWhileRemove(
-        newPage: RouteNames.home,
-        // newPage: (_token != null) ? RouteNames.home : RouteNames.signIn,
+        // newPage: RouteNames.home,
+        newPage: (_token != null) ? RouteNames.home : RouteNames.signIn,
         context: context,
       ),
     );
+    _getToken();
+    // Future.delayed(
+    //   Duration(seconds: 3),
+    //   () => pushNamedWhileRemove(
+    //     newPage: RouteNames.home,
+    //     // newPage: (_token != null) ? RouteNames.home : RouteNames.signIn,
+    //     context: context,
+    //   ),
+    // );
+
   }
 
   @override
