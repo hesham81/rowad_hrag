@@ -20,6 +20,7 @@ import 'package:rowad_hrag/features/privacy_and_policy/presentation/pages/privac
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
+import 'package:rowad_hrag/features/search_tab/presentation/pages/search_tab.dart';
 import 'package:rowad_hrag/features/settings/presentation/manager/shop_settings_cubit.dart';
 import 'package:rowad_hrag/features/settings/presentation/pages/profile_settings.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
@@ -33,6 +34,7 @@ import '../../features/all_types/presentation/pages/all_types.dart';
 import '../../features/all_uploaded_files/presentation/manager/files_cubit.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
 import '../../features/login_to_continue/presentation/pages/login_to_continue.dart';
+import '../../features/plans_subscriptions/presentation/pages/plans_subscriptions.dart';
 import '../../features/sub_categories_product_details/presentation/manager/sub_categories_product_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
 import '../../features/auth/presentation/pages/sign_in.dart';
@@ -50,10 +52,14 @@ abstract class OnGenerateRoute {
             create: (context) => AuthCubit(),
           ),
         );
+      
       case RouteNames.onboarding:
         return MaterialPageRoute(
           builder: (context) =>OnboardingScreen(),
         );
+        case RouteNames.searchTab:
+        return MaterialPageRoute(
+          builder: (context) => SearchTab(),
       case RouteNames.home:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<HomeCubit>(
