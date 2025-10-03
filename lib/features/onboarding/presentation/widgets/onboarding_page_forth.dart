@@ -22,10 +22,7 @@ class OnboardingPageForth extends StatelessWidget {
         children: [
           Align(
             alignment: AlignmentGeometry.centerRight,
-            child: FadeInRight(
-              delay: Duration(milliseconds: 600),
-              duration: _duration,
-              child: SvgPicture.asset(AppAssets.rightVector,height: 1.height,)),
+            child: SvgPicture.asset(AppAssets.rightVector,height: 1.height,),
           ),
           Positioned(
             top: 0.12.height,
