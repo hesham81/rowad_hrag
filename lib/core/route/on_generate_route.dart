@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rowad_hrag/features/adds_reviews/presentation/pages/adds_reviews.dart';
-import 'package:rowad_hrag/features/all_reviews/presentation/pages/all_reviews_screen.dart';
 import 'package:rowad_hrag/features/all_types/presentation/manager/all_categories_cubit.dart';
 import 'package:rowad_hrag/features/all_uploaded_files/presentation/pages/all_uploaded_files.dart';
 import 'package:rowad_hrag/features/auth/presentation/pages/forget_password/pages/forget_password.dart';
@@ -15,11 +14,11 @@ import 'package:rowad_hrag/features/notifications/presentation/manager/notificat
 import 'package:rowad_hrag/features/notifications/presentation/pages/notifications.dart';
 import 'package:rowad_hrag/features/plans/presentation/manager/plans_cubit.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
-import 'package:rowad_hrag/features/plans_subscriptions%20/presentation/pages/plans_subscriptions.dart';
 import 'package:rowad_hrag/features/privacy_and_policy/presentation/pages/privacy_and_policy.dart';
 import 'package:rowad_hrag/features/product_details/presentation/manager/product_details_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
+import 'package:rowad_hrag/features/search_tab/presentation/pages/search_tab.dart';
 import 'package:rowad_hrag/features/settings/presentation/manager/shop_settings_cubit.dart';
 import 'package:rowad_hrag/features/settings/presentation/pages/profile_settings.dart';
 import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart';
@@ -33,6 +32,7 @@ import '../../features/all_types/presentation/pages/all_types.dart';
 import '../../features/all_uploaded_files/presentation/manager/files_cubit.dart';
 import '../../features/layout/presentation/manager/home_cubit.dart';
 import '../../features/login_to_continue/presentation/pages/login_to_continue.dart';
+import '../../features/plans_subscriptions/presentation/pages/plans_subscriptions.dart';
 import '../../features/sub_categories_product_details/presentation/manager/sub_categories_product_cubit.dart';
 import '/features/auth/presentation/manager/auth_cubit.dart';
 import '../../features/auth/presentation/pages/sign_in.dart';
@@ -49,6 +49,10 @@ abstract class OnGenerateRoute {
             child: SignIn(),
             create: (context) => AuthCubit(),
           ),
+        );
+      case RouteNames.searchTab:
+        return MaterialPageRoute(
+          builder: (context) => SearchTab(),
         );
       case RouteNames.home:
         return MaterialPageRoute(

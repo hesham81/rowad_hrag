@@ -30,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       Duration(seconds: 3),
       () => pushNamedWhileRemove(
-        newPage: RouteNames.home,
-        // newPage: (_token != null) ? RouteNames.home : RouteNames.signIn,
+        // newPage: RouteNames.home,
+        newPage: (_token != null) ? RouteNames.home : RouteNames.signIn,
         context: context,
       ),
     );
