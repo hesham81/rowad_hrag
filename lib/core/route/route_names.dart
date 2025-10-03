@@ -13,6 +13,7 @@ abstract class RouteNames {
   static const String profile = '/profiles';
   static const String logOut = '/logOut';
   static const String productDetails = '/productDetails';
+  static const String searchTab = '/searchTab';
   static const String notifications = '/notifications';
   static const String allFiles = '/allFiles';
   static const String addsReviews = '/addsReviews';
