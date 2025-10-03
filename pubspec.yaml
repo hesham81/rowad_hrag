@@ -38,6 +38,7 @@ dependencies:
   http: ^1.4.0
   flutter_inappwebview: ^6.1.5
   marquee: ^2.3.0
+  clean_architecture_with_state_management: ^1.2.1
 #  flutter_local_notifications: ^19.3.0
 #  palette_generator: ^0.3.3
 
@@ -62,5 +63,7 @@ flutter:
     - assets/images/adds/
     - assets/images/products/
     - assets/images/categories/
+    - assets/images/onboarding/
     - assets/icons/
     - assets/fonts/cairo/
+    
