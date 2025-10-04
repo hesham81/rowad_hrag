@@ -25,59 +25,49 @@ class BlogItem extends StatelessWidget {
       child: Column(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
+            borderRadius: BorderRadius.circular(
+              10
             ),
             child: CachedNetworkImage(
               imageUrl: blog.imageUrl,
               fit: BoxFit.cover,
               width: double.maxFinite,
             ),
-          ),
+          ).allPadding(15),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              0.01.height.hSpace,
               Text(
                 blog.title,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Colors.black,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: AppColors.secondaryColor,
                       fontWeight: FontWeight.bold,
                     ),
               ),
+              0.02.height.hSpace,
               Text(
                 (blog.shDescription.length < 150)
                     ? blog.shDescription
                     : blog.shDescription.substring(0, 150),
                 textAlign: TextAlign.right,
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                      color: Colors.black,
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: Colors.black.withAlpha(210),
                     ),
               ),
-              CustomElevatedButton(
-                btnColor: AppColors.primaryColor,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back_ios,
-                      color: AppColors.secondaryColor,
-                    ),
-                    0.01.width.vSpace,
-                    Text(
-                      "Read Full Blog",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: AppColors.secondaryColor,
-                          ),
-                    ),
-                  ],
-                ).hPadding(0.03.width),
-                onPressed: () => slideLeftWidget(
-                  newPage: AllBlogDetails(
-                    blog: blog,
+              0.02.height.hSpace,
+              Row(
+                children: [
+                  0.01.width.vSpace,
+                  Text(
+                    "قراءة المزيد",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: AppColors.secondaryColor,
+                        ),
                   ),
-                  context: context,
-                ),
-              )
+                ],
+              ).hPadding(0.03.width),
+              0.02.height.hSpace,
             ],
           ).hPadding(0.03.width),
         ],

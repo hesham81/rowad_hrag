@@ -678,11 +678,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       );
                     } else if (state is HomeError) {
-                      return ErrorWidget(state.message);
-                    } else if (state is HomeLoaded) {
-                      return CircularProgressIndicator().center;
+                      return ErrorWidget(
+                        state.message,
+                      );
                     } else {
-                      return SizedBox();
+                      return CircularProgressIndicator(
+                        color: AppColors.greenColor,
+                      ).center;
                     }
                   },
                 ),

@@ -14,7 +14,7 @@ class OnboardingPageOne extends StatelessWidget {
       body:Stack(
               children: [
                 Align(
-                  alignment: AlignmentGeometry.topRight,
+                  alignment: Alignment.topRight,
                   child:FadeInRight(
                     duration: _duration,
                     child: SvgPicture.asset(AppAssets.topVector,height: 0.8.height ))
@@ -25,13 +25,13 @@ class OnboardingPageOne extends StatelessWidget {
                     child: SvgPicture.asset(AppAssets.coloredLogo,width: 0.85.width ,))),
                 
                 Align(
-                  alignment: AlignmentGeometry.bottomLeft,
+                  alignment: Alignment.bottomLeft,
                   child:FadeInLeft(
                     duration: _duration,
                     child: SvgPicture.asset(AppAssets.bottomVector,height: 0.75.height))
                   ),
                 Align(
-                  alignment: AlignmentGeometry.bottomCenter,
+                  alignment: Alignment.bottomCenter,
                   child: FadeInUp(
                     // delay: Duration(seconds: 1),
                     duration: _duration,
