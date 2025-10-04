@@ -159,7 +159,7 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
   }
 
   Future<void> getAllCities() async {
-    EasyLoading.show();
+    // EasyLoading.show();
     _authInterfaceDataSource = RemoteAuthDataSource(_services.freePrimaryDio);
     _authReposatoriesImp = AuthReposatoriesImp(_authInterfaceDataSource);
     _getCityUseCase = GetCityUseCase(_authReposatoriesImp);
@@ -198,7 +198,7 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
         ),
       );
     } finally {
-      EasyLoading.dismiss();
+      // EasyLoading.dismiss();
     }
   }
 
@@ -210,7 +210,7 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
       _authReposatoriesImp = AuthReposatoriesImp(_authInterfaceDataSource);
       _signUpUseCase = SignUpUseCase(_authReposatoriesImp);
 
-      EasyLoading.show();
+      // EasyLoading.show();
 
       var data = SignUpRequest(
         name: signUpNameController.text,
@@ -245,8 +245,6 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
     } catch (error) {
       emit(ErrorSignUp(error.toString()));
       print("Unexpected Error During Sign Up: $error");
-    } finally {
-      EasyLoading.dismiss();
     }
   }
 }
