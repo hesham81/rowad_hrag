@@ -28,7 +28,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool isLoginSelected=true;
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<AuthCubit>();
@@ -40,6 +40,7 @@ class _SignInState extends State<SignIn> {
           key: _formKey,
           child: DefaultTabController(
             length: 2,
+            initialIndex: 1,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -63,12 +64,13 @@ class _SignInState extends State<SignIn> {
                         0.02.height.hSpace,
                         
                        TabBar(
+                          
                           dividerColor: AppColors.thirdColor.withAlpha(40),
                           indicatorColor: AppColors.thirdColor,
                           indicatorSize: TabBarIndicatorSize.tab,
                           onTap: (value) {
                             value == 0?
-                              Navigator.pushReplacementNamed(context, RouteNames.signUp)
+                              Navigator.pushNamed(context, RouteNames.signUp)
                               :null;
                             
                           },
@@ -78,6 +80,7 @@ class _SignInState extends State<SignIn> {
                                   color:Colors.black,
                                   fontWeight: FontWeight.w700,
                                 )),
+
                             Text("تسجيل دخول",
                                 style: theme.textTheme.titleMedium!.copyWith(
                                   color: AppColors.thirdColor,

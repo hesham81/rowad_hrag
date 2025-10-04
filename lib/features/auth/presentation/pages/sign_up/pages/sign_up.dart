@@ -4,6 +4,7 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import '../../../../../../core/services/bot_toast.dart';
@@ -328,12 +329,17 @@ class SignUp extends StatefulWidget {
 //     )
 class _SignUpState extends State<SignUp> {
   bool _isChecked = true;
-
+  bool _isCheckedGenderMale= true;
+  bool _isCheckedGenderFemale= false;
+  bool _isCheckedGenderHuman=true;
+  bool _isCheckedGenderZoehtyag= false;
+  bool _isCheckedGenderfamil= false;
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var cubit = context.read<AuthCubit>();
     cubit.setSelectedGender("male");
+    
     return Form(
       key: cubit.signUpFormKey,
       child: Scaffold(
@@ -348,321 +354,472 @@ class _SignUpState extends State<SignUp> {
                     bottomRight: Radius.circular(75),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SafeArea(
-                      child: SvgPicture.asset(
-                        AppAssets.coloredLogo,
-                        height: 0.15.height,
+                child: DefaultTabController(
+                  length: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SafeArea(
+                        child: Lottie.asset(
+                            AppAssets.profileLogo,
+                            width: 0.4.width,
+                            height: 0.16.height,
+                          ).center,
                       ),
-                    ),
-                    0.02.height.hSpace,
-                    Text(
-                      "أنشئ حساب",
-                      style: theme.textTheme.titleMedium!.copyWith(
-                        color: AppColors.secondaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
+                      0.02.height.hSpace,
+
+
+                      TabBar(
+                        
+                          dividerColor: AppColors.thirdColor.withAlpha(40),
+                          indicatorColor: AppColors.thirdColor,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          onTap: (value) {
+                            value == 1?
+                              Navigator.pushNamed(context, RouteNames.signIn)
+                              :null;
+                            
+                          },
+                          tabs: [
+                            Text("حساب جديد",
+                                style: theme.textTheme.titleMedium!.copyWith(
+                                  color: AppColors.thirdColor,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                                
+                            Text("تسجيل دخول",
+                                style: theme.textTheme.titleMedium!.copyWith(
+                                  color:Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                          ],
+                        ),
+                        0.025.height.hSpace,
+                        Text(
+                          "يرجي تعبئة المعلومات الاتية",
+                          style: theme.textTheme.titleMedium!.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ).hPadding(10),
+                        
+                      0.025.height.hSpace,
+                      Text(
+                         "الاسم بالكامل",
+                          style: theme.textTheme.labelMedium!.copyWith(
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                              fontWeight: FontWeight.w400,
+                            ),
+                        ).hPadding(10),
+                        0.01.height.hSpace,
+                      CustomTextFormField(
+                        hintText: "",
+                        controller: cubit.signUpNameController,
+                        borderRadius: 10,
+                        validate: (value) => value!.isEmpty ? "ادخل الاسم" : null,
                       ),
-                    ).center,
-                    0.02.height.hSpace,
-                    CustomTextFormField(
-                      hintText: "الاسم بالكامل",
-                      controller: cubit.signUpNameController,
-                      validate: (value) => value!.isEmpty ? "ادخل الاسم" : null,
-                    ),
-                    0.01.height.hSpace,
-                    CustomTextFormField(
-                      hintText: "البريد الالكتروني",
-                      controller: cubit.signUpEmailController,
-                      validate: (value) => (Validations.isEmailValid(value!)),
-                    ),
-                    0.01.height.hSpace,
-                    BlocBuilder<AuthCubit, AuthState>(
-                      builder: (context, state) {
-                        List<String> list = [];
-                        CashHelper.getStringList("Cities").then(
-                          (value) => list = value ?? [],
-                        );
-                        return (state is CompletedCityLoaded)
-                            ? CustomDropdown<String>(
+                      0.02.height.hSpace,
+                      Text(
+                          "البريد الالكتروني",
+                          style: theme.textTheme.labelMedium!.copyWith(
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                              fontWeight: FontWeight.w400,
+                            ),
+                        ).hPadding(10),
+                      0.01.height.hSpace,
+                      CustomTextFormField(
+                        hintText: " ",
+                        controller: cubit.signUpEmailController,
+                        borderRadius: 10,
+                        validate: (value) => (Validations.isEmailValid(value!)),
+                      ),
+                      0.02.height.hSpace,
+                      Text(
+                          "اختر المدينة",
+                          style: theme.textTheme.labelMedium!.copyWith(
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                              fontWeight: FontWeight.w400,
+                            ),
+                        ).hPadding(10),
+                        0.01.height.hSpace,
+                      BlocBuilder<AuthCubit, AuthState>(
+                        builder: (context, state) {
+                          List<String> list = [];
+                          CashHelper.getStringList("Cities").then(
+                            (value) => list = value ?? [],
+                          );
+                          return (state is CompletedCityLoaded)
+                              ? CustomDropdown<String>(
+                                  decoration: CustomDropdownDecoration(
+                                    closedBorder: Border.all(
+                                      color: AppColors.thirdColor,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  hintText: "",
+                                  items: state.cities
+                                      .map(
+                                        (e) => e.name,
+                                      )
+                                      .toList(),
+                                  onChanged: (p0) {
+                                    CityDataModel city = state.cities
+                                        .where(
+                                          (element) => element.name == p0!,
+                                        )
+                                        .first;
+                                    cubit.setSelectedCity(city);
+                                  },
+                                )
+                              : CustomDropdown<String>(
+                                  decoration: CustomDropdownDecoration(
+                                    closedBorder: Border.all(
+                                      color: AppColors.thirdColor,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  hintText: "",
+                                  items: list,
+                                  onChanged: (p0) {},
+                                );
+                        },
+                      ),
+                      0.02.height.hSpace,
+                      Text(
+                          "اختر المنطقه",
+                          style: theme.textTheme.labelMedium!.copyWith(
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                              fontWeight: FontWeight.w400,
+                            ),
+                        ).hPadding(10),
+                        0.01.height.hSpace,
+                      BlocBuilder<AuthCubit, AuthState>(
+                        builder: (context, state) {
+                          var handler = state as HandlingAuth;
+                          switch (handler) {
+                            case CompletedStateLoaded():
+                              return CustomDropdown<String>(
                                 decoration: CustomDropdownDecoration(
                                   closedBorder: Border.all(
-                                    color: AppColors.secondaryColor,
+                                    color: AppColors.thirdColor,
                                     width: 1.5,
                                   ),
                                 ),
-                                hintText: "اختر المدينة",
-                                items: state.cities
-                                    .map(
-                                      (e) => e.name,
-                                    )
-                                    .toList(),
+                                hintText: "",
+                                items: handler.states.map((e) => e.name).toList(),
                                 onChanged: (p0) {
-                                  CityDataModel city = state.cities
+                                  StatesDataModel state = handler.states
                                       .where(
                                         (element) => element.name == p0!,
                                       )
                                       .first;
-                                  cubit.setSelectedCity(city);
+                                  cubit.setSelectedState(state);
                                 },
-                              )
-                            : CustomDropdown<String>(
-                                decoration: CustomDropdownDecoration(
-                                  closedBorder: Border.all(
-                                    color: AppColors.secondaryColor,
-                                    width: 1.5,
-                                  ),
-                                ),
-                                hintText: "اختر المدينة",
-                                items: list,
-                                onChanged: (p0) {},
                               );
-                      },
-                    ),
-                    0.01.height.hSpace,
-                    BlocBuilder<AuthCubit, AuthState>(
-                      builder: (context, state) {
-                        var handler = state as HandlingAuth;
-                        switch (handler) {
-                          case CompletedStateLoaded():
-                            return CustomDropdown<String>(
-                              decoration: CustomDropdownDecoration(
-                                closedBorder: Border.all(
-                                  color: AppColors.secondaryColor,
-                                  width: 1.5,
-                                ),
+                          }
+                          return CustomDropdown<String>(
+                            decoration: CustomDropdownDecoration(
+                              closedBorder: Border.all(
+                                color: AppColors.thirdColor,
+                                width: 1.5,
                               ),
-                              hintText: "اختر المنطقه",
-                              items: handler.states.map((e) => e.name).toList(),
-                              onChanged: (p0) {
-                                StatesDataModel state = handler.states
-                                    .where(
-                                      (element) => element.name == p0!,
-                                    )
-                                    .first;
-                                cubit.setSelectedState(state);
-                              },
-                            );
-                        }
-                        return CustomDropdown<String>(
-                          decoration: CustomDropdownDecoration(
-                            closedBorder: Border.all(
-                              color: AppColors.secondaryColor,
-                              width: 1.5,
+                            ),
+                            hintText: "",
+                            items: [],
+                            onChanged: (p0) {},
+                          );
+                        },
+                      ),
+                      
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.end,
+                      //   children: [
+                      //     Row(
+                      //       children: [
+                      //         Radio<String>(
+                      //           value: "female",
+                      //           groupValue: _selectedGender,
+                      //           onChanged: (value) {
+                      //             setState(() {
+                      //               _selectedGender = value;
+                      //             });
+                      //             cubit.setSelectedGender(_selectedGender);
+                      //           },
+                      //           fillColor: MaterialStateProperty.all(
+                      //               AppColors.secondaryColor),
+                      //         ),
+                      //         Text(
+                      //           "انثى",
+                      //           style: theme.textTheme.labelMedium!.copyWith(
+                      //             color: AppColors.blueColor,
+                      //             fontWeight: FontWeight.w600,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //     SizedBox(width: 0.02.width),
+                      //     // Use SizedBox instead of .vSpace for width
+                      //     Row(
+                      //       children: [
+                      //         Radio<String>(
+                      //           value: "male",
+                      //           groupValue: _selectedGender,
+                      //           onChanged: (value) {
+                      //             setState(() {
+                      //               _selectedGender = value;
+                      //             });
+                      //             cubit.setSelectedGender(_selectedGender);
+                      //           },
+                      //           fillColor: MaterialStateProperty.all(
+                      //               AppColors.secondaryColor),
+                      //         ),
+                      //         Text(
+                      //           "ذكر",
+                      //           style: theme.textTheme.labelMedium!.copyWith(
+                      //             color: AppColors.blueColor,
+                      //             fontWeight: FontWeight.w600,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // ).hPadding(0.03.width),
+                      0.015.height.hSpace,
+                           Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [ 
+                              CustomTextButton(
+                                  text: "انثي ",
+                                  onPressed: (){},
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  btnColor: _isCheckedGenderFemale? AppColors.greenColor:Colors.black,
+                                ),
+
+
+                                Checkbox(
+                                    
+                                      value: _isCheckedGenderFemale,
+                                      // <-- You need a bool variable in your state
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          _isCheckedGenderFemale= value!;
+                                          _isCheckedGenderMale = false;
+                                        });
+                                      },
+                                      
+                                      activeColor: AppColors.greenColor,
+                                      // Optional: customize check color
+                                      visualDensity:
+                                          VisualDensity.compact, // Makes it smaller if needed
+                                ),
+                              CustomTextButton(
+                                text: "ذكر ",
+                                onPressed: (){},
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                btnColor: _isCheckedGenderMale? AppColors.greenColor:Colors.black,
+                              ),
+
+                              Checkbox(
+                              
+                                value: _isCheckedGenderMale,
+                                // <-- You need a bool variable in your state
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    _isCheckedGenderMale = value!;
+                                    _isCheckedGenderFemale = false;
+                                  });
+                                },
+                              
+                                activeColor: AppColors.greenColor,
+                                // Optional: customize check color
+                                visualDensity:
+                                    VisualDensity.compact, // Makes it smaller if needed
+                              ),
+                              
+                          
+                            ],
+                          ),
+                        0.015.height.hSpace,
+                      Text(
+                          "كلمة المرور",
+                          style: theme.textTheme.labelMedium!.copyWith(
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                              fontWeight: FontWeight.w400,
+                            ),
+                        ).hPadding(10),
+                        0.01.height.hSpace,
+                      CustomTextFormField(
+                        hintText: "",
+                        controller: cubit.signUpPasswordController,
+                        isPassword: true,
+                        borderRadius: 10,
+                        validate: (value) {
+                          if (value!.isEmpty) {
+                            return "يرجى ادخال كلمة المرور";
+                          }
+                          return null;
+                        },
+                      ),
+                      0.02.height.hSpace,
+                      Text(
+                          "تأكيد كلمة المرور",
+                          style: theme.textTheme.labelMedium!.copyWith(
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                              fontWeight: FontWeight.w400,
+                            ),
+                        ).hPadding(10),
+                      0.01.height.hSpace,
+                      CustomTextFormField(
+                            hintText: "",
+                            controller: cubit.signUpConfirmPasswordController,
+                            isPassword: true,
+                            borderRadius: 10,
+                            validate: (value) {
+                              if (value != cubit.signUpPasswordController.text) {
+                                return "كلمة المرور غير متطابقة";
+                              }
+                              return null;
+                            },
+                          ),
+                          0.02.height.hSpace,
+
+                          // Agreement text
+
+                          // Privacy policy button
+                          
+                      Column(
+                        children: [
+                          Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomTextButton(
+                            text: "هل انت انسان عادي",
+                            onPressed: () {},
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            btnColor: Color.fromRGBO(0, 0, 0,_isCheckedGenderHuman? 1 : 0.5 ),
+                          
+                          ),
+                          Checkbox(
+                            value: _isCheckedGenderHuman,
+                            
+                            onChanged: (bool? value) {
+                                        setState(() {
+                                          _isCheckedGenderHuman= value!;
+                                          _isCheckedGenderZoehtyag=false;
+                                          _isCheckedGenderfamil= false;
+                                          
+                                        });
+                                      },
+                            activeColor: 
+                              AppColors.secondaryColor,
+                            
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomTextButton(
+                            text: "هل انت من ذوي الاحتياجات الخاصة",
+                            onPressed: () {},
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            btnColor: Color.fromRGBO(0, 0, 0, _isCheckedGenderZoehtyag? 1 : 0.5 ),
+                          
+                          ),
+                          Checkbox(
+                            value: _isCheckedGenderZoehtyag,
+                            
+                            onChanged: (bool? value) {
+                                        setState(() {
+                                          _isCheckedGenderHuman= false;
+                                          _isCheckedGenderZoehtyag=value!;
+                                          _isCheckedGenderfamil= false;
+                                          
+                                        });
+                                      },
+                            activeColor: 
+                              AppColors.secondaryColor,
+                            
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomTextButton(
+                            text: "هل انت من الاسر المنتجة و أيدي عاملة",
+                            onPressed: () {},
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            btnColor: Color.fromRGBO(0, 0, 0, _isCheckedGenderfamil? 1 : 0.5 ),
+                          
+                          ),
+                          Checkbox(
+                            value: _isCheckedGenderfamil,
+                            
+                            onChanged: (bool? value) {
+                                        setState(() {
+                                          _isCheckedGenderHuman= false;
+                                          _isCheckedGenderZoehtyag=false;
+                                          _isCheckedGenderfamil= value!;
+                                          
+                                        });
+                                      },
+                            activeColor: 
+                              AppColors.secondaryColor,
+                            
+                          ),
+                        ],
+                      ),
+                        ],
+                      ),
+                      
+                      0.022.height.hSpace,
+                      SizedBox(
+                        width: double.infinity,
+                        child: CustomElevatedButton(
+                          
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 0.1.width,
+                            vertical: 0.02.height,
+                          ),
+                          onPressed: (!_isChecked)
+                              ? null
+                              : () async {
+                                  if (cubit.signUpFormKey.currentState!
+                                          .validate() &&
+                                      cubit.selectedGender != null &&
+                                      cubit.selectedGender!.isNotEmpty &&
+                                      cubit.selectedCity != null &&
+                                      cubit.selectedState != null) {
+                                    await cubit.signUp(context);
+                                  } else {
+                                    BotToastServices.showErrorMessage(
+                                      "يرجى تعبئة جميع الحقول",
+                                    );
+                                  }
+                                },
+                          borderRadius: 10,
+                          child: Text(
+                            "إنشاء حساب",
+                            style: theme.textTheme.titleMedium!.copyWith(
+                              color: AppColors.primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
                             ),
                           ),
-                          hintText: "اختر المنطقه",
-                          items: [],
-                          onChanged: (p0) {},
-                        );
-                      },
-                    ),
-                    0.01.height.hSpace,
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     Row(
-                    //       children: [
-                    //         Radio<String>(
-                    //           value: "female",
-                    //           groupValue: _selectedGender,
-                    //           onChanged: (value) {
-                    //             setState(() {
-                    //               _selectedGender = value;
-                    //             });
-                    //             cubit.setSelectedGender(_selectedGender);
-                    //           },
-                    //           fillColor: MaterialStateProperty.all(
-                    //               AppColors.secondaryColor),
-                    //         ),
-                    //         Text(
-                    //           "انثى",
-                    //           style: theme.textTheme.labelMedium!.copyWith(
-                    //             color: AppColors.blueColor,
-                    //             fontWeight: FontWeight.w600,
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     SizedBox(width: 0.02.width),
-                    //     // Use SizedBox instead of .vSpace for width
-                    //     Row(
-                    //       children: [
-                    //         Radio<String>(
-                    //           value: "male",
-                    //           groupValue: _selectedGender,
-                    //           onChanged: (value) {
-                    //             setState(() {
-                    //               _selectedGender = value;
-                    //             });
-                    //             cubit.setSelectedGender(_selectedGender);
-                    //           },
-                    //           fillColor: MaterialStateProperty.all(
-                    //               AppColors.secondaryColor),
-                    //         ),
-                    //         Text(
-                    //           "ذكر",
-                    //           style: theme.textTheme.labelMedium!.copyWith(
-                    //             color: AppColors.blueColor,
-                    //             fontWeight: FontWeight.w600,
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ],
-                    // ).hPadding(0.03.width),
-                    0.01.height.hSpace,
-                    CustomTextFormField(
-                      hintText: "كلمة المرور",
-                      controller: cubit.signUpPasswordController,
-                      isPassword: true,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "يرجى ادخال كلمة المرور";
-                        }
-                        return null;
-                      },
-                    ),
-                    0.01.height.hSpace,
-                    CustomTextFormField(
-                      hintText: "تأكيد كلمة المرور",
-                      controller: cubit.signUpConfirmPasswordController,
-                      isPassword: true,
-                      validate: (value) {
-                        if (value != cubit.signUpPasswordController.text) {
-                          return "كلمة المرور غير متطابقة";
-                        }
-                        return null;
-                      },
-                    ),
-                    0.01.height.hSpace,
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     Text(
-                    //       "هل انت من ذوي الاحتياجات الخاصة ؟",
-                    //       style: theme.textTheme.labelMedium!.copyWith(
-                    //         color: AppColors.blueColor,
-                    //         fontWeight: FontWeight.w600,
-                    //       ),
-                    //     ),
-                    //     Radio(
-                    //       value: "value",
-                    //       groupValue: "groupValue",
-                    //       onChanged: (value) {},
-                    //       fillColor: WidgetStatePropertyAll(
-                    //         AppColors.secondaryColor,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     Text(
-                    //       "هل انت من الاسر المنتجة ؟",
-                    //       style: theme.textTheme.labelMedium!.copyWith(
-                    //         color: AppColors.blueColor,
-                    //         fontWeight: FontWeight.w600,
-                    //       ),
-                    //     ),
-                    //     Radio(
-                    //       value: "value",
-                    //       groupValue: "groupValue",
-                    //       onChanged: (value) {},
-                    //       fillColor: WidgetStatePropertyAll(
-                    //         AppColors.secondaryColor,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     CustomTextButton(
-                    //       text: "سياسة الاشتراك",
-                    //       onPressed: () {},
-                    //       fontSize: 12,
-                    //       fontWeight: FontWeight.bold,
-                    //       btnColor: AppColors.secondaryColor,
-                    //     ),
-                    //     Text(
-                    //       "بالتسجيل فانت توافق علي ",
-                    //       style: theme.textTheme.labelMedium!.copyWith(
-                    //         color: AppColors.blueColor,
-                    //         fontWeight: FontWeight.w600,
-                    //       ),
-                    //     ),
-                    //     Radio(
-                    //       value: "value",
-                    //       groupValue: "groupValue",
-                    //       onChanged: (value) {},
-                    //       fillColor: WidgetStatePropertyAll(
-                    //         AppColors.secondaryColor,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    0.02.height.hSpace,
-                    CustomElevatedButton(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 0.1.width,
-                        vertical: 0.02.height,
-                      ),
-                      onPressed: (!_isChecked)
-                          ? null
-                          : () async {
-                              if (cubit.signUpFormKey.currentState!
-                                      .validate() &&
-                                  cubit.selectedGender != null &&
-                                  cubit.selectedGender!.isNotEmpty &&
-                                  cubit.selectedCity != null &&
-                                  cubit.selectedState != null) {
-                                await cubit.signUp(context);
-                              } else {
-                                BotToastServices.showErrorMessage(
-                                  "يرجى تعبئة جميع الحقول",
-                                );
-                              }
-                            },
-                      borderRadius: 10,
-                      child: Text(
-                        "إنشاء حساب",
-                        style: theme.textTheme.titleMedium!.copyWith(
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
                         ),
                       ),
-                    ),
-                    0.02.height.hSpace,
-                  ],
-                ).hPadding(0.03.width),
+                      0.02.height.hSpace,
+                    ],
+                  ).hPadding(0.03.width),
+                ),
               ),
-              // 0.02.height.hSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomTextButton(
-                    text: "تسجيل دخول",
-                    onPressed: () => Navigator.pop(context),
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    btnColor: AppColors.secondaryColor,
-                  ),
-                  0.01.width.vSpace,
-                  Text(
-                    "هل لديك حساب ؟",
-                    style: theme.textTheme.labelMedium!.copyWith(
-                      color: AppColors.blueColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ).hPadding(0.05.width),
-              Row(
+                Row(
                 textDirection: TextDirection.rtl,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -677,7 +834,7 @@ class _SignUpState extends State<SignUp> {
                       });
                     },
 
-                    activeColor: AppColors.secondaryColor,
+                    activeColor: AppColors.greenColor,
                     // Optional: customize check color
                     visualDensity:
                         VisualDensity.compact, // Makes it smaller if needed
@@ -685,27 +842,52 @@ class _SignUpState extends State<SignUp> {
 
                   // Agreement text
                   Text(
-                    "بالتسجيل فأنت توافق على",
+                    "بالتسجيل فأنت توافق",
                     style: theme.textTheme.labelMedium!.copyWith(
-                      color: AppColors.blueColor,
+                      color: Colors.black,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
 
                   // Privacy policy button
                   CustomTextButton(
-                    text: "سياسة الإشتراك",
+                    text: "على سياسة الإشتراك",
                     onPressed: () => pushNamed(
                       newPage: RouteNames.privacyAndPolicy,
                       context: context,
                     ),
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    btnColor: AppColors.secondaryColor,
+                    btnColor: AppColors.greenColor,
                   ),
                 ],
               ),
-              0.1.height.hSpace,
+              
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomTextButton(
+                      text: "تسجيل دخول ",
+                      btnColor: AppColors.greenColor,
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          RouteNames.signUp,
+                        );
+                      },
+                    ),
+            
+                    Text(
+                      "هل لديك حساب ؟ ",
+                      style: theme.textTheme.labelMedium!.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ).hPadding(0.03.width),
+
+              20.hSpace,
             ],
           ),
         ),
