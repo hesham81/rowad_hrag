@@ -4,23 +4,24 @@ import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/custom_container.dart';
+import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 
 import '../../../../core/route/route_names.dart';
 
-class ProductWidget extends StatefulWidget {
+class SpecialProductWidget extends StatefulWidget {
   final ProductsDataModel product;
 
-  const ProductWidget({
+  const SpecialProductWidget({
     super.key,
     required this.product,
   });
 
   @override
-  State<ProductWidget> createState() => _ProductWidgetState();
+  State<SpecialProductWidget> createState() => _SpecialProductWidgetState();
 }
 
-class _ProductWidgetState extends State<ProductWidget> {
+class _SpecialProductWidgetState extends State<SpecialProductWidget> {
   String _formatDateArabic(DateTime past) {
     final now = DateTime.now();
     final diff = now.difference(past);
@@ -192,7 +193,7 @@ class _ProductWidgetState extends State<ProductWidget> {
       //               widget.product.mainPrice??"",
       //               style: Theme.of(context).textTheme.titleMedium!.copyWith(
       //                     fontSize: _responsiveFontSize() + 1,
-      //                     color: AppColors.secondaryColor,
+      //                     color: AppColors.greenColor,
       //                     fontWeight: FontWeight.bold,
       //                   ),
       //             ),
@@ -268,36 +269,59 @@ class _ProductWidgetState extends State<ProductWidget> {
         width: 0.45.width,
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            border: Border.all(
-              width: 1,
-              color: AppColors.darkTeal,
-            ),
-            borderRadius: BorderRadius.circular(15)),
+          border: Border.all(
+            width: 1.3,
+            color: AppColors.greenColor,
+          ),
+          borderRadius: BorderRadius.circular(15),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              imageUrl: widget.product.thumbnailImage,
-              height: 0.15.height,
-              width: double.maxFinite,
-              fit: BoxFit.contain,
-            ).center,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CachedNetworkImage(
+                imageUrl: widget.product.thumbnailImage,
+                height: 0.15.height,
+                width: double.maxFinite,
+                fit: BoxFit.fill,
+              ).center,
+            ),
             0.01.height.hSpace,
             Text(
               widget.product.name,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: AppColors.secondaryColor,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             0.01.height.hSpace,
             Text(
-              widget.product?.mainPrice ?? "",
-              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+              widget.product.mainPrice ?? "",
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: Colors.black.withAlpha(80),
                   ),
             ),
+            Spacer(),
+            CustomElevatedButton(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 0,
+              ),
+              onPressed: () {},
+              btnColor: Colors.white,
+              border: BorderSide(
+                color: AppColors.greenColor,
+              ),
+              child: Text(
+                "اطلب الان",
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Colors.black.withAlpha(80),
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ).center,
           ],
         ),
       ),
