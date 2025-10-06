@@ -52,14 +52,15 @@ abstract class OnGenerateRoute {
             create: (context) => AuthCubit(),
           ),
         );
-      
+
       case RouteNames.onboarding:
         return MaterialPageRoute(
-          builder: (context) =>OnboardingScreen(),
+          builder: (context) => OnboardingScreen(),
         );
-        case RouteNames.searchTab:
+      case RouteNames.searchTab:
         return MaterialPageRoute(
           builder: (context) => SearchTab(),
+        );
       case RouteNames.home:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<HomeCubit>(

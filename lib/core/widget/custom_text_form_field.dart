@@ -58,8 +58,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       minLines: widget.minLine,
       maxLines: widget.maxLine,
       validator: widget.validate,
+      autocorrect: true,
+      cursorErrorColor: Colors.red,
       controller: widget.controller,
-      cursorColor: AppColors.secondaryColor,
+      cursorColor: AppColors.darkTeal,
       decoration: InputDecoration(
         filled: widget.isFilled,
         fillColor: widget.fillColor,
@@ -89,7 +91,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             color: widget.borderColor ?? AppColors.secondaryColor,
             width: widget.borderWidth ?? 1.5,
           ),
-          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderRadius: BorderRadius.circular(
+            widget.borderRadius,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
