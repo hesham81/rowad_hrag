@@ -19,6 +19,7 @@ import 'package:rowad_hrag/features/profile/presentation/widgets/profile_item_ca
 import 'package:rowad_hrag/features/settings/presentation/pages/profile_settings.dart';
 
 import '../../../../core/services/cash_helper.dart';
+import '../../../profile_drawer/presentation/pages/profile_drawer.dart';
 import '../manager/profile_cubit.dart';
 
 class Profile extends StatefulWidget {
@@ -57,57 +58,57 @@ class _ProfileState extends State<Profile> {
     return (token == null)
         ? LoginToContinue()
         : Scaffold(
-            floatingActionButton: WhatsappIconButton(),
-            appBar: AppBar(
-              title: Text(
-                "الملف الشخصي",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
-                    ),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () => Navigator.pushNamed(
-                    context,
-                    RouteNames.shopSettings,
-                  ),
-                  icon: Icon(
-                    Icons.settings,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
-                // IconButton(
-                //   onPressed: () => slideLeftWidget(
-                //     newPage: CreditCardsScreen(),
-                //     context: context,
-                //   ),
-                //   icon: Icon(
-                //     Icons.credit_card,
-                //     color: AppColors.primaryColor,
-                //   ),
-                // ),
-                IconButton(
-                  onPressed: () => Navigator.pushNamed(
-                    context,
-                    RouteNames.allFiles,
-                  ),
-                  icon: Icon(
-                    Icons.file_copy_sharp,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
-              ],
-              leading: (widget.isHome)
-                  ? SizedBox()
-                  : IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-            ),
+            // floatingActionButton: WhatsappIconButton(),
+            // appBar: AppBar(
+            //   title: Text(
+            //     "الملف الشخصي",
+            //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            //           fontWeight: FontWeight.bold,
+            //           color: AppColors.primaryColor,
+            //         ),
+            //   ),
+            //   actions: [
+            //     IconButton(
+            //       onPressed: () => Navigator.pushNamed(
+            //         context,
+            //         RouteNames.shopSettings,
+            //       ),
+            //       icon: Icon(
+            //         Icons.settings,
+            //         color: AppColors.primaryColor,
+            //       ),
+            //     ),
+            //     // IconButton(
+            //     //   onPressed: () => slideLeftWidget(
+            //     //     newPage: CreditCardsScreen(),
+            //     //     context: context,
+            //     //   ),
+            //     //   icon: Icon(
+            //     //     Icons.credit_card,
+            //     //     color: AppColors.primaryColor,
+            //     //   ),
+            //     // ),
+            //     IconButton(
+            //       onPressed: () => Navigator.pushNamed(
+            //         context,
+            //         RouteNames.allFiles,
+            //       ),
+            //       icon: Icon(
+            //         Icons.file_copy_sharp,
+            //         color: AppColors.primaryColor,
+            //       ),
+            //     ),
+            //   ],
+            //   leading: (widget.isHome)
+            //       ? SizedBox()
+            //       : IconButton(
+            //           onPressed: () => Navigator.pop(context),
+            //           icon: Icon(
+            //             Icons.arrow_back_ios,
+            //             color: AppColors.primaryColor,
+            //           ),
+            //         ),
+            // ),
             drawer: (widget.isHome) ? ProfileDrawer() : null,
             body: BlocBuilder<ProfileCubit, ProfileState>(
               builder: (context, state) {

@@ -21,7 +21,7 @@ class OnboardingPageForth extends StatelessWidget {
     return Stack(
         children: [
           Align(
-            alignment: AlignmentGeometry.centerRight,
+            alignment: Alignment.centerRight,
             child: SvgPicture.asset(AppAssets.rightVector,height: 1.height,),
           ),
           Positioned(
@@ -59,14 +59,14 @@ class OnboardingPageForth extends StatelessWidget {
             ),
           
           Align(
-            alignment: AlignmentGeometry.bottomCenter,
+            alignment: Alignment.bottomCenter,
             child: FadeInRight(
               delay: Duration(milliseconds: 600),
               duration: _duration,
               child: Image.asset((AppAssets.money),height: 0.59.height,))
             ),
           Align(
-            alignment: AlignmentGeometry.bottomCenter,
+            alignment: Alignment.bottomCenter,
             child: FadeInUp(
               delay: Duration(seconds: 1),
               duration: _duration,

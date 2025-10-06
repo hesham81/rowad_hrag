@@ -12,9 +12,11 @@ import 'package:rowad_hrag/features/login_to_continue/presentation/pages/login_t
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/home_profile.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile.dart';
+import 'package:rowad_hrag/features/profile/presentation/pages/profile_drawer.dart';
 import 'package:rowad_hrag/features/search_tab/presentation/pages/search_tab.dart';
 
 import '../../../../core/services/cash_helper.dart';
+import '../../../profile_drawer/presentation/pages/profile_drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,6 +47,7 @@ class _HomePageState extends State<HomePage> {
     Profile(
       isHome: true,
     ),
+    // ProfileDrawer(),
     // These pages will access the same Cubit provided at top level
   ];
   final List<Widget> pagesUnAuth = [
