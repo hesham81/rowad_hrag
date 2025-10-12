@@ -18,8 +18,11 @@ class CustomTextFormField extends StatefulWidget {
   final bool isFilled;
   final Color? borderColor;
   final double? borderWidth;
+  final Color? hintColor;
 
   final Color? fillColor;
+
+  final bool isSuffixIconWhite;
 
   const CustomTextFormField({
     this.borderColor,
@@ -38,6 +41,8 @@ class CustomTextFormField extends StatefulWidget {
     this.fillColor,
     this.onChange,
     this.borderWidth,
+    this.isSuffixIconWhite = false,
+    this.hintColor,
   });
 
   @override
@@ -68,7 +73,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         suffixIcon: (widget.isPassword == false)
             ? (widget.suffixIcon == null)
                 ? null
-                : Icon(widget.suffixIcon)
+                : Icon(
+                    widget.suffixIcon,
+                  )
             : IconButton(
                 onPressed: () {
                   setState(() {
@@ -79,9 +86,15 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   (isVisible)
                       ? Icons.visibility_outlined
                       : Icons.visibility_off_outlined,
+                  color: (widget.isSuffixIconWhite)
+                      ? Colors.white
+                      : AppColors.secondaryColor,
                 ),
               ),
         hintText: widget.hintText,
+        hintStyle: TextStyle(
+          color: widget.hintColor ?? AppColors.secondaryColor,
+        ),
         prefixIconColor: AppColors.secondaryColor,
         suffixIconColor: AppColors.secondaryColor,
         focusColor: AppColors.secondaryColor,
