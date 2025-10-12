@@ -319,7 +319,10 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "الاعدادات",
                       imagePath:
                           "assets/icons/92e224f349ab0e242bc55e3aa77ece4f439c5c0a.png",
-                      onTap: () {},
+                      onTap: () => pushNamed(
+                        newPage: RouteNames.shopSettings,
+                        context: context,
+                      ),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(

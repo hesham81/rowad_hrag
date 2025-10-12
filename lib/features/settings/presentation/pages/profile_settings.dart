@@ -18,22 +18,22 @@ class ProfileSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<ShopSettingsCubit>();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "إعدادات المتجر ",
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
-              ),
-        ),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.primaryColor,
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     "إعدادات المتجر ",
+      //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
+      //           fontWeight: FontWeight.bold,
+      //           color: AppColors.primaryColor,
+      //         ),
+      //   ),
+      //   leading: IconButton(
+      //     onPressed: () => Navigator.pop(context),
+      //     icon: Icon(
+      //       Icons.arrow_back_ios,
+      //       color: AppColors.primaryColor,
+      //     ),
+      //   ),
+      // ),
       body: BlocBuilder<ShopSettingsCubit, ShopSettingsState>(
         builder: (context, state) {
           if (state is ShopSettingsErrorState) {
