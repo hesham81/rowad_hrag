@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:rowad_hrag/core/services/cash_helper.dart';
 import 'package:rowad_hrag/core/services/web_services.dart';
 import 'package:rowad_hrag/features/profile/data/data_sources/profile_interface_data_source.dart';
 import 'package:rowad_hrag/features/profile/data/data_sources/remote_profile_data_source.dart';
@@ -24,6 +25,18 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial()) {
     getProfileData();
     getAllAdds();
+  }
+
+  Future<void> _cashingData({
+    required String name,
+    required String imageUrl,
+  }) async {
+    try {
+      CashHelper.setString("name", name);
+      CashHelper.setString("profile", imageUrl);
+    } catch (error) {
+      BotToastServices.showErrorMessage("يوجد خطأ ما ف الاتصال");
+    }
   }
 
   List<AllAddsDataModel> _adds = [];
@@ -60,6 +73,10 @@ class ProfileCubit extends Cubit<ProfileState> {
         );
       }, (data) async {
         await _getAllPoints(data);
+        await _cashingData(
+          name: data.name,
+          imageUrl: data.image,
+        );
       });
     } catch (error) {
       emit(

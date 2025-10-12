@@ -1,11 +1,11 @@
 class Products {
   final int id;
 
-  final String slug;
+  final String? slug;
 
-  final String name;
+  final String? name;
 
-  final String thumbnailImage;
+  final String? thumbnailImage;
   final bool? hasDiscount;
 
   final String? discount;

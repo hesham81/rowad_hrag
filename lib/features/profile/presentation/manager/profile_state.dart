@@ -7,7 +7,9 @@ class ProfileInitial extends ProfileState {}
 class ProfileLoaded extends ProfileState {
   final SellerProfileDataModel sellerProfileDataModel;
 
-  ProfileLoaded({required this.sellerProfileDataModel});
+  ProfileLoaded({
+    required this.sellerProfileDataModel,
+  });
 }
 
 class ProfileError extends ProfileState {

@@ -31,8 +31,7 @@ class _AllProductSearchState extends State<AllProductSearch> {
       setState(() {
         final String query = searchController.text.toLowerCase();
         filteredProducts = widget.products
-            .where((product) =>
-            product.name.toLowerCase().contains(query))
+            .where((product) => product.name!.toLowerCase().contains(query))
             .toList();
       });
     });
@@ -47,8 +46,11 @@ class _AllProductSearchState extends State<AllProductSearch> {
   void search(String query) {
     setState(() {
       filteredProducts = widget.products
-          .where((product) =>
-          product.name.toLowerCase().contains(query.toLowerCase()))
+          .where(
+            (product) => product.name!.toLowerCase().contains(
+                  query.toLowerCase(),
+                ),
+          )
           .toList();
     });
   }
@@ -61,9 +63,9 @@ class _AllProductSearchState extends State<AllProductSearch> {
         title: Text(
           "الاعلانات الجديده",
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryColor,
-          ),
+                fontWeight: FontWeight.bold,
+                color: AppColors.primaryColor,
+              ),
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),

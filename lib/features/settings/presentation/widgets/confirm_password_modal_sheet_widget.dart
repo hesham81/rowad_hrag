@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
-import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
 import 'package:rowad_hrag/core/widget/custom_text_form_field.dart';
+import 'package:rowad_hrag/features/settings/presentation/pages/settings_sub_branches/change_password.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
@@ -78,7 +79,10 @@ class ConfirmPasswordModalSheetWidget extends StatelessWidget {
           CustomElevatedButton(
             padding: EdgeInsets.all(6),
             btnColor: AppColors.primaryColor,
-            onPressed: () {},
+            onPressed: () => slideLeftWidget(
+              newPage: ChangePassword(),
+              context: context,
+            ),
             child: Text(
               "استمرار",
               style: Theme.of(context).textTheme.displaySmall!.copyWith(

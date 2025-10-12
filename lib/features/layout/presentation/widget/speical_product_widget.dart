@@ -282,7 +282,7 @@ class _SpecialProductWidgetState extends State<SpecialProductWidget> {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: CachedNetworkImage(
-                imageUrl: widget.product.thumbnailImage,
+                imageUrl: widget.product.thumbnailImage ?? '',
                 height: 0.15.height,
                 width: double.maxFinite,
                 fit: BoxFit.fill,
@@ -290,7 +290,7 @@ class _SpecialProductWidgetState extends State<SpecialProductWidget> {
             ),
             0.01.height.hSpace,
             Text(
-              widget.product.name,
+              widget.product.name ?? '',
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

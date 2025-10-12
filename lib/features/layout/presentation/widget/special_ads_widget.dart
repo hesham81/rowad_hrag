@@ -28,7 +28,7 @@ class SpecialAdsWidget extends StatelessWidget {
       child: Column(
         children: [
           CachedNetworkImage(
-            imageUrl: product.thumbnailImage,
+            imageUrl: product.thumbnailImage ?? "",
             height: 0.2.height,
             width: double.maxFinite,
             fit: BoxFit.contain,

@@ -278,14 +278,14 @@ class _ProductWidgetState extends State<ProductWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CachedNetworkImage(
-              imageUrl: widget.product.thumbnailImage,
+              imageUrl: widget.product.thumbnailImage??"",
               height: 0.15.height,
               width: double.maxFinite,
               fit: BoxFit.contain,
             ).center,
             0.01.height.hSpace,
             Text(
-              widget.product.name,
+              widget.product.name??"",
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: AppColors.secondaryColor,
                     fontWeight: FontWeight.bold,

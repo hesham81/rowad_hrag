@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/functions/files_pickers.dart';
@@ -9,6 +10,7 @@ import 'package:rowad_hrag/core/validations/validations.dart';
 import 'package:rowad_hrag/core/widget/arrow_widget.dart';
 import 'package:rowad_hrag/features/profile_drawer/presentation/widgets/custom_profile_tab_icon.dart';
 import 'package:rowad_hrag/features/settings/data/models/settings_data_model.dart';
+import 'package:rowad_hrag/features/settings/presentation/pages/settings_sub_branches/change_email.dart';
 import 'package:rowad_hrag/features/settings/presentation/widgets/confirm_password_modal_sheet_widget.dart';
 
 import '../../../../core/widget/custom_elevated_button.dart';
@@ -630,14 +632,17 @@ class _SuccessShopSettingsState extends State<SuccessShopSettings> {
                     text: "نسيت كلمة المرور",
                     imagePath:
                         "assets/icons/cad2e844758de939723988d0d6e4d4790a917961.png",
-                    onTap: () {},
+                    onTap: _modelSheet,
                   ),
                   0.05.height.hSpace,
                   CustomProfileTabIcon(
                     text: "تغير البريد الالكتروني",
                     imagePath:
                         "assets/icons/c2737c1fe42bc6b549f9ea89161017d4a633ad56.png",
-                    onTap: () {},
+                    onTap: () => slideLeftWidget(
+                      newPage: ChangeEmail(),
+                      context: context,
+                    ),
                   ),
                   0.05.height.hSpace,
                   CustomProfileTabIcon(

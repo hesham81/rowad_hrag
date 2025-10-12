@@ -47,6 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
   //
   // }
 
+  List<String> profiles = [
+    "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/481198415_2008116629698497_3187727101447524743_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=0yCGK_Q-XDcQ7kNvwGsjEfB&_nc_oc=AdlXUC4JFjQmtXXyAoKr6SsgjBAOu0imgqLpn6TRN_Mv4OwKod8kFdcXCCuV46dXeaI&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=4VpsaL_zMajxR1vYThrCQQ&oh=00_AfcTB1mtlBuOHg_RtKKgndxU62y6CsUfDHr-6LjS0z_-PA&oe=68F1A42C",
+    "https://scontent.fcai30-1.fna.fbcdn.net/v/t1.6435-9/127164874_1005637176613119_2491557231776884345_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=RbVqYr9eVxgQ7kNvwGx3jMv&_nc_oc=AdmweJa5-m_nnwJ7rCk3Zggviiyt62GW2NrpAsqhGmmJkBl2LSpUCkYCdQxzmHfaQGs&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=K1-3lUPe5wkoat2h8P61Yg&oh=00_AfdjA5EofuADl5mhaCkuGCL9pgs_1FL05qyf3A2219k4Qw&oe=691371E2",
+    "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/483103367_2018925161950977_3530181175992229483_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=u03X-0Zge2YQ7kNvwFSrgkj&_nc_oc=AdmUaK1uuKrnYvfuhGtLhWFoZswJRpXid0JWH2ZLSqaRs9aYj5lkqJJ_-W6PvGHTQSo&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=7HHdDwE-RrO4WS2ejN9-dA&oh=00_AfeWEdCqRLl52CPHd_706xC6Sn-9p4HjJzuoHKhXrMv0oQ&oe=68F1AAF1",
+    "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/483601244_2014988165678010_3165195477285177409_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=986cXwwpHMcQ7kNvwGTab9R&_nc_oc=AdnUCuC9jbsS-U7nOkda5NzAOql1x_6qZTUgWiIaMWc8LGVnM3QfFpnSAw8PyHiydRI&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=lbus7VQEDztrcf1Naakn4g&oh=00_AfcjT7vKOBVzD4bjJuegY3Uo_wXnI3Q-uF_INBFH7kKfVg&oe=68F1C05D",
+  ];
   List<String> images = [
     "",
     "https://rowad-harag.com/public/uploads/all/rszSya92uYGmmNDrRsdrR0u3BQvzT29xTC8E8sYh.png",
@@ -105,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (query != null && query.trim().isNotEmpty) {
       searchedProducts = products
           .where((product) =>
-              product.name.toLowerCase().contains(query.toLowerCase().trim()))
+              product.name!.toLowerCase().contains(query.toLowerCase().trim()))
           .toSet()
           .toList();
     }
@@ -512,14 +518,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       child: CircleAvatar(
-                        backgroundImage: AssetImage(
-                          "assets/images/2509066e7679ec0d7f604fd8a573e4c724dd80e6.png",
+                        backgroundImage: NetworkImage(
+                          profiles[index],
                         ),
-                        radius: 30,
+                        radius: 40,
                       ),
                     ),
                     separatorBuilder: (context, index) => 0.03.width.vSpace,
-                    itemCount: 15,
+                    itemCount: profiles.length,
                   ),
                 ).hPadding(0.03.width),
                 0.03.height.hSpace,
@@ -635,42 +641,42 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ).hPadding(0.03.width),
                           0.02.height.hSpace,
-                          Row(
-                            textDirection: TextDirection.rtl,
-                            children: [
-                              Text(
-                                "إعلانات لذوي الاحتياجات الخاصة",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
-                                      color: AppColors.greenColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                              Spacer(),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.arrow_back,
-                                  color: AppColors.greenColor,
-                                ),
-                              ),
-                            ],
-                          ).hPadding(0.03.width),
+                          // Row(
+                          //   textDirection: TextDirection.rtl,
+                          //   children: [
+                          //     Text(
+                          //       "إعلانات لذوي الاحتياجات الخاصة",
+                          //       style: Theme.of(context)
+                          //           .textTheme
+                          //           .titleLarge!
+                          //           .copyWith(
+                          //             color: AppColors.greenColor,
+                          //             fontWeight: FontWeight.bold,
+                          //           ),
+                          //     ),
+                          //     Spacer(),
+                          //     IconButton(
+                          //       onPressed: () {},
+                          //       icon: Icon(
+                          //         Icons.arrow_back,
+                          //         color: AppColors.greenColor,
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ).hPadding(0.03.width),
                           0.02.height.hSpace,
-                          SizedBox(
-                            height: 0.3.height,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) => ProductWidget(
-                                product: state.specialNeedsProducts[index],
-                              ),
-                              separatorBuilder: (context, index) =>
-                                  0.02.width.vSpace,
-                              itemCount: state.specialNeedsProducts.length,
-                            ),
-                          ).hPadding(0.03.width),
+                          // SizedBox(
+                          //   height: 0.3.height,
+                          //   child: ListView.separated(
+                          //     scrollDirection: Axis.horizontal,
+                          //     itemBuilder: (context, index) => ProductWidget(
+                          //       product: state.specialNeedsProducts[index],
+                          //     ),
+                          //     separatorBuilder: (context, index) =>
+                          //         0.02.width.vSpace,
+                          //     itemCount: state.specialNeedsProducts.length,
+                          //   ),
+                          // ).hPadding(0.03.width),
                           0.02.height.hSpace,
                           Image.asset(
                             "assets/images/4c44065dbf4502f0ede58e0ce947e46c6e1f717b.png",
