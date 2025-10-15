@@ -5,7 +5,7 @@ abstract class AppTheme {
   static final lightTheme = ThemeData(
     // scaffoldBackgroundColor: Color(0xffE3F1EE),
     scaffoldBackgroundColor:AppColors.primaryColor,
-    fontFamily: 'Cairo',
+    fontFamily: 'Rubik',
     appBarTheme: AppBarTheme(
       centerTitle: true,
       backgroundColor:AppColors.secondaryColor,
