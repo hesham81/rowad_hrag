@@ -10,6 +10,7 @@ import 'package:rowad_hrag/features/profile/data/models/profile_points_data_mode
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 import 'package:rowad_hrag/features/profile_drawer/presentation/widgets/custom_profile_tab_icon.dart';
 import 'package:rowad_hrag/features/update_profile/presentation/pages/update_profile.dart';
+import 'package:rowad_hrag/features/wallet/presentation/pages/wallet.dart';
 
 import '../../../data/models/all_adds_data_model.dart';
 
@@ -145,7 +146,10 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "محفظة",
                       imagePath:
                           "assets/icons/9edf6210a75ab015af70ab7991620f2ff068a6f9.png",
-                      onTap: () {},
+                      onTap: () => slideLeftWidget(
+                        newPage: Wallet(),
+                        context: context,
+                      ),
                     ),
                     0.03.height.hSpace,
                     //
