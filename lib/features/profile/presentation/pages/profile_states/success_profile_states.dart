@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:route_transitions/route_transitions.dart';
@@ -11,11 +10,7 @@ import 'package:rowad_hrag/features/profile/data/models/profile_points_data_mode
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 import 'package:rowad_hrag/features/profile_drawer/presentation/widgets/custom_profile_tab_icon.dart';
 
-import '../../../../../core/widget/custom_elevated_button.dart';
 import '../../../data/models/all_adds_data_model.dart';
-import '../../widgets/points_item_cart.dart';
-import '../../widgets/profile_item_cart.dart';
-import '../adds_screen.dart';
 
 class SuccessProfileStates extends StatefulWidget {
   final SellerProfileDataModel profileDataModel;
@@ -282,14 +277,17 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "أضف عرض",
                       imagePath:
                           "assets/icons/83d25617f98c4abb7e36c2ec89748dfdae13cd24.png",
-                      onTap: () {},
+                     onTap: () => {},
+                      
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(
                       text: "طلبات الشراء",
                       imagePath:
                           "assets/icons/16dceec433833cb4d80ef2fe0ddcae3a16e65763.png",
-                      onTap: () {},
+                      onTap: () =>pushNamed(
+                        newPage: RouteNames.orderList,
+                        context: context,),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(
@@ -305,7 +303,9 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       imagePath:
                           "assets/icons/c3347b7b5e351c7eab68314c08cca1ca1c95cea9.png",
                       // "assets/icons/b0c764b26d190a804ba19e8092eebd572a712c13.png",
-                      onTap: () {},
+                      onTap: () =>pushNamed(
+                        newPage: RouteNames.followList,
+                        context: context,),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(

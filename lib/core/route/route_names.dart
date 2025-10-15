@@ -26,5 +26,7 @@ abstract class RouteNames {
   static const String allReviews   = '/allReviews';
   static const String loginToContinue   = '/loginToContinue';
   static const String onboarding   = '/onboarding';
+  static const String followList   = '/followList';
+  static const String orderList   = '/orderList';
 
 }
