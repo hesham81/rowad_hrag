@@ -9,6 +9,7 @@ import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/profile/data/models/profile_points_data_model.dart';
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 import 'package:rowad_hrag/features/profile_drawer/presentation/widgets/custom_profile_tab_icon.dart';
+import 'package:rowad_hrag/features/update_profile/presentation/pages/update_profile.dart';
 
 import '../../../data/models/all_adds_data_model.dart';
 
@@ -63,159 +64,6 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   body: SingleChildScrollView(
-    //     child: Column(
-    //       children: [
-    //         0.01.height.hSpace,
-    //         Stack(
-    //           alignment: Alignment.bottomRight,
-    //           children: [
-    //             CircleAvatar(
-    //               radius: 150,
-    //               backgroundImage: NetworkImage(
-    //                 widget.profileDataModel.image,
-    //               ),
-    //             ),
-    //             Image.network(
-    //               widget.profileDataModel.verifiedImg,
-    //               height: 80,
-    //             )
-    //           ],
-    //         ),
-    //         0.01.height.hSpace,
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             Text(
-    //               widget.profileDataModel.name,
-    //               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-    //                     fontWeight: FontWeight.bold,
-    //                     color: Colors.black,
-    //                   ),
-    //             ),
-    //             0.02.width.vSpace,
-    //             Container(
-    //               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-    //               decoration: BoxDecoration(
-    //                 color: Colors.green,
-    //                 borderRadius: BorderRadius.circular(10),
-    //               ),
-    //               child: Text(
-    //                 "${widget.totalPoints} نقاط",
-    //                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-    //                       fontWeight: FontWeight.bold,
-    //                       color: Colors.white,
-    //                     ),
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //         Text(
-    //           widget.profileDataModel.email,
-    //           style: Theme.of(context).textTheme.labelLarge!.copyWith(
-    //                 fontWeight: FontWeight.bold,
-    //                 color: Colors.black.withAlpha(50),
-    //               ),
-    //         ),
-    //         0.01.height.hSpace,
-    //         0.01.height.hSpace,
-    //         Row(
-    //           children: [
-    //             Expanded(
-    //               child: CustomElevatedButton(
-    //                 child: Text(
-    //                   "الاعلانات",
-    //                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-    //                         fontWeight: FontWeight.bold,
-    //                         color: Colors.white,
-    //                       ),
-    //                 ),
-    //                 onPressed: () => slideLeftWidget(
-    //                   newPage: AddsScreen(
-    //                     adds: widget.allAddsDataModel,
-    //                   ),
-    //                   context: context,
-    //                 ),
-    //               ),
-    //             ),
-    //             0.01.width.vSpace,
-    //             Expanded(
-    //               child: CustomElevatedButton(
-    //                 child: Text(
-    //                   "تعليقات الاعلانات",
-    //                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-    //                         fontWeight: FontWeight.bold,
-    //                         color: Colors.white,
-    //                       ),
-    //                 ),
-    //                 onPressed: () {
-    //                   Navigator.pushNamed(
-    //                     context,
-    //                     RouteNames.addsReviews,
-    //                   );
-    //                 },
-    //               ),
-    //             )
-    //           ],
-    //         ),
-    //         0.01.height.hSpace,
-    //         ProfileItemCart(
-    //           imagePath: "assets/images/box.jpg",
-    //           title: "الاعلانات",
-    //           callBack: () {
-    //             slideLeftWidget(
-    //               newPage: AddsScreen(
-    //                 adds: widget.allAddsDataModel,
-    //               ),
-    //               context: context,
-    //             );
-    //           },
-    //           count: widget.profileDataModel.products.toString(),
-    //         ),
-    //         0.01.height.hSpace,
-    //         ProfileItemCart(
-    //           imagePath: "assets/images/star.jpg",
-    //           title: "تقييم",
-    //           count: widget.profileDataModel.rating.toString(),
-    //           withPadding: true,
-    //         ),
-    //         0.01.height.hSpace,
-    //         PointsItemCart(
-    //           color: Color(0xff0abb75),
-    //           title: 'النقاط النشطة',
-    //           desc: "إجمالي النقاط النشطة",
-    //           totalPoints: unExpiredPointsCount.toString(),
-    //           balance: (unExpiredPointsCount ~/ 50 * 2).toString(),
-    //         ),
-    //         0.02.height.hSpace,
-    //         PointsItemCart(
-    //           color: Color(0xfff24b6c),
-    //           title: 'النقاط المنتهيه',
-    //           desc: "إجمالي النقاط المنتهيه",
-    //           totalPoints: expiredPointsCount.toString(),
-    //           balance: (expiredPointsCount ~/ 50 * 2).toString(),
-    //         ),
-    //         0.02.height.hSpace,
-    //         SizedBox(
-    //           width: double.maxFinite,
-    //           child: CustomElevatedButton(
-    //             btnColor: Colors.red,
-    //             onPressed: widget.deleteAccount,
-    //             child: Text(
-    //               "حذف الحساب",
-    //               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-    //                     fontWeight: FontWeight.bold,
-    //                     color: Colors.white,
-    //                   ),
-    //             ),
-    //           ),
-    //         ),
-    //         0.05.height.hSpace,
-    //       ],
-    //     ).hPadding(0.03.width),
-    //   ),
-    // );
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -244,7 +92,10 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                   ),
                   0.02.width.vSpace,
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => slideLeftWidget(
+                      newPage: UpdateProfile(),
+                      context: context,
+                    ),
                     icon: Icon(
                       FontAwesomeIcons.edit,
                       color: AppColors.secondaryColor,
@@ -277,17 +128,17 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "أضف عرض",
                       imagePath:
                           "assets/icons/83d25617f98c4abb7e36c2ec89748dfdae13cd24.png",
-                     onTap: () => {},
-                      
+                      onTap: () => {},
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(
                       text: "طلبات الشراء",
                       imagePath:
                           "assets/icons/16dceec433833cb4d80ef2fe0ddcae3a16e65763.png",
-                      onTap: () =>pushNamed(
+                      onTap: () => pushNamed(
                         newPage: RouteNames.orderList,
-                        context: context,),
+                        context: context,
+                      ),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(
@@ -303,9 +154,10 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       imagePath:
                           "assets/icons/c3347b7b5e351c7eab68314c08cca1ca1c95cea9.png",
                       // "assets/icons/b0c764b26d190a804ba19e8092eebd572a712c13.png",
-                      onTap: () =>pushNamed(
+                      onTap: () => pushNamed(
                         newPage: RouteNames.followList,
-                        context: context,),
+                        context: context,
+                      ),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(

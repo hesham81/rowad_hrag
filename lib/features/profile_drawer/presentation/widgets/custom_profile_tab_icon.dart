@@ -11,11 +11,13 @@ class CustomProfileTabIcon extends StatefulWidget {
   final String imagePath;
 
   final bool isWithArrow;
+  final bool isWhiteColor;
 
   final Function() onTap;
 
   const CustomProfileTabIcon({
     this.isWithArrow = true,
+    this.isWhiteColor = false,
     super.key,
     required this.text,
     required this.imagePath,
@@ -31,29 +33,30 @@ class _CustomProfileTabIconState extends State<CustomProfileTabIcon> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Row(
-        children: [
-          Image.asset(
-            widget.imagePath,
-            width: 24,
-            height: 24,
-          ),
-          0.03.width.vSpace,
-          Text(
-            widget.text,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-          ),
-          Spacer(),
-          (this.widget.isWithArrow)
-              ? ArrowWidget(
-                  onTap: this.widget.onTap,
-                )
-              : SizedBox(),
-        ],
-      ).allPadding(3),
+      child: InkWell(
+        onTap: this.widget.onTap,
+        child: Row(
+          children: [
+            Image.asset(
+              widget.imagePath,
+              width: 24,
+              height: 24,
+            ),
+            0.03.width.vSpace,
+            Text(
+              widget.text,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: (widget.isWhiteColor)
+                        ? AppColors.primaryColor
+                        : Colors.black,
+                  ),
+            ),
+            Spacer(),
+            (this.widget.isWithArrow) ? ArrowWidget() : SizedBox(),
+          ],
+        ).allPadding(3),
+      ),
     );
   }
 }

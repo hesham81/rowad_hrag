@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rowad_hrag/core/extensions/extensions.dart';
 
 import '../theme/app_colors.dart';
 
@@ -38,7 +39,7 @@ class _ArrowWidgetState extends State<ArrowWidget> {
               : Icons.arrow_back_ios,
           size: 22,
           color: AppColors.secondaryColor,
-        ),
+        ).hPadding(6),
       ),
     );
   }
