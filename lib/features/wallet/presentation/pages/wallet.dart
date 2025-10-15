@@ -19,12 +19,12 @@ class _WalletState extends State<Wallet> {
   final cvvCodeController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   CreditCardBrand? brandData;
+  bool isRotate = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-
         child: SafeArea(
           child: Column(
             children: [
@@ -38,14 +38,15 @@ class _WalletState extends State<Wallet> {
               0.02.height.hSpace,
               CreditCardWidget(
                 enableFloatingCard: true,
-                isHolderNameVisible: true,
                 isSwipeGestureEnabled: true,
+                isChipVisible: true,
+                isHolderNameVisible: true,
                 cardNumber: cardNumberController.text,
                 expiryDate: expiryDateController.text,
                 cardHolderName: cardHolderNameController.text,
                 cvvCode: cvvCodeController.text,
                 cardType: CardType.visa,
-                showBackView: cvvCodeController.text.isNotEmpty,
+                showBackView: isRotate,
                 onCreditCardWidgetChange: (CreditCardBrand brand) {
                   brandData = brand;
                 },
@@ -57,10 +58,14 @@ class _WalletState extends State<Wallet> {
                 cardHolderName: cardHolderNameController.text,
                 cvvCode: cvvCodeController.text,
                 isHolderNameVisible: true,
+                isCardHolderNameUpperCase: true,
+                disableCardNumberAutoFillHints: true,
                 onCreditCardModelChange: (CreditCardModel creditCardModel) {
+                  isRotate = creditCardModel.isCvvFocused;
                   cardNumberController.text = creditCardModel.cardNumber;
                   expiryDateController.text = creditCardModel.expiryDate;
-                  cardHolderNameController.text = creditCardModel.cardHolderName;
+                  cardHolderNameController.text =
+                      creditCardModel.cardHolderName;
                   cvvCodeController.text = creditCardModel.cvvCode;
                   setState(() {});
                 },

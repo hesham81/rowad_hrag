@@ -13,6 +13,7 @@ import 'package:rowad_hrag/core/widget/icon_error.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/all_product_search/presentation/widgets/all_products_widget.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
+import 'package:rowad_hrag/features/layout/presentation/pages/all_products_viewer.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/loaded_home_screen.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/special_products_home_screen.dart';
@@ -573,7 +574,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Spacer(),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () => slideLeftWidget(
+                                  newPage: AllProductsViewer(
+                                    title: "إعلانات مميزة",
+                                    products: state.specialProducts,
+                                    isSpecial: true,
+                                  ),
+                                  context: context,
+                                ),
                                 icon: Icon(
                                   Icons.arrow_back,
                                   color: AppColors.greenColor,
@@ -600,7 +608,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             textDirection: TextDirection.rtl,
                             children: [
                               Text(
-                                "إعلانات الأسر المنتجة والحرف اليدوية",
+                                "إعلانات الأسر المنتجة",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge!
@@ -611,7 +619,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Spacer(),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () => slideLeftWidget(
+                                  newPage: AllProductsViewer(
+                                    title: "إعلانات الأسر المنتجة",
+                                    products: state.productiveFamiliesProducts,
+                                  ),
+                                  context: context,
+                                ),
                                 icon: Icon(
                                   Icons.arrow_back,
                                   color: AppColors.greenColor,
@@ -650,7 +664,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Spacer(),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () => slideLeftWidget(
+                                    newPage: AllProductsViewer(
+                                      title: "إعلانات لذوي الاحتياجات الخاصة",
+                                      products: state.specialNeedsProducts,
+                                    ),
+                                    context: context),
                                 icon: Icon(
                                   Icons.arrow_back,
                                   color: AppColors.greenColor,

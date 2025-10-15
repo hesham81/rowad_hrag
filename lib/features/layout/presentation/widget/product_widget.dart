@@ -130,140 +130,6 @@ class _ProductWidgetState extends State<ProductWidget> {
         RouteNames.productDetails,
         arguments: widget.product.slug,
       ),
-      // child: CustomContainer(
-      //   padding: EdgeInsets.zero,
-      //   width: containerWidth, // Responsive width
-      //   child: Row(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     mainAxisAlignment: MainAxisAlignment.end,
-      //     textDirection: TextDirection.rtl, // Ensure RTL
-      //     children: [
-      //       Expanded(
-      //         flex: 7,
-      //         child: ClipRRect(
-      //           borderRadius: const BorderRadius.only(
-      //             topLeft: Radius.circular(8),
-      //             topRight: Radius.circular(8),
-      //           ),
-      //           child: CachedNetworkImage(
-      //             imageUrl: widget.product.thumbnailImage,
-      //             height: imageSize,
-      //             width: isTablet ? 0.25.width : 0.3.width,
-      //             fit: BoxFit.cover,
-      //             placeholder: (context, url) => Container(
-      //               color: Colors.grey[200],
-      //               child: const Center(child: CircularProgressIndicator()),
-      //             ),
-      //             errorWidget: (context, url, error) => Container(
-      //               color: Colors.grey[300],
-      //               child: const Icon(Icons.image_not_supported,
-      //                   color: Colors.grey),
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //       0.02.width.vSpace,
-      //
-      //       // Text Content (Right-aligned in RTL)
-      //       Expanded(
-      //         flex: 6,
-      //         child: Column(
-      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //           crossAxisAlignment: CrossAxisAlignment.end,
-      //           children: [
-      //             // Product Name
-      //             Text(
-      //               widget.product.name.length > 40
-      //                   ? '${widget.product.name.substring(0, 40)}...'
-      //                   : widget.product.name,
-      //               textAlign: TextAlign.right,
-      //               style: Theme.of(context).textTheme.titleMedium!.copyWith(
-      //                     fontSize: _responsiveFontSize(),
-      //                     color: Colors.black,
-      //                     fontWeight: FontWeight.bold,
-      //                   ),
-      //               maxLines: 2,
-      //               overflow: TextOverflow.ellipsis,
-      //             ),
-      //             0.01.height.hSpace,
-      //
-      //             // Price
-      //             Text(
-      //               widget.product.mainPrice??"",
-      //               style: Theme.of(context).textTheme.titleMedium!.copyWith(
-      //                     fontSize: _responsiveFontSize() + 1,
-      //                     color: AppColors.secondaryColor,
-      //                     fontWeight: FontWeight.bold,
-      //                   ),
-      //             ),
-      //             0.01.height.hSpace,
-      //
-      //             // City & State
-      //             Row(
-      //               mainAxisAlignment: MainAxisAlignment.end,
-      //               crossAxisAlignment: CrossAxisAlignment.center,
-      //               textDirection: TextDirection.rtl,
-      //               children: [
-      //                 Text(
-      //                   widget.product.cityName ?? "",
-      //                   style:
-      //                       Theme.of(context).textTheme.titleMedium!.copyWith(
-      //                             fontSize: _responsiveFontSize(),
-      //                             color: AppColors.secondaryColor,
-      //                             fontWeight: FontWeight.bold,
-      //                           ),
-      //                 ),
-      //                 const Text("، ", style: TextStyle(fontSize: 16)),
-      //                 Expanded(
-      //                   child: Text(
-      //                     widget.product.stateName ?? "",
-      //                     style:
-      //                         Theme.of(context).textTheme.titleMedium!.copyWith(
-      //                               fontSize: _responsiveFontSize(),
-      //                               color: AppColors.secondaryColor,
-      //                               fontWeight: FontWeight.bold,
-      //                             ),
-      //                     maxLines: 1,
-      //                     overflow: TextOverflow.ellipsis,
-      //                   ),
-      //                 ),
-      //               ],
-      //             ),
-      //             0.01.height.hSpace,
-      //             Text(
-      //               widget.product.userName??"",
-      //               textAlign: TextAlign.right,
-      //               style: Theme.of(context).textTheme.titleMedium!.copyWith(
-      //                     fontSize: _responsiveFontSize(),
-      //                     color: AppColors.secondaryColor,
-      //                     fontWeight: FontWeight.bold,
-      //                   ),
-      //               maxLines: 1,
-      //               overflow: TextOverflow.ellipsis,
-      //             ),
-      //             // Time Ago
-      //
-      //             0.01.height.hSpace,
-      //             Text(
-      //               _formatDateArabic(
-      //                 widget.product.createdAt!,
-      //               ),
-      //               textAlign: TextAlign.right,
-      //               style: Theme.of(context).textTheme.titleMedium!.copyWith(
-      //                     fontSize: _responsiveFontSize() - 1,
-      //                     color: AppColors.secondaryColor,
-      //                     fontWeight: FontWeight.w500,
-      //                   ),
-      //             ),
-      //             // Seller Name
-      //           ],
-      //         ),
-      //       ),
-      //
-      //       // Image (Responsive Size)
-      //     ],
-      //   ).allPadding(padding),
-      // ),
       child: Container(
         width: 0.45.width,
         padding: EdgeInsets.all(10),
@@ -277,15 +143,18 @@ class _ProductWidgetState extends State<ProductWidget> {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              imageUrl: widget.product.thumbnailImage,
-              height: 0.15.height,
-              width: double.maxFinite,
-              fit: BoxFit.contain,
-            ).center,
+            Expanded(
+              child: CachedNetworkImage(
+                imageUrl: widget.product.thumbnailImage,
+                height: 0.15.height,
+                width: double.maxFinite,
+                fit: BoxFit.contain,
+              ).center,
+            ),
             0.01.height.hSpace,
             Text(
               widget.product.name,
+              textAlign: TextAlign.right,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: AppColors.secondaryColor,
                     fontWeight: FontWeight.bold,

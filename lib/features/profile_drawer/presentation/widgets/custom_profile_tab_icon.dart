@@ -53,7 +53,11 @@ class _CustomProfileTabIconState extends State<CustomProfileTabIcon> {
                   ),
             ),
             Spacer(),
-            (this.widget.isWithArrow) ? ArrowWidget() : SizedBox(),
+            // (this.widget.isWithArrow)
+            //     ? ArrowWidget(
+            //         onTap: (){},
+            //       )
+            //     : SizedBox(),
           ],
         ).allPadding(3),
       ),
