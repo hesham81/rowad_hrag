@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,6 +19,7 @@ import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart'
 import 'package:rowad_hrag/features/layout/presentation/pages/all_products_viewer.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/loaded_home_screen.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/categories.dart';
+import 'package:rowad_hrag/features/layout/presentation/widget/filter_button.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/special_products_home_screen.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/speical_product_widget.dart';
@@ -41,6 +43,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<String> selectedItems = [];
+  List<ProductsDataModel> filteredData = [];
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<HomeCubit>();
@@ -321,7 +326,149 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: AppColors.greenColor,
                                       fontWeight: FontWeight.bold,
                                     ),
-                              )
+                              ),
+                              Spacer(),
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton2<String>(
+                                  isExpanded: true,
+                                  hint: Text(
+                                    'المنطقة',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          color: AppColors.greenColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  iconStyleData: IconStyleData(
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down_sharp,
+                                      color: AppColors.greenColor,
+                                    ),
+                                  ),
+                                  buttonStyleData: ButtonStyleData(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 10,
+                                    ),
+                                    height: 0.06.height,
+                                    width: 0.3.width,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryColor,
+                                      border: Border.all(
+                                        width: 1,
+                                        color:
+                                            AppColors.greenColor.withAlpha(100),
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  items: state.allProducts
+                                      .where((e) => e.cityName != null)
+                                      .map((e) => e.cityName!)
+                                      .toSet()
+                                      .toList()
+                                      .map((item) {
+                                    return DropdownMenuItem(
+                                      value: item,
+                                      //disable default onTap to avoid closing menu when selecting an item
+                                      enabled: false,
+                                      child: StatefulBuilder(
+                                        builder: (context, menuSetState) {
+                                          final isSelected =
+                                              selectedItems.contains(item);
+                                          return InkWell(
+                                            onTap: () {
+                                              if (isSelected) {
+                                                selectedItems.remove(
+                                                    item); // removes first occurrence
+                                              } else {
+                                                selectedItems.add(item);
+                                              }
+
+                                              // Re-filter based on ALL currently selected cities
+                                              if (selectedItems.isEmpty) {
+                                                filteredData = List.from(
+                                                    state.allProducts);
+                                              } else {
+                                                filteredData = state.allProducts
+                                                    .where((e) =>
+                                                        e.cityName != null &&
+                                                        selectedItems.contains(
+                                                            e.cityName))
+                                                    .toList();
+                                              }
+
+                                              setState(() {});
+                                              menuSetState(() {});
+                                            },
+                                            child: Container(
+                                              height: double.infinity,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 16.0,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  if (isSelected)
+                                                    const Icon(
+                                                      Icons.check_box_outlined,
+                                                    )
+                                                  else
+                                                    const Icon(
+                                                      Icons
+                                                          .check_box_outline_blank,
+                                                    ),
+                                                  const SizedBox(width: 16),
+                                                  Expanded(
+                                                    child: Text(
+                                                      item,
+                                                      style: Theme.of(context).textTheme.labelMedium,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }).toList(),
+                                  //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
+                                  value: selectedItems.isEmpty
+                                      ? null
+                                      : selectedItems.last,
+                                  onChanged: (value) {},
+                                  selectedItemBuilder: (context) {
+                                    return state.allProducts
+                                        .where((e) => e.cityName != null)
+                                        .map((e) => e.cityName!)
+                                        .toSet()
+                                        .toList()
+                                        .map(
+                                      (item) {
+                                        return Container(
+                                          alignment:
+                                              AlignmentDirectional.center,
+                                          child: Text(
+                                            selectedItems.join(', '),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            maxLines: 1,
+                                          ),
+                                        );
+                                      },
+                                    ).toList();
+                                  },
+                                  menuItemStyleData: MenuItemStyleData(
+                                    height: 40,
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                ),
+                              ),
                             ],
                           ).hPadding(0.03.width),
                           0.03.height.hSpace,
@@ -330,11 +477,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) => AllProductsWidget(
                               isOdd: index.isOdd,
-                              product: state.allProducts[index],
+                              product: (filteredData.isNotEmpty)
+                                  ? filteredData[index]
+                                  : state.allProducts[index],
                             ),
                             separatorBuilder: (context, index) =>
                                 0.02.height.hSpace,
-                            itemCount: state.allProducts.length,
+                            itemCount: (filteredData.isNotEmpty)
+                                ? filteredData.length
+                                : state.allProducts.length,
                           )
                         ],
                       );

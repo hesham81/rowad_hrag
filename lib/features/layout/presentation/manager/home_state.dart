@@ -16,29 +16,25 @@ class Handling extends HomeState {
   const Handling();
 }
 
-class HomeInitial extends Handling {
-  const HomeInitial();
-}
+sealed class Handler extends HomeState {}
 
-class HomeLoading extends Handling {
-  const HomeLoading();
-}
+class HomeInitial extends Handler {}
 
-class HomeLoaded extends Handling {
+class HomeLoading extends Handler {}
+
+class HomeLoaded extends Handler {
   final List<Category> categories;
 
   HomeLoaded(this.categories);
 }
 
-class HomeError extends Handling {
+class HomeError extends Handler {
   final String message;
 
   HomeError(this.message);
 }
 
-class LoadingBanners extends Handling {
-  const LoadingBanners();
-}
+class LoadingBanners extends Handler {}
 
 class LoadedBanners extends Handling {
   final List<BannerEntity> banners;
