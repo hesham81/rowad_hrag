@@ -23,19 +23,11 @@ class SubCategoriesHomeWidget extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) => GestureDetector(
-          // onTap: () async {
-          //   slideLeftWidget(
-          //     newPage: SubCategoriesScreen(
-          //       data: cubit.subCategories,
-          //       title: handler.categories[index].name,
-          //     ),
-          //     context: context,
-          //   );
-          // },
           onTap: () {
             callBack(categories[index].name, categories[index].id);
           },
           child: Categories(
+            index: index,
             imageUrl: categories[index].icon,
             text: categories[index].name,
           ),

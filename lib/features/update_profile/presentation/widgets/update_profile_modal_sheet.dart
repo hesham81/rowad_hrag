@@ -7,6 +7,7 @@ import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/profile_drawer/presentation/widgets/custom_profile_tab_icon.dart';
 import 'package:rowad_hrag/features/update_profile/presentation/pages/update_profile_modal_sheet_branches/update_profile_modal_sheet_branch.dart';
 import 'package:rowad_hrag/features/update_profile/presentation/pages/update_profile_modal_sheet_branches/verification.dart';
+import 'package:rowad_hrag/features/wallet/presentation/pages/wallet.dart';
 
 class UpdateProfileModalSheet extends StatelessWidget {
   const UpdateProfileModalSheet({super.key});
@@ -67,7 +68,10 @@ class UpdateProfileModalSheet extends StatelessWidget {
             text: "دفع الرسوم",
             imagePath:
                 "assets/icons/c68ea8e7f4fd23e8223e779ba4b00d74d3eb27a8.png",
-            onTap: () {},
+            onTap: () => slideLeftWidget(
+              newPage: Wallet(),
+              context: context,
+            ),
           ),
           0.03.height.hSpace,
           CustomProfileTabIcon(
