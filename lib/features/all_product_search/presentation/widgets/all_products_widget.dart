@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/widget/custom_container.dart';
+import 'package:rowad_hrag/core/widget/icon_text.dart';
 
 import '../../../../core/route/route_names.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -10,9 +11,11 @@ import '../../../layout/data/models/products_data_model.dart';
 
 class AllProductsWidget extends StatefulWidget {
   final ProductsDataModel product;
+  final bool isOdd;
 
   const AllProductsWidget({
     super.key,
+    required this.isOdd,
     required this.product,
   });
 
@@ -65,208 +68,67 @@ class _AllProductsWidgetState extends State<AllProductsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-
-    // Responsive base units
-    final double horizontalPadding = screenWidth * 0.04; // 4% of screen width
-    final double verticalSpacing = screenHeight * 0.01;
-    final double borderRadius = screenWidth * 0.03;
-    final double imageWidth = screenWidth * 0.3; // 30% of screen width
-    final double imageHeight = screenHeight * 0.12;
-
-    final double iconSize = screenWidth * 0.05;
-    final double titleFontSize = screenWidth * 0.042;
-    final double subtitleFontSize = screenWidth * 0.035;
-
-    return GestureDetector(
-      onTap: () => Navigator.pushNamed(
-        context,
-        RouteNames.productDetails,
-        arguments: widget.product.slug,
-      ),
-      child: Container(
-        padding: EdgeInsets.all(screenWidth * 0.02), // Responsive padding
-        decoration: BoxDecoration(
-          color: AppColors.secondaryColor.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(15),
+    return Container(
+      padding: EdgeInsets.all(10),
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+          color: (widget.isOdd)
+              ? AppColors.secondaryColor.withAlpha(120)
+              : AppColors.primaryColor,
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: AppColors.secondaryColor.withOpacity(0.8),
-            width: 1.5,
+            color: AppColors.greenColor,
+          )),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: CachedNetworkImage(
+              height: 0.2.height,
+              width: 0.35.width,
+              fit: BoxFit.fill,
+              imageUrl: widget.product.thumbnailImage ?? "",
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Header: Navigation & Title
-            SizedBox(height: verticalSpacing),
-
-            // Product Info & Image
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+          0.03.width.vSpace,
+          Expanded(
+            child: Column(
+              textDirection: TextDirection.rtl,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  widget.product.name ?? "",
+                  textAlign: TextAlign.right,
+                  style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                0.1.height.hSpace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  textDirection: TextDirection.rtl,
                   children: [
-                    // Text Content (Right-aligned)
-                    Expanded(
-                      flex: 3,
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: constraints.maxWidth * 0.6,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              widget.product!.name ?? "",
-                              textAlign: TextAlign.right,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(
-                                    fontSize: titleFontSize,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                            SizedBox(height: verticalSpacing * 0.5),
-                            Text(
-                              widget.product?.mainPrice??"",
-                              textAlign: TextAlign.right,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(
-                                    fontSize: subtitleFontSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.secondaryColor,
-                                  ),
-                            ),
-                            SizedBox(height: verticalSpacing * 0.5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              textDirection: TextDirection.ltr,
-                              children: [
-                                Text(
-                                  widget.product!.stateName ?? "",
-                                  textAlign: TextAlign.right,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                        fontSize: subtitleFontSize,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                                if ((widget.product!.cityName ?? "")
-                                    .isNotEmpty)
-                                  Text(
-                                    ", ${widget.product!.cityName}",
-                                    textAlign: TextAlign.right,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(
-                                          fontSize: subtitleFontSize,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                              ],
-                            ),
-                            SizedBox(height: verticalSpacing * 0.5),
-                            LayoutBuilder(
-                              builder: (context, constraints) {
-                                final availableWidth = constraints.maxWidth;
-
-                                return Row(
-                                  textDirection: TextDirection.ltr,
-                                  // ✅ Critical for Arabic
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    // ✅ Time Ago (shorter, less important)
-                                    SizedBox(
-                                      width: availableWidth * 0.3,
-                                      // Reserve 30% for time
-                                      child: Text(
-                                        _formatDateArabic(
-                                            widget.product!.createdAt ??
-                                                DateTime.now()),
-                                        textAlign: TextAlign.right,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall!
-                                            .copyWith(
-                                              fontSize: subtitleFontSize * 0.95,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                    ),
-
-                                    Spacer(),
-                                    // ✅ Username (takes remaining space)
-                                    SizedBox(
-                                      width: availableWidth * 0.6, // 60% max
-                                      child: Text(
-                                        widget.product!.userName ?? "",
-                                        textAlign: TextAlign.right,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall!
-                                            .copyWith(
-                                              fontSize: subtitleFontSize,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            )
-                          ],
-                        ),
-                      ),
+                    Text(
+                      (widget.product.userName!.length > 20)
+                          ? widget.product.userName!.substring(0, 20)
+                          : widget.product.userName ?? "",
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          Theme.of(context).textTheme.labelMedium!.copyWith(),
                     ),
-
-                    // Spacer
-                    SizedBox(width: screenWidth * 0.02),
-
-                    // Image
-                    Expanded(
-                      flex: 2,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(borderRadius),
-                        child: CachedNetworkImage(
-                          imageUrl: widget.product!.thumbnailImage ?? "",
-                          width: imageWidth,
-                          height: imageHeight,
-                          fit: BoxFit.contain,
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(
-                            strokeWidth: 1,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              AppColors.secondaryColor,
-                            ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.image_not_supported, size: 30),
-                        ),
-                      ),
+                    Spacer(),
+                    IconText(
+                      rate: widget.product.cityName ?? "",
                     ),
                   ],
-                );
-              },
-            )
-          ],
-        ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
-    );
+    ).hPadding(0.03.width);
   }
 }

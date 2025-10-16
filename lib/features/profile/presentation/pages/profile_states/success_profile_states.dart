@@ -6,6 +6,7 @@ import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
+import 'package:rowad_hrag/features/privacy_and_policy/presentation/pages/privacy_and_policy.dart';
 import 'package:rowad_hrag/features/profile/data/models/profile_points_data_model.dart';
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 import 'package:rowad_hrag/features/profile_drawer/presentation/widgets/custom_profile_tab_icon.dart';
@@ -199,7 +200,10 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "سياسة موقع رواد حراج",
                       imagePath:
                           "assets/icons/b0c764b26d190a804ba19e8092eebd572a712c13.png",
-                      onTap: () {},
+                      onTap: () => slideLeftWidget(
+                        newPage: PrivacyAndPolicy(),
+                        context: context,
+                      ),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(

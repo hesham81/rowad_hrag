@@ -693,6 +693,34 @@ class _HomeScreenState extends State<HomeScreen> {
                           0.02.height.hSpace,
                           Image.asset(
                             "assets/images/4c44065dbf4502f0ede58e0ce947e46c6e1f717b.png",
+                          ),
+                          0.03.height.hSpace,
+                          Row(
+                            textDirection: TextDirection.rtl,
+                            children: [
+                              Text(
+                                "كل الاعلانات",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: AppColors.greenColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              )
+                            ],
+                          ).hPadding(0.03.width),
+                          0.03.height.hSpace,
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => AllProductsWidget(
+                              isOdd: index.isOdd,
+                              product: state.allProducts[index],
+                            ),
+                            separatorBuilder: (context, index) =>
+                                0.02.height.hSpace,
+                            itemCount: state.allProducts.length,
                           )
                         ],
                       );
