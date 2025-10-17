@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/core/widget/arrow_widget.dart';
@@ -9,7 +10,6 @@ import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.da
 class AllProductsViewer extends StatefulWidget {
   final String title;
   final bool isSpecial;
-
   final List<ProductsDataModel> products;
 
   const AllProductsViewer({
@@ -24,24 +24,33 @@ class AllProductsViewer extends StatefulWidget {
 }
 
 class _AllProductsViewerState extends State<AllProductsViewer> {
-  List<ProductsDataModel> searchedProducts = [];
+  late List<ProductsDataModel> searchedProducts;
   bool isEmpty = false;
+  String queryData = "";
 
-  _search(String query) {
-    searchedProducts.clear();
-    if (query.isEmpty) {
-      setState(() {
-        searchedProducts = widget.products;
-      });
-      return;
-    }
-    for (var element in widget.products) {
-      if (element.name.toLowerCase().contains(query.toLowerCase())) {
-        searchedProducts.add(element);
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with all products
+    searchedProducts = List<ProductsDataModel>.from(widget.products);
+  }
+
+  void _search(String query) {
+    setState(() {
+      queryData = query;
+      if (query.isEmpty) {
+        searchedProducts = List<ProductsDataModel>.from(widget.products);
+        isEmpty = false;
+        return;
       }
-    }
-    isEmpty = searchedProducts.isEmpty;
-    setState(() {});
+
+      searchedProducts = widget.products
+          .where((element) =>
+              element.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+
+      isEmpty = searchedProducts.isEmpty;
+    });
   }
 
   @override
@@ -68,24 +77,32 @@ class _AllProductsViewerState extends State<AllProductsViewer> {
                     child: CupertinoSearchTextField(
                       onChanged: _search,
                       cursorColor: AppColors.greenColor,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.greenColor,
+                          ),
                     ),
                   ),
                 ],
               ),
               0.02.height.hSpace,
+              if (isEmpty)
+                Lottie.asset(
+                  "assets/icons/No-Data.json",
+                ),
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 5,
                   crossAxisSpacing: 8,
                 ),
+                itemCount: searchedProducts.length,
                 itemBuilder: (context, index) => ProductWidget(
-                  product: widget.products[index],
+                  displayFavourite: false,
+                  product: searchedProducts[index],
                 ),
-                itemCount: widget.products.length,
-              )
+              ),
             ],
           ),
         ).hPadding(0.03.width),

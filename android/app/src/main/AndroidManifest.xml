@@ -48,7 +48,27 @@
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="${applicationId}.fileprovider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/filepaths" />
+    </provider>
     <queries>
+        <package android:name="com.facebook.katana" />
+        <!-- Query for Twitter -->
+        <package android:name="com.twitter.android" />
+        <!-- Query for LinkedIn -->
+        <package android:name="com.linkedin.android" />
+        <!-- Query for Reddit -->
+        <package android:name="com.reddit.frontpage" />
+        <!-- Query for WhatsApp -->
+        <package android:name="com.whatsapp" />
+        <!-- Query for Telegram -->
+        <package android:name="org.telegram.messenger" />
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT" />
             <data android:mimeType="text/plain" />

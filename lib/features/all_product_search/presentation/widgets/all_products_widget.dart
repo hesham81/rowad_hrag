@@ -84,7 +84,7 @@ class _AllProductsWidgetState extends State<AllProductsWidget> {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: CachedNetworkImage(
-              height: 0.2.height,
+              height: 0.15.height,
               width: 0.35.width,
               fit: BoxFit.fill,
               imageUrl: widget.product.thumbnailImage ?? "",
@@ -113,14 +113,14 @@ class _AllProductsWidgetState extends State<AllProductsWidget> {
                     Text(
                       (widget.product.userName!.length > 20)
                           ? widget.product.userName!.substring(0, 20)
-                          : widget.product.userName ?? "",
+                          : widget.product.userName ?? "غير معروف",
                       overflow: TextOverflow.ellipsis,
                       style:
                           Theme.of(context).textTheme.labelMedium!.copyWith(),
                     ),
                     Spacer(),
                     IconText(
-                      rate: widget.product.cityName ?? "",
+                      rate: widget.product.cityName ?? "غير معروف",
                     ),
                   ],
                 )

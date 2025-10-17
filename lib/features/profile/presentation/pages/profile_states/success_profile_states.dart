@@ -2,10 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:route_transitions/route_transitions.dart';
+import 'package:rowad_hrag/core/constant/app_assets.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/services/sharing_services.dart';
+import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
+import 'package:rowad_hrag/features/login_to_continue/presentation/pages/coming_soon.dart';
 import 'package:rowad_hrag/features/privacy_and_policy/presentation/pages/privacy_and_policy.dart';
 import 'package:rowad_hrag/features/profile/data/models/profile_points_data_model.dart';
 import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
@@ -169,7 +173,10 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "فواتيري",
                       imagePath:
                           "assets/icons/de26c44c575c1faee7381b5e963f90dc9d0f03d0.png",
-                      onTap: () {},
+                      onTap: () => slideLeftWidget(
+                        newPage: ComingSoon(),
+                        context: context,
+                      ),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(
@@ -193,7 +200,14 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "شارك تطبيق رواد حراج",
                       imagePath:
                           "assets/icons/001e7f360f06f47905f0b77c34d1baae73bc26f9.png",
-                      onTap: () {},
+                      onTap: () async {
+                        SharingServices.share(
+                          title: "Rowad Hrag",
+                          text: "text",
+                          linkUrl: "linkUrl",
+                          chooserTitle: "chooserTitle",
+                        );
+                      },
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(
@@ -206,12 +220,12 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       ),
                     ),
                     0.03.height.hSpace,
-                    CustomProfileTabIcon(
-                      text: "مركز الامان",
-                      imagePath:
-                          "assets/icons/7b31e21207dac6bda1ad2bd4c7358ce3d18af89f.png",
-                      onTap: () {},
-                    ),
+                    // CustomProfileTabIcon(
+                    //   text: "مركز الامان",
+                    //   imagePath:
+                    //       "assets/icons/7b31e21207dac6bda1ad2bd4c7358ce3d18af89f.png",
+                    //   onTap: () {},
+                    // ),
                   ],
                 ).allPadding(8),
               ),
