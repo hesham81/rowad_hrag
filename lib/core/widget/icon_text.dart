@@ -3,7 +3,7 @@ import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 
 class IconText extends StatelessWidget {
-  final num rate;
+  final String rate;
 
   const IconText({
     super.key,
@@ -16,15 +16,14 @@ class IconText extends StatelessWidget {
       children: [
         Text(
           "$rate",
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Colors.grey,
               ),
         ),
-        0.01.width.vSpace,
         Icon(
-          Icons.star,
-          color: Colors.amber,
+          Icons.location_on_outlined,
+          color: Colors.grey,
         ),
       ],
     );

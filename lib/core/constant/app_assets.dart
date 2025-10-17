@@ -22,4 +22,5 @@ abstract class AppAssets {
   static const String fawry = "assets/images/onboarding/fawry.png";
   static const String dollars = "assets/images/onboarding/dollars.png";
   static const String profileLogo = "assets/icons/Profile Icon.json";
+  static const String comingSoon = "assets/icons/Coming Soon.json";
 }

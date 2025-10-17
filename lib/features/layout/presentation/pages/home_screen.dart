@@ -1,24 +1,34 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:marquee/marquee.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/services/auth_services.dart';
+import 'package:rowad_hrag/core/services/hive_helper.dart';
 import 'package:rowad_hrag/core/services/url_launcher_func.dart';
+import 'package:rowad_hrag/core/widget/custom_text_button.dart';
 import 'package:rowad_hrag/core/widget/icon_error.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/all_product_search/presentation/widgets/all_products_widget.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
+import 'package:rowad_hrag/features/layout/presentation/pages/all_products_viewer.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/loaded_home_screen.dart';
+import 'package:rowad_hrag/features/layout/presentation/widget/categories.dart';
+import 'package:rowad_hrag/features/layout/presentation/widget/filter_button.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/product_widget.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/special_products_home_screen.dart';
 import 'package:rowad_hrag/features/layout/presentation/widget/speical_product_widget.dart';
+import 'package:rowad_hrag/features/layout/presentation/widget/story_widget.dart';
 import 'package:rowad_hrag/features/stories/presentation/pages/stories.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/pages/sub_categories.dart';
+import '../../../../core/services/cash_helper.dart';
 import '../../../../core/widget/custom_text_form_field.dart';
 import '/features/layout/presentation/manager/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -36,444 +46,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late VideoPlayerController _controller;
-  bool _isVideoInitialized = false; // Track video initialization status
-
-  final TextEditingController _reviewController = TextEditingController();
-  double? rate;
-
-  // search(String? searchParameter) {
-  //   List<ProductsDataModel> allProducts =
-  //
-  // }
-
-  List<String> images = [
-    "",
-    "https://rowad-harag.com/public/uploads/all/rszSya92uYGmmNDrRsdrR0u3BQvzT29xTC8E8sYh.png",
-    "https://rowad-harag.com/public/uploads/all/NQcldX63YJlRKfbjxHvbVBkCNDnWDBNVwur2Pqbd.png",
+  List<String> selectedItems = [];
+  List<ProductsDataModel> filteredData = [];
+  var images = [
+    "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/510327662_2100046467172179_6995335266952488580_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=8Y1c0htakCoQ7kNvwGuBVST&_nc_oc=AdmdL29J-advNS8f1TyGl7kC2Ld6lsHP4fNUry1gDvfYAiKiM6mgFHDzk78TIqIilXI&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=6lzdHrcXP81Xenbfo9S5HQ&oh=00_Afd39PNwp81_A-WZ8EQrlbvAty1pFIaO-2swtV5CkASdjA&oe=68F6E6F8",
+    "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/522598565_2125203187989840_3408856964049920562_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Ly6Lftnf6JcQ7kNvwGFDiXt&_nc_oc=AdmK6cC-Tf7Okr3EjN541Am8WlDg7lgwzI3o53soUy-xTzSyo4e9UvwsUlM4hXYHxu0&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=58q98s7-_6DOUoEVFZcuNA&oh=00_Afe5wiHkTiNwD55e52OoEKgGw-ZRnqEN8mxMA2lQ1p5CDw&oe=68F6C8D1",
+    "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/509868952_2100046417172184_7191003219048399424_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=pmUJ4Xq0omYQ7kNvwGZd8EC&_nc_oc=Adk4_4mHczPKFirsYYyS6dNN-Y2Mx0C6plymJqMJHWSo3zSQqe4u9Ii-21Ppg_jK-p4&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=iJfUU2htz9YOpp_ceXMOGg&oh=00_AfdtOcDAzKKCmwxdFgMXPLA0s_22FB86p8bRyIGmLJMhLA&oe=68F704BD",
+    "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/509815362_2100046733838819_4844070285046835763_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=-IAmG7I0k4wQ7kNvwGvUL--&_nc_oc=AdlnFCUYdGAwo6uedwYlxWJqVXjIOuA3PlDGKRq7ZEUAEDh_w8bd8il_4xJjxx50VbM&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=s7vrDtBARX7QmLD3ZqOdeg&oh=00_AfcRii12SH0BMMrYEgpeeGN0WK7uEAh66QaP27aTm8NeZw&oe=68F70736",
   ];
-
-  TextEditingController searchController = TextEditingController();
-  List<String> labels = [
-    "الصفحة الرئيسية",
-    "المدونات",
-    "جميع الفئات",
-    // "رفع ايصالات التحويل",
-    "أضف اعلان",
-    "سداد الرسوم و  الاشتراكات",
-    "تواصل مع الدعم",
-    "حسابي",
-    "تسجيل خروج"
-  ];
-  TextEditingController controller = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-  bool isSend = false;
-
-  List<ProductsDataModel> searchedProducts = [];
-
-  @override
-  // void initState() {
-  //   super.initState();
-  //   _controller = VideoPlayerController.networkUrl(
-  //     Uri.parse(
-  //       'https://rowad-harag.com/public/uploads/all/zxMmVMJLPhdgIdGmT2ccLXxm89VjD5Qu2U3akNOu.mp4',
-  //     ),
-  //   );
-  //
-  //   _controller.initialize().then((_) {
-  //     setState(() {
-  //       _isVideoInitialized = true;
-  //     });
-  //     _controller.setLooping(true);
-  //     _controller.play();
-  //   });
-  // }
-
-  @override
-  void dispose() {
-    // Dispose of the video player controller to free resources
-    _controller.dispose();
-    super.dispose();
-  }
-
-  int selectedStarterIndex = 0;
-
-  List<ProductsDataModel> products = [];
-
-  _search(String? query) {
-    searchedProducts = [];
-    if (query != null && query.trim().isNotEmpty) {
-      searchedProducts = products
-          .where((product) =>
-              product.name.toLowerCase().contains(query.toLowerCase().trim()))
-          .toSet()
-          .toList();
-    }
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<HomeCubit>();
-    // return Scaffold(
-    //   floatingActionButton: WhatsappIconButton(),
-    //   body: SingleChildScrollView(
-    //     child: Form(
-    //       key: formKey,
-    //       child: Column(
-    //         children: [
-    //           SvgPicture.asset(
-    //             AppAssets.upperNav,
-    //             fit: BoxFit.cover,
-    //           ),
-    //           Container(
-    //             color: AppColors.primaryColor,
-    //             child: Row(
-    //               children: [
-    //                 0.02.width.vSpace,
-    //                 GestureDetector(
-    //                   child: Container(
-    //                     height: 50,
-    //                     width: 50,
-    //                     decoration: BoxDecoration(
-    //                       color: AppColors.blueColor,
-    //                       borderRadius: BorderRadius.circular(10),
-    //                     ),
-    //                     child: SvgPicture.asset(
-    //                       AppAssets.notificationIcon,
-    //                     ).allPadding(12),
-    //                   ),
-    //                   onTap: () => Navigator.pushNamed(
-    //                     context,
-    //                     RouteNames.notifications,
-    //                   ),
-    //                 ),
-    //                 0.04.width.vSpace,
-    //                 SvgPicture.asset(
-    //                   AppAssets.coloredLogo,
-    //                   height: 40,
-    //                   width: 40,
-    //                   fit: BoxFit.cover,
-    //                 ),
-    //                 0.04.width.vSpace,
-    //                 Container(
-    //                   height: 50,
-    //                   width: 50,
-    //                   decoration: BoxDecoration(
-    //                     color: AppColors.secondaryColor,
-    //                     borderRadius: BorderRadius.circular(10),
-    //                   ),
-    //                   child: SvgPicture.asset(
-    //                     AppAssets.searchIcon,
-    //                   ).allPadding(12),
-    //                 ),
-    //                 0.02.width.vSpace,
-    //                 Expanded(
-    //                   child: CustomTextFormField(
-    //                     hintText: "أبحث عن ",
-    //                     controller: searchController,
-    //                     onChange: _search,
-    //                     // onChange: search,
-    //                   ),
-    //                 ),
-    //               ],
-    //             ).hPadding(0.02.width).vPadding(0.01.height),
-    //           ),
-    //           Container(
-    //             height: 0.05.height,
-    //             color: AppColors.primaryColor,
-    //             child: ListView.separated(
-    //               scrollDirection: Axis.horizontal,
-    //               itemBuilder: (context, index) => GestureDetector(
-    //                 onTap: () {
-    //                   if (index == 0) return;
-    //                   if (index == 3) {
-    //                     UrlLauncherFunc.openUrl(
-    //                       "https://rowad-harag.com/add-ad",
-    //                     );
-    //                     return;
-    //                   }
-    //                   if (index == 7) {
-    //                     AuthServices.signOut();
-    //                     return;
-    //                   }
-    //                   pushNamed(
-    //                     newPage: cubit.pages[index],
-    //                     context: context,
-    //                   );
-    //                 },
-    //                 child: Container(
-    //                   decoration: BoxDecoration(
-    //                     color: AppColors.secondaryColor,
-    //                     borderRadius: BorderRadius.circular(3),
-    //                   ),
-    //                   child: Center(
-    //                     child: Text(
-    //                       labels[index],
-    //                       style:
-    //                           Theme.of(context).textTheme.titleMedium!.copyWith(
-    //                                 color: AppColors.primaryColor,
-    //                               ),
-    //                     ),
-    //                   ).allPadding(3),
-    //                 ),
-    //               ),
-    //               separatorBuilder: (context, index) => 0.01.width.vSpace,
-    //               itemCount: labels.length,
-    //             ),
-    //           ).hPadding(0.01.width),
-    //           Divider(
-    //             color: Colors.grey,
-    //             thickness: 1, // Optional: Adjust thickness if needed
-    //           ),
-    //           SizedBox(
-    //             height: 0.04.height,
-    //             child: Marquee(
-    //               text:
-    //                   'سجل معنا برواد حراج واكسب ٥٠ نقطة       نزل أربعة إعلانات واكسب ٢٠٠ نقطة       شارك الآن واحصل على مكافآت خاصة',
-    //               style: const TextStyle(
-    //                 fontSize: 14.0,
-    //                 color: Colors.black,
-    //                 fontWeight: FontWeight.w500,
-    //               ),
-    //               velocity: 60,
-    //               // Speed of scroll (pixels per second)
-    //               numberOfRounds: 1000,
-    //               // Number of times the text scrolls (high = long time)
-    //               startPadding: 20,
-    //               // Add padding at the start
-    //               blankSpace: 50,
-    //               // Extra space after text before it loops
-    //               textDirection: TextDirection.rtl,
-    //               // Essential for Arabic
-    //               accelerationDuration: Duration.zero,
-    //               // No acceleration (constant speed)
-    //               accelerationCurve: Curves.linear,
-    //               decelerationDuration: Duration.zero,
-    //               decelerationCurve: Curves.linear,
-    //               pauseAfterRound: const Duration(
-    //                   milliseconds: 500), // Small pause between loops
-    //             ),
-    //           ),
-    //           Divider(
-    //             color: Colors.grey,
-    //             thickness: 1, // Optional: Adjust thickness if needed
-    //           ),
-    //           Visibility(
-    //               visible: searchController.text.isEmpty,
-    //               replacement: (searchedProducts.isEmpty)
-    //                   ? Column(
-    //                       textDirection: TextDirection.ltr,
-    //                       crossAxisAlignment: CrossAxisAlignment.center,
-    //                       mainAxisAlignment: MainAxisAlignment.center,
-    //                       children: [
-    //                         Text(
-    //                           '" نتيجة البحث عن"${searchController.text}',
-    //                           textAlign: TextAlign.right,
-    //                           style: Theme.of(context)
-    //                               .textTheme
-    //                               .titleLarge!
-    //                               .copyWith(
-    //                                 fontWeight: FontWeight.bold,
-    //                               ),
-    //                         ).alignRight().hPadding(0.02.width),
-    //                         0.1.height.hSpace,
-    //                         Icon(
-    //                           Icons.do_not_disturb_outlined,
-    //                           color: Colors.grey,
-    //                           size: 0.3.height,
-    //                         ).center,
-    //                         0.01.height.hSpace,
-    //                         Text(
-    //                           "لايوجد نتائج",
-    //                           style: Theme.of(context)
-    //                               .textTheme
-    //                               .titleLarge!
-    //                               .copyWith(
-    //                                 fontWeight: FontWeight.bold,
-    //                               ),
-    //                         ),
-    //                       ],
-    //                     )
-    //                   : Column(
-    //                       children: [
-    //                         Text(
-    //                           '" نتيجة البحث عن"${searchController.text}',
-    //                           style: Theme.of(context)
-    //                               .textTheme
-    //                               .titleLarge!
-    //                               .copyWith(
-    //                                 fontWeight: FontWeight.bold,
-    //                               ),
-    //                         ).alignRight().hPadding(0.02.width),
-    //                         0.01.height.hSpace,
-    //                         ListView.separated(
-    //                           padding: EdgeInsets.zero,
-    //                           shrinkWrap: true,
-    //                           physics: const NeverScrollableScrollPhysics(),
-    //                           itemBuilder: (context, index) =>
-    //                               AllProductsWidget(
-    //                                       product: searchedProducts[index])
-    //                                   .hPadding(0.03.width),
-    //                           separatorBuilder: (context, index) =>
-    //                               0.01.height.hSpace,
-    //                           itemCount: searchedProducts.length,
-    //                         ),
-    //                       ],
-    //                     ),
-    //               child: Column(
-    //                 children: [
-    //                   GestureDetector(
-    //                     onHorizontalDragEnd: (DragEndDetails details) {
-    //                       // Define a threshold for velocity to detect intentional drag
-    //                       const double velocityThreshold = 300;
-    //
-    //                       if (details.primaryVelocity != null) {
-    //                         if (details.primaryVelocity! > velocityThreshold) {
-    //                           // Dragged right → increase index
-    //                           if (selectedStarterIndex < 2) {
-    //                             setState(() {
-    //                               selectedStarterIndex++;
-    //                             });
-    //                           }
-    //                         } else if (details.primaryVelocity! <
-    //                             -velocityThreshold) {
-    //                           // Dragged left → decrease index
-    //                           if (selectedStarterIndex > 0) {
-    //                             setState(() {
-    //                               selectedStarterIndex--;
-    //                             });
-    //                           }
-    //                         }
-    //                       }
-    //                     },
-    //                     child: ClipRRect(
-    //                       borderRadius: BorderRadius.circular(10),
-    //                       child: (selectedStarterIndex != 0)
-    //                           ? GestureDetector(
-    //                               onTap: () {
-    //                                 UrlLauncherFunc.openUrl(
-    //                                     images[selectedStarterIndex]);
-    //                               },
-    //                               child: CachedNetworkImage(
-    //                                   imageUrl: images[selectedStarterIndex]),
-    //                             )
-    //                           : Stack(
-    //                               alignment: Alignment.center,
-    //                               children: [
-    //                                 SizedBox(
-    //                                   width: double.maxFinite,
-    //                                   height: 0.23.height,
-    //                                   child: _isVideoInitialized
-    //                                       ? AspectRatio(
-    //                                           aspectRatio:
-    //                                               _controller.value.aspectRatio,
-    //                                           child: VideoPlayer(_controller),
-    //                                         )
-    //                                       : Center(
-    //                                           child: Container(
-    //                                             width: double.maxFinite,
-    //                                             height: 0.23.height,
-    //                                             decoration: BoxDecoration(
-    //                                               borderRadius:
-    //                                                   BorderRadius.circular(10),
-    //                                               border: Border.all(
-    //                                                 color: AppColors
-    //                                                     .secondaryColor,
-    //                                               ),
-    //                                             ),
-    //                                             child:
-    //                                                 CircularProgressIndicator(
-    //                                               color:
-    //                                                   AppColors.secondaryColor,
-    //                                             ).center,
-    //                                           ),
-    //                                         ),
-    //                                 ),
-    //                                 // Play/Pause Button
-    //                                 if (_isVideoInitialized)
-    //                                   GestureDetector(
-    //                                     onTap: () {
-    //                                       setState(() {
-    //                                         if (_controller.value.isPlaying) {
-    //                                           _controller.pause();
-    //                                         } else {
-    //                                           _controller.play();
-    //                                         }
-    //                                       });
-    //                                     },
-    //                                     child: CircleAvatar(
-    //                                       backgroundColor: Colors.black54,
-    //                                       radius: 30,
-    //                                       child: Icon(
-    //                                         _controller.value.isPlaying
-    //                                             ? Icons.pause
-    //                                             : Icons.play_arrow,
-    //                                         color: Colors.white,
-    //                                         size: 40,
-    //                                       ),
-    //                                     ),
-    //                                   ),
-    //                               ],
-    //                             ),
-    //                     ).hPadding(0.02.width),
-    //                   ),
-    //                   0.01.height.hSpace,
-    //                   BlocBuilder<HomeCubit, HomeState>(
-    //                     builder: (context, state) {
-    //                       if (state is LoadedHomeScreen) {
-    //                         products.addAll(
-    //                             state.specialProducts.map((e) => e).toList());
-    //                         products.addAll(state.productiveFamiliesProducts
-    //                             .map((e) => e)
-    //                             .toList());
-    //                         products.addAll(state.specialNeedsProducts
-    //                             .map((e) => e)
-    //                             .toList());
-    //                         products.addAll(
-    //                             state.allProducts.map((e) => e).toList());
-    //                         return LoadedHomeScreenUi(
-    //                           categories: state.categories,
-    //                           banner: state.banner,
-    //                           secondBanner: state.secondBanner,
-    //                           specialProducts: state.specialProducts,
-    //                           productiveFamiliesProducts:
-    //                               state.productiveFamiliesProducts,
-    //                           specialNeedsProducts: state.specialNeedsProducts,
-    //                           allProducts: state.allProducts,
-    //                           reviews: state.reviews,
-    //                           visitorStatesDataModel:
-    //                               state.visitorStatesDataModel,
-    //                           topSellers: state.topSellers,
-    //                           subCategoriesFunc: (name, id) async {
-    //                             await cubit.getAllSubCategories(id);
-    //                             slideLeftWidget(
-    //                               newPage: SubCategoriesScreen(
-    //                                 data: cubit.subCategories,
-    //                                 title: name,
-    //                               ),
-    //                               context: context,
-    //                             );
-    //                           },
-    //                         );
-    //                       } else if (state is HomeError) {
-    //                         return IconError(
-    //                           error: state.message,
-    //                         );
-    //                       } else {
-    //                         return CircularProgressIndicator(
-    //                           color: AppColors.secondaryColor,
-    //                         );
-    //                       }
-    //                     },
-    //                   ),
-    //                 ],
-    //               ))
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
+    HiveHelper.getFromLocal("allProducts").then(
+      (value) => log(value.toString()),
+    );
     return Scaffold(
       body: SingleChildScrollView(
         child: Directionality(
@@ -499,29 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ).hPadding(0.03.width),
-                SizedBox(
-                  height: 0.1.height,
-                  child: ListView.separated(
-                    padding: EdgeInsets.zero,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => InkWell(
-                      onTap: () {
-                        slideLeftWidget(
-                          newPage: Stories(),
-                          context: context,
-                        );
-                      },
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage(
-                          "assets/images/2509066e7679ec0d7f604fd8a573e4c724dd80e6.png",
-                        ),
-                        radius: 30,
-                      ),
-                    ),
-                    separatorBuilder: (context, index) => 0.03.width.vSpace,
-                    itemCount: 15,
-                  ),
-                ).hPadding(0.03.width),
+                StoryWidget(
+                  imageUrl: images[1],
+                ).alignLeft().hPadding(0.03.width),
                 0.03.height.hSpace,
                 Container(
                   width: double.maxFinite,
@@ -552,7 +118,62 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ).hPadding(0.03.width),
                           0.02.height.hSpace,
-                          Placeholder(),
+                          Row(
+                            textDirection: TextDirection.rtl,
+                            children: [
+                              Text(
+                                "استكشاف الفئات",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.greenColor,
+                                    ),
+                              ),
+                              Spacer(),
+                              CustomTextButton(
+                                text: "المزيد",
+                                onPressed: () {},
+                              ),
+                            ],
+                          ).hPadding(0.03.width),
+                          0.02.height.hSpace,
+                          GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4,
+                              mainAxisSpacing: 3,
+                              crossAxisSpacing: 3,
+                            ),
+                            itemBuilder: (context, index) => Column(
+                              children: [
+                                Categories(
+                                  index: index,
+                                  imageUrl: state.categories[index].icon,
+                                  text: state.categories[index].name,
+                                ).allPadding(8),
+                                Expanded(
+                                  child: Text(
+                                    state.categories[index].name.replaceFirst(
+                                      "حراج",
+                                      "",
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            itemCount: 8,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                          ),
                           0.02.height.hSpace,
                           CachedNetworkImage(
                             imageUrl: state.secondBanner.first.imageUrl,
@@ -573,7 +194,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Spacer(),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () => slideLeftWidget(
+                                  newPage: AllProductsViewer(
+                                    title: "إعلانات مميزة",
+                                    products: state.specialProducts,
+                                    isSpecial: true,
+                                  ),
+                                  context: context,
+                                ),
                                 icon: Icon(
                                   Icons.arrow_back,
                                   color: AppColors.greenColor,
@@ -600,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             textDirection: TextDirection.rtl,
                             children: [
                               Text(
-                                "إعلانات الأسر المنتجة والحرف اليدوية",
+                                "إعلانات الأسر المنتجة",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge!
@@ -611,7 +239,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Spacer(),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () => slideLeftWidget(
+                                  newPage: AllProductsViewer(
+                                    title: "إعلانات الأسر المنتجة",
+                                    products: state.productiveFamiliesProducts,
+                                  ),
+                                  context: context,
+                                ),
                                 icon: Icon(
                                   Icons.arrow_back,
                                   color: AppColors.greenColor,
@@ -650,7 +284,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Spacer(),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () => slideLeftWidget(
+                                    newPage: AllProductsViewer(
+                                      title: "إعلانات لذوي الاحتياجات الخاصة",
+                                      products: state.specialNeedsProducts,
+                                    ),
+                                    context: context),
                                 icon: Icon(
                                   Icons.arrow_back,
                                   color: AppColors.greenColor,
@@ -674,7 +313,184 @@ class _HomeScreenState extends State<HomeScreen> {
                           0.02.height.hSpace,
                           Image.asset(
                             "assets/images/4c44065dbf4502f0ede58e0ce947e46c6e1f717b.png",
-                          )
+                          ),
+                          0.03.height.hSpace,
+                          Row(
+                            textDirection: TextDirection.rtl,
+                            children: [
+                              Text(
+                                "كل الاعلانات",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: AppColors.greenColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                              Spacer(),
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton2<String>(
+                                  isExpanded: true,
+                                  hint: Text(
+                                    'المنطقة',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          color: AppColors.greenColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  iconStyleData: IconStyleData(
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down_sharp,
+                                      color: AppColors.greenColor,
+                                    ),
+                                  ),
+                                  buttonStyleData: ButtonStyleData(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 10,
+                                    ),
+                                    height: 0.06.height,
+                                    width: 0.3.width,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryColor,
+                                      border: Border.all(
+                                        width: 1,
+                                        color:
+                                            AppColors.greenColor.withAlpha(100),
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  items: state.allProducts
+                                      .where((e) => e.cityName != null)
+                                      .map((e) => e.cityName!)
+                                      .toSet()
+                                      .toList()
+                                      .map((item) {
+                                    return DropdownMenuItem(
+                                      value: item,
+                                      enabled: false,
+                                      child: StatefulBuilder(
+                                        builder: (context, menuSetState) {
+                                          final isSelected =
+                                              selectedItems.contains(item);
+                                          return InkWell(
+                                            onTap: () {
+                                              if (isSelected) {
+                                                selectedItems.remove(
+                                                  item,
+                                                );
+                                              } else {
+                                                selectedItems.add(item);
+                                              }
+
+                                              if (selectedItems.isEmpty) {
+                                                filteredData = List.from(
+                                                  state.allProducts,
+                                                );
+                                              } else {
+                                                filteredData = state.allProducts
+                                                    .where((e) =>
+                                                        e.cityName != null &&
+                                                        selectedItems.contains(
+                                                            e.cityName))
+                                                    .toList();
+                                              }
+
+                                              setState(() {});
+                                              menuSetState(() {});
+                                            },
+                                            child: Container(
+                                              height: double.infinity,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 16.0,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  if (isSelected)
+                                                    const Icon(
+                                                      Icons.check_box_outlined,
+                                                    )
+                                                  else
+                                                    const Icon(
+                                                      Icons
+                                                          .check_box_outline_blank,
+                                                    ),
+                                                  const SizedBox(width: 16),
+                                                  Expanded(
+                                                    child: Text(
+                                                      item,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .labelMedium,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }).toList(),
+                                  //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
+                                  value: selectedItems.isEmpty
+                                      ? null
+                                      : selectedItems.last,
+                                  onChanged: (value) {},
+                                  selectedItemBuilder: (context) {
+                                    return state.allProducts
+                                        .where((e) => e.cityName != null)
+                                        .map((e) => e.cityName!)
+                                        .toSet()
+                                        .toList()
+                                        .map(
+                                      (item) {
+                                        return Container(
+                                          alignment:
+                                              AlignmentDirectional.center,
+                                          child: Text(
+                                            selectedItems.join(', '),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            maxLines: 1,
+                                          ),
+                                        );
+                                      },
+                                    ).toList();
+                                  },
+                                  menuItemStyleData: MenuItemStyleData(
+                                    height: 40,
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ).hPadding(0.03.width),
+                          0.03.height.hSpace,
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => AllProductsWidget(
+                              isOdd: index.isOdd,
+                              product: (filteredData.isNotEmpty)
+                                  ? filteredData[index]
+                                  : state.allProducts[index],
+                            ),
+                            separatorBuilder: (context, index) =>
+                                0.02.height.hSpace,
+                            itemCount: (filteredData.isNotEmpty)
+                                ? filteredData.length
+                                : state.allProducts.length,
+                          ),
+                          0.03.height.hSpace,
                         ],
                       );
                     } else if (state is HomeError) {
