@@ -11,7 +11,6 @@ import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/all_uploaded_files/presentation/pages/all_uploaded_files.dart';
 import 'package:rowad_hrag/features/credit_cards/presentation/pages/credit_cards_screen.dart';
 import 'package:rowad_hrag/features/login_to_continue/presentation/pages/login_to_continue.dart';
-import 'package:rowad_hrag/features/profile/presentation/pages/adds_screen.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile_drawer.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/profile_states/success_profile_states.dart';
 import 'package:rowad_hrag/features/profile/presentation/widgets/points_item_cart.dart';

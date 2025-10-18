@@ -27,9 +27,9 @@ class AddsReviewWidget extends StatelessWidget {
                   ),
             ),
             const Spacer(),
-            IconText(
-              rate: review.rate,
-            ),
+            // IconText(
+            //   rate: review.rate,
+            // ),
           ],
         ),
         0.01.height.hSpace,

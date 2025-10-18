@@ -41,4 +41,5 @@ abstract class ApiEndPoints {
   static const String allProducts = '/products/search';
   static const String conversion = '/seller/conversations/message/store';
   static const String deleteAccount = '/auth/account-deletion';
+  static const String search = '/products/search';
 }

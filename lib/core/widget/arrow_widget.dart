@@ -6,11 +6,13 @@ import '../theme/app_colors.dart';
 class ArrowWidget extends StatefulWidget {
   final Function()? onTap;
   final bool isForward;
+  final bool isGoBack;
 
   const ArrowWidget({
     super.key,
     this.onTap,
-    this.isForward = true,
+    this.isForward = false,
+    this.isGoBack = true,
   });
 
   @override

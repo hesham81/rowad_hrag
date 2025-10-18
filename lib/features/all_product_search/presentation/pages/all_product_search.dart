@@ -99,6 +99,7 @@ class _AllProductSearchState extends State<AllProductSearch> {
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => AllProductsWidget(
+                    isOdd: index.isOdd,
                     product: filteredProducts[index],
                   ),
                   separatorBuilder: (context, index) => 0.01.height.hSpace,

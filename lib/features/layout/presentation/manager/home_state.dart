@@ -16,29 +16,25 @@ class Handling extends HomeState {
   const Handling();
 }
 
-class HomeInitial extends Handling {
-  const HomeInitial();
-}
+sealed class Handler extends HomeState {}
 
-class HomeLoading extends Handling {
-  const HomeLoading();
-}
+class HomeInitial extends Handler {}
 
-class HomeLoaded extends Handling {
+class HomeLoading extends Handler {}
+
+class HomeLoaded extends HomeState {
   final List<Category> categories;
 
   HomeLoaded(this.categories);
 }
 
-class HomeError extends Handling {
+class HomeError extends Handler {
   final String message;
 
   HomeError(this.message);
 }
 
-class LoadingBanners extends Handling {
-  const LoadingBanners();
-}
+class LoadingBanners extends Handler {}
 
 class LoadedBanners extends Handling {
   final List<BannerEntity> banners;
@@ -98,9 +94,9 @@ class LoadedProducts extends Handling {}
 
 class LoadedHomeScreen extends Handling {
   final List<CategoryDataModel> categories;
-  final List<BannerDataModel> banner;
+  // final List<BannerDataModel> banner;
 
-  final List<BannerDataModel> secondBanner;
+  // final List<BannerDataModel> secondBanner;
 
   final List<ProductsDataModel> specialProducts;
 
@@ -110,22 +106,22 @@ class LoadedHomeScreen extends Handling {
 
   final List<ProductsDataModel> allProducts;
 
-  final List<ReviewsDataModel> reviews;
+  // final List<ReviewsDataModel> reviews;
 
-  final VisitorStatesDataModel visitorStatesDataModel;
+  // final VisitorStatesDataModel visitorStatesDataModel;
 
-  final List<TopSellersDataModel> topSellers;
+  // final List<TopSellersDataModel> topSellers;
 
   const LoadedHomeScreen({
     required this.categories,
-    required this.banner,
-    required this.secondBanner,
+    // required this.banner,
+    // required this.secondBanner,
     required this.specialProducts,
     required this.productiveFamiliesProducts,
     required this.specialNeedsProducts,
     required this.allProducts,
-    required this.reviews,
-    required this.visitorStatesDataModel,
-    required this.topSellers,
+    // required this.reviews,
+    // required this.visitorStatesDataModel,
+    // required this.topSellers,
   });
 }

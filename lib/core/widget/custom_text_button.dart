@@ -31,11 +31,13 @@ class _CustomTextButtonState extends State<CustomTextButton> {
       ),
       child: Text(
         widget.text,
-        style: TextStyle(
-          color: widget.btnColor ?? AppColors.blueColor,
-          fontWeight: widget.fontWeight ?? FontWeight.w600,
-          fontSize: widget.fontSize ?? 14,
-        ),
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.secondaryColor,
+              decorationThickness: 3,
+              fontWeight: FontWeight.bold,
+              color: AppColors.secondaryColor,
+            ),
       ),
     );
   }

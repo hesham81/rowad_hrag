@@ -15,9 +15,8 @@ abstract class UrlLauncherFunc {
     await launchUrl(
       Uri.parse(
         url,
-
       ),
-
     );
   }
+
 }
