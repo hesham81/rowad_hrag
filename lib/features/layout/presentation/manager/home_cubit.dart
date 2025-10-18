@@ -39,15 +39,15 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial()) {
     Future.wait([
+      // getAllBanners(),
       getAllCategories(),
-      getAllBanners(),
-      getAllReviews(),
+      // getAllReviews(),
       getAllSpecialProducts(),
-      getSecondBanner(),
+      // getSecondBanner(),
       getPeopleWithSpecialNeedsProducts(),
       getProductiveFamiliesProducts(),
-      getVisitorState(),
-      getTopSellers(),
+      // getVisitorState(),
+      // getTopSellers(),
       getAllProducts(),
     ]);
   }
@@ -171,7 +171,12 @@ class HomeCubit extends Cubit<HomeState> {
         },
         (list) async {
           _categoriesData = list;
-          await getAllBanners();
+          emit(
+            HomeLoaded(
+              list,
+            ),
+          );
+          // await getAllBanners();
         },
       );
     } catch (error) {
@@ -193,13 +198,15 @@ class HomeCubit extends Cubit<HomeState> {
     response.fold(
       (fail) {
         emit(
-          HomeError(
+          ErrorBanners(
             "${fail.messageAr ?? fail.messageEn ?? "Error"} On Get All Banners",
           ),
         );
       },
       (banners) {
         _banners = banners;
+        log("Emitted");
+        emit(LoadedBanners(banners));
       },
     );
   }
@@ -493,15 +500,15 @@ class HomeCubit extends Cubit<HomeState> {
           emit(
             LoadedHomeScreen(
               categories: _categoriesData,
-              banner: _banners,
-              secondBanner: _secondBanner,
+              // banner: _banners,
+              // secondBanner: _secondBanner,
               specialProducts: _specialProducts,
               productiveFamiliesProducts: _productiveFamiliesProducts,
               specialNeedsProducts: _peopleWithSpecialNeed,
               allProducts: _allProducts,
-              reviews: _reviews,
-              visitorStatesDataModel: _visitorStatesDataModel!,
-              topSellers: _topSellers,
+              // reviews: _reviews,
+              // visitorStatesDataModel: _visitorStatesDataModel!,
+              // topSellers: _topSellers,
             ),
           );
         },

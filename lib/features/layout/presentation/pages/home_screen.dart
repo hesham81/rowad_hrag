@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: CachedNetworkImage(
-                              imageUrl: state.banner.last.imageUrl,
+                              imageUrl: "https://rowad-harag.com/public/uploads/all/CmzvnOH0njRJeTAbCDPOMpDqjERN4ZldBGpiYUHL.png",
                             ),
                           ).hPadding(0.03.width),
                           0.02.height.hSpace,
@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           0.02.height.hSpace,
                           CachedNetworkImage(
-                            imageUrl: state.secondBanner.first.imageUrl,
+                            imageUrl: "https://rowad-harag.com/public/uploads/all/lOO4a6OEYOD4oTWF1v4paCWTD4bxN1wRIcVohrba.png",
                           ),
                           0.02.height.hSpace,
                           Row(
