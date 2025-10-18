@@ -18,6 +18,7 @@ class SearchRemoteDataSource implements SearchInterfaceDataSource {
         'max': search.max,
         'categorise': search.categorise,
         'brands': search.brands,
+        // 'page': 1,
       },
     );
   }

@@ -18,7 +18,12 @@ class SearchTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SearchCubit(),
+      create: (context) => SearchCubit()
+        ..search(
+          SearchRequestDataModel(
+            name: "",
+          ),
+        ),
       child: const _SearchTabContent(),
     );
   }
@@ -72,19 +77,16 @@ class _SearchTabContentState extends State<_SearchTabContent> {
                           ),
                         ],
                       );
+                    case SearchLoading():
                     case SearchInitial():
                       return const SizedBox();
-                    case SearchLoading():
-                      return CircularProgressIndicator(
-                        color: AppColors.thirdColor,
-                      );
                     case SuccessSearch():
                       return (handler.products.isEmpty)
                           ? Lottie.asset(
-                              AppAssets.noSearchResult,
+                              "assets/icons/No-Data.json",
                             )
                           : CustomGridView(
-                              crossAxisCount: 4,
+                              crossAxisCount: 3,
                               products: handler.products,
                             );
                   }
