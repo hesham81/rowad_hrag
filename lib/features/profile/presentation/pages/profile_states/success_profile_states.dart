@@ -134,7 +134,10 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "أضف عرض",
                       imagePath:
                           "assets/icons/83d25617f98c4abb7e36c2ec89748dfdae13cd24.png",
-                      onTap: () => {},
+                      onTap: () => pushNamed(
+                        newPage: RouteNames.addsPage,
+                        context: context,
+                      ),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(

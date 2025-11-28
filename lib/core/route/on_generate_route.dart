@@ -29,7 +29,6 @@ import 'package:rowad_hrag/features/splash/presentation/pages/splash_screen.dart
 import 'package:rowad_hrag/features/product_details/presentation/pages/product_item_screen.dart';
 import 'package:rowad_hrag/features/sub_categories_product_details/presentation/pages/sub_categories_product.dart';
 import 'package:rowad_hrag/features/terms_and_conditions/presentation/pages/terms_and_conditions.dart';
-import '../../features/add-ads/presentation/manager/addAdCubit.dart';
 import '../../features/add-ads/presentation/pages/adds_page.dart';
 import '../../features/adds_reviews/presentation/manager/adds_reviews_cubit.dart';
 import '../../features/all_types/presentation/pages/all_types.dart';
@@ -53,15 +52,20 @@ abstract class OnGenerateRoute {
             create: (context) => AuthCubit(),
           ),
         );
-      
+
       case RouteNames.onboarding:
         return MaterialPageRoute(
-          builder: (context) =>OnboardingScreen(),
+          builder: (context) => OnboardingScreen(),
         );
-        case RouteNames.searchTab:
+      case RouteNames.addsPage:
         return MaterialPageRoute(
-          builder: (context) => SearchTab(),);
-        case RouteNames.home:
+          builder: (context) => AddsPage(),
+        );
+      case RouteNames.searchTab:
+        return MaterialPageRoute(
+          builder: (context) => SearchTab(),
+        );
+      case RouteNames.home:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<HomeCubit>(
             create: (context) => HomeCubit(),
@@ -178,10 +182,7 @@ abstract class OnGenerateRoute {
         );
       case RouteNames.addAdds:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            child: AddsPage(),
-            create: (context) => AddAdCubit(),
-          ),
+          builder: (context) => AddsPage(),
         );
       case RouteNames.shopSettings:
         return MaterialPageRoute(
@@ -199,14 +200,13 @@ abstract class OnGenerateRoute {
         );
       case RouteNames.followList:
         return MaterialPageRoute(
-            builder: (context) => FollowList(),
+          builder: (context) => FollowList(),
         );
 
       case RouteNames.orderList:
         return MaterialPageRoute(
-            builder: (context) => OrderList(),
+          builder: (context) => OrderList(),
         );
-
 
       default:
         return MaterialPageRoute(

@@ -22,10 +22,6 @@ class _StoriesState extends State<Stories> {
           'imageUrl':
               'https://marketplace.canva.com/EAGFdr5xrIY/1/0/1600w/canva-beige-and-brown-elegant-coming-soon-instagram-post-rCVKQbzDkrc.jpg'
         },
-        {
-          'imageUrl':
-              'https://scontent-hbe1-1.xx.fbcdn.net/v/t39.30808-6/510388215_2100046103838882_8632535229427349386_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=xY1mKiRxKNYQ7kNvwFUZVIJ&_nc_oc=AdkUEOckktUSxyNDJ06Pq9Yfdqax3YdsjKTXYH0Qs4Jk55NhtXcP4oakb6BckiB9zvA&_nc_zt=23&_nc_ht=scontent-hbe1-1.xx&_nc_gid=YVvJR3OaxPyHNFJcZq6EYw&oh=00_AffhcTfW2DLt0mOsugAfZO4AkjjlTgKPTZBrZUXfWKGNdg&oe=68E6288C'
-        },
       ],
     },
   ];

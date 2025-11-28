@@ -8,6 +8,7 @@ import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/favourite_tab/presentation/pages/favourite_tab.dart';
 import 'package:rowad_hrag/features/layout/presentation/pages/home_screen.dart';
+import 'package:rowad_hrag/features/login_to_continue/presentation/pages/coming_soon.dart';
 import 'package:rowad_hrag/features/login_to_continue/presentation/pages/login_to_continue.dart';
 import 'package:rowad_hrag/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:rowad_hrag/features/profile/presentation/pages/home_profile.dart';
@@ -43,12 +44,12 @@ class _HomePageState extends State<HomePage> {
     HomeScreen(),
     SearchTab(),
     SizedBox(),
-    FavouriteTab(),
+    ComingSoon(
+      showButton: false,
+    ),
     Profile(
       isHome: true,
     ),
-    // ProfileDrawer(),
-    // These pages will access the same Cubit provided at top level
   ];
   final List<Widget> pagesUnAuth = [
     HomeScreen(),
@@ -163,11 +164,10 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await UrlLauncherFunc.openUrl(
-              "https://rowad-harag.com/add-ad",
-            );
-          },
+          onPressed: () => pushNamed(
+            newPage: RouteNames.addsPage,
+            context: context,
+          ),
           backgroundColor: AppColors.greenColor,
           shape: CircleBorder(
               // side: BorderSide(

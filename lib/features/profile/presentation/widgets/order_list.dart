@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
@@ -23,7 +24,8 @@ class _OrderListState extends State<OrderList> {
           initialIndex: _selectedIndex,
           child: Builder(
             builder: (context) {
-              final TabController tabController = DefaultTabController.of(context);
+              final TabController tabController =
+                  DefaultTabController.of(context);
               tabController.addListener(() {
                 if (!tabController.indexIsChanging) {
                   setState(() {
@@ -41,10 +43,11 @@ class _OrderListState extends State<OrderList> {
                       ),
                       Text(
                         "طلبات الشراء",
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.secondaryColor,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.secondaryColor,
+                                ),
                       ),
                     ],
                   ).hPadding(0.04.width),
@@ -54,28 +57,31 @@ class _OrderListState extends State<OrderList> {
                     indicatorColor: AppColors.thirdColor,
                     indicatorSize: TabBarIndicatorSize.tab,
                     onTap: (value) {
-                      
                       setState(() {
                         _selectedIndex = value;
                       });
-                      
                     },
                     tabs: [
                       Text("طلباتي",
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                color: _selectedIndex == 0 ? AppColors.thirdColor : Colors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
+                          style:
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: _selectedIndex == 0
+                                        ? AppColors.thirdColor
+                                        : Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  )),
                       Text("طلبات العملاء",
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                color: _selectedIndex == 1 ? AppColors.thirdColor : Colors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
+                          style:
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: _selectedIndex == 1
+                                        ? AppColors.thirdColor
+                                        : Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  )),
                     ],
                   ),
                   0.04.height.hSpace,
-                  _selectedIndex==0? _talabti()
-                              :_talabtelalamaaa(),
+                  _selectedIndex == 0 ? _talabti() : _talabtelalamaaa(),
                 ],
               );
             },
@@ -86,16 +92,26 @@ class _OrderListState extends State<OrderList> {
   }
 }
 
-Widget _talabti(){
-    return Column(
-      children: [],
-    );
+Widget _talabti() {
+  return Column(
+    children: [
+      Lottie.asset(
+        "assets/icons/Coming Soon.json",
+        reverse: false,
+        repeat: false,
+      )
+    ],
+  );
 }
 
-Widget _talabtelalamaaa(){
-    return Column(
-      children: [
-        Text("test")
-      ],
-    );
+Widget _talabtelalamaaa() {
+  return Column(
+    children: [
+      Lottie.asset(
+        "assets/icons/Coming Soon.json",
+        reverse: false,
+        repeat: false,
+      )
+    ],
+  );
 }
