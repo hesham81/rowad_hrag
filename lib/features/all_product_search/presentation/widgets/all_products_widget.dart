@@ -117,12 +117,12 @@ class _AllProductsWidgetState extends State<AllProductsWidget> {
                     textDirection: TextDirection.rtl,
                     children: [
                       Text(
-                        (widget.product.userName!.length > 20)
-                            ? widget.product.userName!.substring(0, 20)
+                        (widget.product.userName!.length > 14)
+                            ? widget.product.userName!.substring(0, 14)
                             : widget.product.userName ?? "غير معروف",
                         overflow: TextOverflow.ellipsis,
                         style:
-                            Theme.of(context).textTheme.labelMedium!.copyWith(),
+                            Theme.of(context).textTheme.labelSmall!.copyWith(),
                       ),
                       Spacer(),
                       IconText(

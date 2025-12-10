@@ -38,8 +38,7 @@ class _AllCategoriesState extends State<AllCategories> {
         _filteredCategories = widget.categories;
       } else {
         _filteredCategories = widget.categories
-            .where((category) =>
-        category.name.toLowerCase().contains(query))
+            .where((category) => category.name.toLowerCase().contains(query))
             .toList();
       }
     });
@@ -51,6 +50,30 @@ class _AllCategoriesState extends State<AllCategories> {
     _searchController.dispose();
     super.dispose();
   }
+
+  List<String> images = [
+    "assets/images/categories/jeep_12567224.png",
+    "assets/images/categories/real-state_1473522.png",
+    "assets/images/categories/responsive_896493.png",
+    "assets/images/categories/farm_10738009.png",
+    "assets/images/categories/bureau_18078478.png",
+    "assets/images/categories/stationery_11287365.png",
+    "assets/images/categories/service_11515286.png",
+    "assets/images/categories/job_3850285.png",
+    "assets/images/categories/lunch_1257337.png",
+    "assets/images/categories/programming_2091424.png",
+    "assets/images/categories/book-shelf_10997264.png",
+    "assets/images/categories/hobby_5526337.png",
+    "assets/images/categories/all_5110796.png",
+    "assets/images/categories/clothes_6973297.png",
+    "assets/images/categories/smartwatch_9409299.png",
+    "assets/images/categories/bicycle_4269201.png",
+    "assets/images/categories/protocol_3755256.png",
+    "assets/images/categories/stationery_11287365.png",
+    "assets/images/categories/maintenance_3779709.png",
+    "assets/images/categories/improvement_5487606.png",
+    "assets/images/categories/vase_4699403.png",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +90,9 @@ class _AllCategoriesState extends State<AllCategories> {
                   Text(
                     "كل الفئات",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.greenColor,
-                    ),
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.greenColor,
+                        ),
                   ),
                   const Spacer(flex: 2),
                 ],
@@ -83,7 +106,8 @@ class _AllCategoriesState extends State<AllCategories> {
                 child: CupertinoSearchTextField(
                   controller: _searchController,
                   placeholder: 'ابحث عن فئة...',
-                  onChanged: (_) => _filterCategories(), // Optional: you can also rely on listener
+                  onChanged: (_) =>
+                      _filterCategories(), // Optional: you can also rely on listener
                 ),
               ),
 
@@ -96,8 +120,8 @@ class _AllCategoriesState extends State<AllCategories> {
                   child: Text(
                     'لا توجد فئات تطابق البحث',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey,
-                    ),
+                          color: Colors.grey,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                 )
@@ -108,6 +132,7 @@ class _AllCategoriesState extends State<AllCategories> {
                   itemCount: _filteredCategories.length,
                   itemBuilder: (context, index) => AllCategoryWidget(
                     category: _filteredCategories[index],
+                    image: images[index],
                   ),
                   separatorBuilder: (context, index) => 0.02.height.hSpace,
                 ),

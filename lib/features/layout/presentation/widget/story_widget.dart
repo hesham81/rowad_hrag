@@ -57,7 +57,7 @@ class _StoryWidgetState extends State<StoryWidget> {
             }
 
             if (state is UploaderHandlerError) {
-              return _errorWidget(state.failure.toString() ?? "Upload failed");
+              return _errorWidget(state.failure.toString());
             }
 
             if (state is StoryLoaded) {
@@ -120,7 +120,7 @@ class _StoryWidgetState extends State<StoryWidget> {
   }
 
   // ======================================================
-  // STORIES LIST
+  // STORIES LIST (excluding MY story)
   // ======================================================
 
   Widget _storiesList(BuildContext context, List<StoryDataModel> stories) {
@@ -129,17 +129,17 @@ class _StoryWidgetState extends State<StoryWidget> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox();
 
-        final userToken = snapshot.data ?? "";
+        final token = snapshot.data ?? "";
 
-        final filteredStories =
-        stories.where((s) => s.uid != userToken).toList();
+        // Remove MY OWN story from public stories list
+        final filteredStories = stories.where((s) => s.uid != token).toList();
 
         return SizedBox(
           height: 110,
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             scrollDirection: Axis.horizontal,
-            itemCount: filteredStories.length + 1,
+            itemCount: filteredStories.length + 1, // +1 for My Story button
             separatorBuilder: (_, __) => const SizedBox(width: 14),
             itemBuilder: (context, index) {
               if (index == 0) {
@@ -187,10 +187,8 @@ class _StoryWidgetState extends State<StoryWidget> {
     );
   }
 
-
-
   // ======================================================
-  // MY STORY BUTTON
+  // MY STORY BUTTON (fixed logic)
   // ======================================================
 
   Widget _myStoryButton(BuildContext context, List<StoryDataModel> stories) {
@@ -200,21 +198,19 @@ class _StoryWidgetState extends State<StoryWidget> {
           onTap: () async {
             final token = await CashHelper.getString("token") ?? "";
 
-            // Get only MY stories
+            // Check if user has an existing story
             final myStories = stories.where((s) => s.uid == token).toList();
 
-            // ---- If I HAVE a story → open story ----
+            // If the user has a story → open it (DO NOT UPLOAD)
             if (myStories.isNotEmpty) {
               slideLeftWidget(
-                newPage: ViewStory(
-                  stories: myStories.first,
-                ),
+                newPage: ViewStory(stories: myStories.first),
                 context: context,
               );
               return;
             }
 
-            // ---- If I DON'T have a story → upload new story ----
+            // If user does NOT have story → upload story
             context.read<StoryCubit>().uploadStory();
           },
           child: CircularProfileAvatar(
@@ -231,7 +227,7 @@ class _StoryWidgetState extends State<StoryWidget> {
         SizedBox(
           width: 80,
           child: Text(
-            name ?? "My Story",
+            "حالتي",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
@@ -244,6 +240,4 @@ class _StoryWidgetState extends State<StoryWidget> {
       ],
     );
   }
-
-
 }

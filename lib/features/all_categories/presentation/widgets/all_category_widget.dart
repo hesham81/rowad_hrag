@@ -4,10 +4,11 @@ import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart'
 
 class AllCategoryWidget extends StatelessWidget {
   final CategoryDataModel category;
+  final String image ;
 
   const AllCategoryWidget({
     super.key,
-    required this.category,
+    required this.category, required this.image,
   });
 
   @override
@@ -18,8 +19,8 @@ class AllCategoryWidget extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.network(
-              category.icon,
+            Image.asset(
+              image,
               height: 50,
               width: 50,
             ),

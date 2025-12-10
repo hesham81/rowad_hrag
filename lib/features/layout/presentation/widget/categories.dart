@@ -23,14 +23,28 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
   List<String> images = [
-    "assets/icons/eb0c1e622681d8f28fbc41eca59e157b62e96b0e.png",
-    "assets/icons/b5310ee5171dc6cdff8a9139b8c48ec910b1abee.png",
-    "assets/icons/c15a8f1b7596107f3ddf45e53ea3886fbd437142.png",
-    "assets/icons/6a132e807eb36181aa6f63a3379e0b9d7cd0d858.png",
-    "assets/icons/e30be8c88d884c8ae4967ac078d2ee32b698453a.png",
-    "assets/icons/ce0450b31ef5929a8f5777cdb3855e2f36e50542.png",
-    "assets/icons/c15a8f1b7596107f3ddf45e53ea3886fbd437142.png",
-    "assets/icons/6a132e807eb36181aa6f63a3379e0b9d7cd0d858.png",
+    "assets/images/categories/jeep_12567224.png",
+    "assets/images/categories/real-state_1473522.png",
+    "assets/images/categories/responsive_896493.png",
+    "assets/images/categories/farm_10738009.png",
+    "assets/images/categories/bureau_18078478.png",
+    "assets/images/categories/stationery_11287365.png",
+    "assets/images/categories/service_11515286.png",
+    "assets/images/categories/job_3850285.png",
+    "assets/images/categories/lunch_1257337.png",
+    "assets/images/categories/programming_2091424.png",
+    "assets/images/categories/book-shelf_10997264.png",
+    "assets/images/categories/hobby_5526337.png",
+    "assets/images/categories/all_5110796.png",
+    "assets/images/categories/clothes_6973297.png",
+    "assets/images/categories/smartwatch_9409299.png",
+    "assets/images/categories/bicycle_4269201.png",
+    "assets/images/categories/protocol_3755256.png",
+    "assets/images/categories/stationery_11287365.png",
+    "assets/images/categories/maintenance_3779709.png",
+    "assets/images/categories/improvement_5487606.png",
+    "assets/images/categories/vase_4699403.png",
+
   ];
   List<Color> colors = [
     Color(0xff755738),
