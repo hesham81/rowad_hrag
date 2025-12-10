@@ -1,83 +1,66 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:story/story_page_view.dart';
 
-class Stories extends StatefulWidget {
-  const Stories({super.key});
+import '../../domain/entities/story.dart';
+
+class ViewStory extends StatefulWidget {
+  final Story stories;
+
+  const ViewStory({
+    super.key,
+    required this.stories,
+  });
 
   @override
-  State<Stories> createState() => _StoriesState();
+  State<ViewStory> createState() => _ViewStoryState();
 }
 
-class _StoriesState extends State<Stories> {
-  final List<Map<String, dynamic>> sampleUsers = [
-    {
-      'userName': 'Hisham Aymen',
-      'imageUrl':
-          'https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/522598565_2125203187989840_3408856964049920562_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Ly6Lftnf6JcQ7kNvwGFDiXt&_nc_oc=AdmK6cC-Tf7Okr3EjN541Am8WlDg7lgwzI3o53soUy-xTzSyo4e9UvwsUlM4hXYHxu0&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=58q98s7-_6DOUoEVFZcuNA&oh=00_Afe5wiHkTiNwD55e52OoEKgGw-ZRnqEN8mxMA2lQ1p5CDw&oe=68F6C8D1',
-      'stories': [
-        {
-          'imageUrl':
-              'https://marketplace.canva.com/EAGFdr5xrIY/1/0/1600w/canva-beige-and-brown-elegant-coming-soon-instagram-post-rCVKQbzDkrc.jpg'
-        },
-      ],
-    },
-  ];
-
+class _ViewStoryState extends State<ViewStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: StoryPageView(
+        pageLength: 1,
+        storyLength: (_) => 1,
+
+        // Instagram-like time (5 seconds)
+        indicatorDuration: const Duration(milliseconds: 5000),
+
+        indicatorHeight: 0.004.height,
+        indicatorVisitedColor: AppColors.greenColor,
+        indicatorUnvisitedColor: Colors.white38,
+
         itemBuilder: (context, pageIndex, storyIndex) {
-          final user = sampleUsers[pageIndex];
-          final story = user['stories']
-              [storyIndex]; // ✅ Fixed: access 'stories', not 'imageUrl'
+          final story = widget.stories;
 
           return Stack(
             children: [
-              // Align(
-              //   alignment: Alignment.bottomCenter,
-              //   child: Container(
-              //     height: 0.2.height,
-              //     decoration: BoxDecoration(
-              //       color: Colors.green.withAlpha(80),
-              //     ),
-              //     child: Text(
-              //       "Welcome",
-              //       style: TextStyle(color: Colors.white),
-              //     ),
-              //   ),
-              // ),
               Positioned.fill(
-                child: Container(color: Colors.black),
-              ),
-              Positioned.fill(
-                child: Image.network(
-                  story['imageUrl'] as String,
-                  // ✅ Now correctly accessing story image
-                  fit: BoxFit.contain,
+                child: CachedNetworkImage(
+                  imageUrl: story.file,
+                  fit: BoxFit.cover,
                 ),
               ),
+
+              // uploader information
               Padding(
-                padding: const EdgeInsets.only(top: 44, left: 8),
+                padding: const EdgeInsets.only(top: 44, left: 12),
                 child: Row(
                   children: [
-                    Container(
-                      height: 32,
-                      width: 32,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(user['imageUrl'] as String),
-                          fit: BoxFit.cover,
-                        ),
-                        shape: BoxShape.circle,
+                    CircleAvatar(
+                      radius: 18,
+                      backgroundColor: Colors.white24,
+                      backgroundImage: CachedNetworkImageProvider(
+                        story.uploaderImage,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      user['userName'] as String,
+                      story.uploaderName,
                       style: const TextStyle(
                         fontSize: 17,
                         color: Colors.white,
@@ -87,32 +70,38 @@ class _StoriesState extends State<Stories> {
                   ],
                 ),
               ),
+
+              if (story.title != null && story.title!.isNotEmpty)
+                Positioned(
+                  bottom: 40,
+                  left: 20,
+                  right: 20,
+                  child: Text(
+                    story.title!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
             ],
           );
         },
+
         gestureItemBuilder: (context, pageIndex, storyIndex) {
           return Align(
             alignment: Alignment.topRight,
             child: Padding(
-              padding: const EdgeInsets.only(top: 32),
+              padding: const EdgeInsets.only(top: 32, right: 8),
               child: IconButton(
-                padding: EdgeInsets.zero,
-                color: Colors.white,
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                icon: const Icon(Icons.close, color: Colors.white),
+                onPressed: () => Navigator.pop(context),
               ),
             ),
           );
         },
-        pageLength: sampleUsers.length,
-        indicatorDuration: Duration(milliseconds: 10000),
-        storyLength: (int pageIndex) {
-          return sampleUsers[pageIndex]['stories'].length;
-        },
-        indicatorHeight: 0.004.height,
-        indicatorVisitedColor: AppColors.greenColor,
+
         onPageLimitReached: () {
           Navigator.pop(context);
         },

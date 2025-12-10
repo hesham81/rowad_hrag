@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hive/hive.dart';
 import 'package:rowad_hrag/core/services/auth_services.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/top_sellers_data_model.dart';
@@ -159,18 +160,38 @@ class HomeCubit extends Cubit<HomeState> {
       _getAllCategoriesUseCase = GetAllCategoriesUseCase(_homeReposatory);
       var response = await _getAllCategoriesUseCase.call();
       response.fold(
-        (error) {
-          // throw Exception(
-          //   "${error.messageAr} ${error.messageEn}",
-          // );
-          emit(
-            HomeError(
-              "${error.messageAr ?? error.messageEn ?? "Error"} on Get All Categories",
-            ),
-          );
+        (error) async {
+          final box = await Hive.openBox("categoriesData");
+          if (box.isOpen) {
+            List<Map<String, dynamic>> data = box.get("categoriesData");
+            if (data != null) {
+              var listOfCategories = data
+                  .map(
+                    (e) => CategoryDataModel.fromJson(e),
+                  )
+                  .toList();
+              _categoriesData = listOfCategories;
+            } else {
+              emit(
+                HomeError(
+                  "${error.messageAr ?? error.messageEn ?? "Error"} on Get All Categories",
+                ),
+              );
+            }
+          }
         },
         (list) async {
           _categoriesData = list;
+          final box = await Hive.openBox("categoriesData");
+          if (box.isOpen) {
+            var mapData = list
+                .map(
+                  (e) => e.toJson(),
+                )
+                .toList();
+            await box.put("categoriesData", mapData);
+            await box.close();
+          }
           emit(
             HomeLoaded(
               list,
@@ -299,18 +320,58 @@ class HomeCubit extends Cubit<HomeState> {
       var response = await _getAllSpecialProductsUseCase.call();
       _specialProductsLoading = false;
       response.fold(
-        (error) {
-          emit(
-            ErrorSpecialProducts(
-              "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Special Products",
-            ),
-          );
+        (error) async {
+          final box = await Hive.openBox("specialProducts");
+          if (box.isOpen) {
+            List<Map<String, dynamic>> mapData =
+                await box.get("specialProducts");
+            if (mapData != null) {
+              _specialProducts = mapData
+                  .map(
+                    (e) => ProductsDataModel.fromJson(e),
+                  )
+                  .toList();
+            } else {
+              emit(
+                ErrorSpecialProducts(
+                  "${error.messageAr ?? error.messageEn ?? "Error"} On Get All Special Products",
+                ),
+              );
+            }
+          }
         },
-        (data) {
+        (data) async {
           _specialProducts = data;
+          final box = await Hive.openBox("specialProducts");
+          if (box.isOpen) {
+            var mapData = data
+                .map(
+                  (e) => e.toJson(),
+                )
+                .toList();
+            await box.put("specialProducts", mapData);
+            await box.close();
+          }
         },
       );
     } catch (error) {
+      final box = await Hive.openBox("specialProducts");
+      if (box.isOpen) {
+        List<Map<String, dynamic>> mapData = await box.get("specialProducts");
+        if (mapData != null) {
+          _specialProducts = mapData
+              .map(
+                (e) => ProductsDataModel.fromJson(e),
+              )
+              .toList();
+        } else {
+          emit(
+            ErrorSpecialProducts(
+              "${error.toString()} On Get All Special Products",
+            ),
+          );
+        }
+      }
       emit(
         ErrorSpecialProducts(
           "${error.toString()} On Get All Special Products",

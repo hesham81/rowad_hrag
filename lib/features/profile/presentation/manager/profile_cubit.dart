@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hive/hive.dart';
+import 'package:rowad_hrag/core/services/cash_helper.dart';
 import 'package:rowad_hrag/core/services/web_services.dart';
 import 'package:rowad_hrag/features/profile/data/data_sources/profile_interface_data_source.dart';
 import 'package:rowad_hrag/features/profile/data/data_sources/remote_profile_data_source.dart';
@@ -59,6 +61,16 @@ class ProfileCubit extends Cubit<ProfileState> {
           ),
         );
       }, (data) async {
+        await CashHelper.setString("image", data.image);
+        await CashHelper.setString("name", data.name);
+        final box = await Hive.openBox("profile");
+        await box.put("profile", data.toJson());
+
+        final boxData = await Hive.openBox("profileData");
+        if (boxData.isOpen) {
+          await boxData.put("profileData", {"image": "image", "name": "name"});
+        }
+
         await _getAllPoints(data);
       });
     } catch (error) {

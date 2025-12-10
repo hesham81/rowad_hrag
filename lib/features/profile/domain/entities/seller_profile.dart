@@ -23,7 +23,7 @@ class SellerProfile extends Equatable {
 
   final int orders;
 
-  final String sales;
+  // final String sales;
 
   final String? description;
 
@@ -35,7 +35,7 @@ class SellerProfile extends Equatable {
     required this.verifiedImg,
     required this.products,
     required this.orders,
-    required this.sales,
+    // required this.sales,
     required this.description,
     required this.title,
     required this.name,
@@ -59,7 +59,7 @@ class SellerProfile extends Equatable {
         verifiedImg,
         products,
         orders,
-        sales,
+        // sales,
         description,
         title,
       ];
