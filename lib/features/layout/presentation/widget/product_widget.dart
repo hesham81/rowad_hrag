@@ -60,6 +60,7 @@ class _ProductWidgetState extends State<ProductWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
+              flex: 2,
               child: CachedNetworkImage(
                 imageUrl: widget.product.thumbnailImage,
                 height: 0.15.height,
@@ -77,6 +78,22 @@ class _ProductWidgetState extends State<ProductWidget> {
                   ),
             ),
             0.01.height.hSpace,
+            Text(
+              widget.product.userName ?? "",
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black.withAlpha(80),
+              ),
+            ),
+            0.01.height.hSpace,
+            Text(
+              widget.product.cityName ?? "",
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black.withAlpha(80),
+              ),
+            ),
+            0.01.height.hSpace,
             Row(
               textDirection: TextDirection.rtl,
               children: [
@@ -86,6 +103,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
+
                 Spacer(),
                 if (widget.displayFavourite)
                   IconButton(

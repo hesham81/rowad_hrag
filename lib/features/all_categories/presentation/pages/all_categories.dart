@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart'; // Required for Cupertino widgets
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/extensions/padding.dart';
@@ -7,13 +9,16 @@ import 'package:rowad_hrag/core/widget/arrow_widget.dart';
 import 'package:rowad_hrag/features/all_categories/presentation/widgets/all_category_widget.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../layout/presentation/manager/home_cubit.dart';
+import '../../../sub_categories/presentation/pages/sub_categories.dart';
 
 class AllCategories extends StatefulWidget {
   final List<CategoryDataModel> categories;
+  final Function(int) onTap ;
 
   const AllCategories({
     super.key,
-    required this.categories,
+    required this.categories, required this.onTap,
   });
 
   @override
@@ -130,9 +135,15 @@ class _AllCategoriesState extends State<AllCategories> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: _filteredCategories.length,
-                  itemBuilder: (context, index) => AllCategoryWidget(
-                    category: _filteredCategories[index],
-                    image: images[index],
+                  itemBuilder: (context, index) => BlocProvider(
+                    create: (context) => HomeCubit(),
+                    child: GestureDetector(
+                      onTap: () => widget.onTap(index),
+                      child: AllCategoryWidget(
+                        category: _filteredCategories[index],
+                        image: images[index],
+                      ),
+                    ),
                   ),
                   separatorBuilder: (context, index) => 0.02.height.hSpace,
                 ),

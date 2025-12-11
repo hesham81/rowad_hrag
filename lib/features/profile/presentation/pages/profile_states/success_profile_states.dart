@@ -135,10 +135,7 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "أضف عرض",
                       imagePath:
                           "assets/icons/83d25617f98c4abb7e36c2ec89748dfdae13cd24.png",
-                      onTap: () => pushNamed(
-                        newPage: RouteNames.addsPage,
-                        context: context,
-                      ),
+                      onTap: () =>UrlLauncherFunc.openUrl("https://rowad-harag.com/add-ad"),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(

@@ -33,4 +33,5 @@ class LoadedHomeScreen extends HomeState {
     required this.specialNeedsProducts,
     required this.allProducts,
   });
+
 }

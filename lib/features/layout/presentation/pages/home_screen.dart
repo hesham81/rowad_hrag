@@ -10,12 +10,7 @@ import 'package:hive/hive.dart';
 import 'package:marquee/marquee.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
-import 'package:rowad_hrag/core/services/auth_services.dart';
-import 'package:rowad_hrag/core/services/hive_helper.dart';
-import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/core/widget/custom_text_button.dart';
-import 'package:rowad_hrag/core/widget/icon_error.dart';
-import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/all_categories/presentation/pages/all_categories.dart';
 import 'package:rowad_hrag/features/all_product_search/presentation/widgets/all_products_widget.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
@@ -57,6 +52,16 @@ class _HomeScreenState extends State<HomeScreen> {
     "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/509815362_2100046733838819_4844070285046835763_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=-IAmG7I0k4wQ7kNvwGvUL--&_nc_oc=AdlnFCUYdGAwo6uedwYlxWJqVXjIOuA3PlDGKRq7ZEUAEDh_w8bd8il_4xJjxx50VbM&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=s7vrDtBARX7QmLD3ZqOdeg&oh=00_AfcRii12SH0BMMrYEgpeeGN0WK7uEAh66QaP27aTm8NeZw&oe=68F70736",
   ];
 
+  var banners = [
+    "https://rowad-harag.com/public/uploads/all/CmzvnOH0njRJeTAbCDPOMpDqjERN4ZldBGpiYUHL.png",
+    "https://rowad-harag.com/public/uploads/all/TDkSdNqfKJhgY03mTCAxSVdAX7udRheZhFvU9bsV.png",
+  ];
+
+  var links = [
+    "https://rowadlamsetanaqa.myeasyorders.com/collections/all-items",
+    "https://rowadlamsetanaqa.myeasyorders.com/",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,20 +94,47 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: StoryWidget(),
                 ).alignLeft().hPadding(0.03.width),
                 0.03.height.hSpace,
-                Container(
+                SizedBox(
                   width: double.maxFinite,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(
-                      color: AppColors.secondaryColor,
-                      width: 1.5,
-                    ),
-                  ),
-                  child: Image.asset(
-                    "assets/images/b6ed44f0e1c7f0429b7e8125b3d937cef6c1ddfa.png",
-                    height: 0.2.height,
-                    width: double.maxFinite,
-                    fit: BoxFit.cover,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 0.45.width,
+                        height: 0.2.height,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: CachedNetworkImage(
+                              imageUrl: banners[index],
+                            ),
+                          ),
+                          separatorBuilder: (context, index) =>
+                          0.02.width.vSpace,
+                          itemCount: 2,
+                        ),
+                      ),
+                      Expanded(
+                        // width: 0.5.width,
+                        child: Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: AppColors.secondaryColor,
+                              width: 1.5,
+                            ),
+                          ),
+                          child: Image.asset(
+                            "assets/images/b6ed44f0e1c7f0429b7e8125b3d937cef6c1ddfa.png",
+                            height: 0.2.height,
+                            width: double.maxFinite,
+                            fit: BoxFit.cover,
+                          ),
+                        ).hPadding(0.03.width),
+                      ),
+
+                    ],
                   ),
                 ).hPadding(0.03.width),
                 0.02.height.hSpace,
@@ -111,14 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (state is LoadedHomeScreen) {
                       return Column(
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  "https://rowad-harag.com/public/uploads/all/CmzvnOH0njRJeTAbCDPOMpDqjERN4ZldBGpiYUHL.png",
-                            ),
-                          ).hPadding(0.03.width),
-                          0.02.height.hSpace,
                           Row(
                             textDirection: TextDirection.rtl,
                             children: [
@@ -138,6 +162,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onPressed: () => slideLeftWidget(
                                   newPage: AllCategories(
                                     categories: state.categories,
+                                    onTap: (index) async {
+                                      final cubit = context.read<HomeCubit>();
+
+                                      await cubit.getAllSubCategories(
+                                          state.categories[index].id);
+
+                                      final subCats = cubit.subCategories;
+
+                                      slideLeftWidget(
+                                        context: context,
+                                        newPage: SubCategoriesScreen(
+                                          data: subCats,
+                                          title: state.categories[index].name,
+                                        ),
+                                      );
+                                    }
                                   ),
                                   context: context,
                                 ),
@@ -152,29 +192,47 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisSpacing: 3,
                               crossAxisSpacing: 3,
                             ),
-                            itemBuilder: (context, index) => Column(
-                              children: [
-                                Categories(
-                                  index: index,
-                                  imageUrl: state.categories[index].icon,
-                                  text: state.categories[index].name,
-                                ).allPadding(8),
-                                Expanded(
-                                  child: Text(
-                                    state.categories[index].name.replaceFirst(
-                                      "حراج",
-                                      "",
-                                    ),
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium!
-                                        .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                            itemBuilder: (context, index) => GestureDetector(
+                              onTap: () async {
+                                final cubit = context.read<HomeCubit>();
+
+                                await cubit.getAllSubCategories(
+                                    state.categories[index].id);
+
+                                final subCats = cubit.subCategories;
+
+                                slideLeftWidget(
+                                  context: context,
+                                  newPage: SubCategoriesScreen(
+                                    data: subCats,
+                                    title: state.categories[index].name,
                                   ),
-                                ),
-                              ],
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  Categories(
+                                    index: index,
+                                    imageUrl: state.categories[index].icon,
+                                    text: state.categories[index].name,
+                                  ).allPadding(8),
+                                  Expanded(
+                                    child: Text(
+                                      state.categories[index].name.replaceFirst(
+                                        "حراج",
+                                        "",
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             itemCount: 8,
                             shrinkWrap: true,

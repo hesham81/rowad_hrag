@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive/hive.dart';
 import 'package:rowad_hrag/features/layout/data/models/products_data_model.dart';
 import 'package:rowad_hrag/features/layout/data/models/category_data_model.dart';
@@ -9,6 +10,8 @@ import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_special_prod
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_people_with_special_needs_products_use_case.dart';
 import 'package:rowad_hrag/features/layout/domain/use_cases/get_all_categories.dart';
 import '../../data/data_sources/home_interface_data_source.dart';
+import '../../data/models/sub_categories_data_model.dart';
+import '../../domain/use_cases/get_all_sub_categories_use_case.dart';
 import '../../domain/use_cases/get_special_products_needs_use_case.dart';
 import '/features/layout/data/data_sources/remote_home_data_source.dart';
 import '/features/layout/data/repositories/home_reposatories_implementation.dart';
@@ -31,6 +34,8 @@ class HomeCubit extends Cubit<HomeState> {
   late final GetPeopleWithSpecialNeedsUseCase _getSpecialNeeds;
   late final getProductiveFamiliesProductsUseCase _getFamilies;
   late final GetAllProductsUseCase _getAllProducts;
+  late GetAllSubCategoriesUseCase _getAllSubCategoriesUseCase;
+
 
   // Local state
   List<CategoryDataModel> _categories = [];
@@ -50,7 +55,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   List<ProductsDataModel> get allProducts => _allProducts;
 
-  Future<void> _initHome() async {
+  Future<void> _getSubCategorise(int id)async{
     _services = WebServices();
     _dataSource = RemoteHomeDataSource(_services.freePrimaryDio);
     _repo = HomeReposatoriesImplementation(_dataSource);
@@ -59,12 +64,55 @@ class HomeCubit extends Cubit<HomeState> {
     _getSpecialNeeds = GetPeopleWithSpecialNeedsUseCase(_repo);
     _getFamilies = getProductiveFamiliesProductsUseCase(_repo);
     _getAllProducts = GetAllProductsUseCase(_repo);
+    _getAllSubCategoriesUseCase = GetAllSubCategoriesUseCase(_repo);
+
+    await getAllSubCategories(id);
+  }
+
+
+  Future<void> _initHome( ) async {
+    _services = WebServices();
+    _dataSource = RemoteHomeDataSource(_services.freePrimaryDio);
+    _repo = HomeReposatoriesImplementation(_dataSource);
+    _getAllCategories = GetAllCategoriesUseCase(_repo);
+    _getSpecialProducts = GetAllSpecialProducts(_repo);
+    _getSpecialNeeds = GetPeopleWithSpecialNeedsUseCase(_repo);
+    _getFamilies = getProductiveFamiliesProductsUseCase(_repo);
+    _getAllProducts = GetAllProductsUseCase(_repo);
+    _getAllSubCategoriesUseCase = GetAllSubCategoriesUseCase(_repo);
 
     // 1. Load from Hive first (cache)
     // await _loadCachedData();
 
     // 2. Load fresh from API
     await _fetchAndCacheFreshData();
+  }
+  List<SubCategoriesDataModel> _subCategories = [];
+
+  List<SubCategoriesDataModel> get subCategories => _subCategories;
+
+  Future<void> getAllSubCategories(int id) async {
+    try {
+      EasyLoading.show();
+      var response = await _repo.getSubCategories(id);
+      EasyLoading.dismiss();
+      response.fold(
+            (error) {
+          throw Exception(error.messageAr);
+        },
+            (data) {
+          _subCategories = data;
+        },
+      );
+    } catch (error) {
+      emit(
+        HomeError(
+          error.toString(),
+        ),
+      );
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   List<T> safeHiveList<T>(

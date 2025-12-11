@@ -164,10 +164,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => pushNamed(
-            newPage: RouteNames.addsPage,
-            context: context,
-          ),
+          onPressed: () =>UrlLauncherFunc.openUrl("https://rowad-harag.com/add-ad"),
           backgroundColor: AppColors.greenColor,
           shape: CircleBorder(
               // side: BorderSide(
