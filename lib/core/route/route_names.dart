@@ -28,5 +28,6 @@ abstract class RouteNames {
   static const String onboarding   = '/onboarding';
   static const String followList   = '/followList';
   static const String orderList   = '/orderList';
+  static const String addsPage   = '/addsPage';
 
 }

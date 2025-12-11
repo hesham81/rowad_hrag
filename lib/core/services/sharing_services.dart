@@ -1,4 +1,4 @@
-import 'package:flutter_share/flutter_share.dart';
+// import 'package:flutter_share/flutter_share.dart';
 
 abstract class SharingServices {
   static Future<void> share({
@@ -7,11 +7,11 @@ abstract class SharingServices {
     required String linkUrl,
     required String chooserTitle,
   }) async {
-    await FlutterShare.share(
-      title: title,
-      text: text,
-      linkUrl: linkUrl,
-      chooserTitle: chooserTitle,
-    );
+    // await FlutterShare.share(
+    //   title: title,
+    //   text: text,
+    //   linkUrl: linkUrl,
+    //   chooserTitle: chooserTitle,
+    // );
   }
 }

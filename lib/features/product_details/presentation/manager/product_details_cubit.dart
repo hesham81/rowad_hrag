@@ -49,7 +49,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     _productDetailsRepo = ProdcutDetailsRepositoriesImp(_interfaceDataSource);
     _getProductDetailsUseCase = GetProductDetailsUseCase(_productDetailsRepo);
     try {
-      EasyLoading.show();
+      // EasyLoading.show();
       var response = await _getProductDetailsUseCase.call(id);
       // EasyLoading.dismiss();
       response.fold(
@@ -69,7 +69,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     } catch (error) {
       throw Exception(error.toString());
     } finally {
-      EasyLoading.dismiss();
+      // EasyLoading.dismiss();
     }
   }
 

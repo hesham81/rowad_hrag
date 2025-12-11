@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hive/hive.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/services/bot_toast.dart';
 import 'package:rowad_hrag/core/services/cash_helper.dart';
@@ -144,7 +145,7 @@ class AuthCubit extends Cubit<AuthState> with ChangeNotifier {
           BotToastServices.showErrorMessage(failed.messageEn ?? "حدث خطاء ما");
           return Future.value(false);
         },
-        (success) {
+        (success) async{
           _services.myToken = success.accessToken;
           CashHelper.setString("token", success.accessToken);
           return Future.value(true);

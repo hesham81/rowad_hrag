@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
-import 'package:rowad_hrag/core/extensions/dimensions.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
+import 'package:rowad_hrag/features/profile/data/models/seller_profile_data_model.dart';
 import 'package:rowad_hrag/features/update_profile/presentation/widgets/update_profile_modal_sheet.dart';
 
 class UpdateProfile extends StatefulWidget {
@@ -23,6 +27,28 @@ class _UpdateProfileState extends State<UpdateProfile> {
     );
   }
 
+  String? profileImage;
+  SellerProfileDataModel? profileData;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile(); // call async method
+  }
+
+  Future<void> _loadProfile() async {
+    await Hive.openBox("profile");
+    final dynamic profileJson = Hive.box("profile").get("profile");
+
+    if (profileJson != null) {
+      profileData = SellerProfileDataModel.fromJson(
+        profileJson as Map<String, dynamic>,
+      );
+    }
+
+    setState(() {}); // refresh UI
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,12 +66,16 @@ class _UpdateProfileState extends State<UpdateProfile> {
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
                       ),
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        height: 0.3.height,
-                        imageUrl:
-                            "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/480665651_2001369400373220_7048298799208039212_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=ySr3hElViDoQ7kNvwGicKe8&_nc_oc=Adn5qF01bGEI-39ABmMvFQdCQ88HXKtFH1KDJjP-dnFZOkhtfSvL1NPHSVFTbTqhSfw&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=ZFqGXwhLDtWrSD3MVpqYyw&oh=00_AfdZtnAQd7bfcu6AUEtNZ_DQYBGnl68tdYlZsOI4J_IdgA&oe=68F4D0D3",
-                      ),
+                      child: (profileData?.image == null)
+                          ? Expanded(
+                            child: CachedNetworkImage(
+                                imageUrl: profileData?.image ??
+                                    "https://t4.ftcdn.net/jpg/02/32/92/55/360_F_232925587_st4gM8b3TJHtjjddCIUNyVyFJmZqMmn4.jpg",
+                                fit: BoxFit.cover,
+                              ),
+                          )
+                          : Image.asset(
+                              "assets/icons/6bba4bcefbf2517903b036b36a49572ab87e646b.png"),
                     ),
                     SafeArea(
                       child: Positioned.directional(
@@ -102,7 +132,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       child: CircleAvatar(
                         radius: 90,
                         backgroundImage: NetworkImage(
-                          "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/522598565_2125203187989840_3408856964049920562_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=hwTNFISweNIQ7kNvwHr9Zdb&_nc_oc=AdnMQ0m3nJbD1zU_9WuWfehmMwdjnp6y6YD278GFwhgn3Qac3kW0fo-DBTVj4GEMRy4&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=RehYErSYGbaHAvrztoBhYQ&oh=00_Afc3Rm_jz4TBFDgEa2ocgWxON9TIBse3_H30HEuQCgsMow&oe=68F4CE91",
+                          profileData?.image ??
+                              "https://scontent.fcai30-1.fna.fbcdn.net/v/t39.30808-6/522598565_2125203187989840_3408856964049920562_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=hwTNFISweNIQ7kNvwHr9Zdb&_nc_oc=AdnMQ0m3nJbD1zU_9WuWfehmMwdjnp6y6YD278GFwhgn3Qac3kW0fo-DBTVj4GEMRy4&_nc_zt=23&_nc_ht=scontent.fcai30-1.fna&_nc_gid=RehYErSYGbaHAvrztoBhYQ&oh=00_Afc3Rm_jz4TBFDgEa2ocgWxON9TIBse3_H30HEuQCgsMow&oe=68F4CE91",
                         ),
                       ).alignBottom(),
                     ),
@@ -153,9 +184,13 @@ class _UpdateProfileState extends State<UpdateProfile> {
                           ),
                         ],
                       ).alignBottom(),
-                    )
+                    ),
                   ],
                 ),
+              ),
+              Lottie.asset(
+                "assets/icons/Coming Soon.json",
+                repeat: false,
               ),
             ],
           ),

@@ -6,6 +6,7 @@ import 'package:rowad_hrag/core/constant/app_assets.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/services/cash_helper.dart';
 import 'package:rowad_hrag/core/services/sharing_services.dart';
 import 'package:rowad_hrag/core/services/url_launcher_func.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
@@ -134,7 +135,7 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
                       text: "أضف عرض",
                       imagePath:
                           "assets/icons/83d25617f98c4abb7e36c2ec89748dfdae13cd24.png",
-                      onTap: () => {},
+                      onTap: () =>UrlLauncherFunc.openUrl("https://rowad-harag.com/add-ad"),
                     ),
                     0.03.height.hSpace,
                     CustomProfileTabIcon(
@@ -236,24 +237,35 @@ class _SuccessProfileStatesState extends State<SuccessProfileStates> {
               //   onTap: () {},
               //   isWithArrow: false,
               // ).center,
-              Row(
-                textDirection: TextDirection.rtl,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/icons/b7d22427f5adf3c7a5176b2e95791718eedb8afd.png",
-                    height: 40,
-                    width: 40,
-                  ),
-                  0.08.width.vSpace,
-                  Text(
-                    "${widget.profileDataModel.name}تسجيل خروج",
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: AppColors.secondaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ],
+              InkWell(
+                onTap: () async {
+                  await CashHelper.remove("auth");
+                  await CashHelper.remove("Token");
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteNames.signIn,
+                    (context) => false,
+                  );
+                },
+                child: Row(
+                  textDirection: TextDirection.rtl,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/icons/b7d22427f5adf3c7a5176b2e95791718eedb8afd.png",
+                      height: 40,
+                      width: 40,
+                    ),
+                    0.08.width.vSpace,
+                    Text(
+                      "${widget.profileDataModel.name}تسجيل خروج",
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            color: AppColors.secondaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ),
               ),
               0.05.height.hSpace,
             ],

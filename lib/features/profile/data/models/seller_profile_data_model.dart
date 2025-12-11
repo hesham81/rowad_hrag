@@ -13,7 +13,7 @@ class SellerProfileDataModel extends SellerProfile {
     required super.verifiedImg,
     required super.products,
     required super.orders,
-    required super.sales,
+    // required super.sales,
     required super.description,
     required super.title,
   });
@@ -23,19 +23,19 @@ class SellerProfileDataModel extends SellerProfile {
       name: json['name'],
       email: json['email'],
       // type: json['type'],
-      image: json['seller_package_img'],
+      image: json['logo'],
       id: json['user_id'],
-      phone: json['phone'],
+      phone: json['phone'] ?? "",
       rating: (json['rating'] is num && json['rating'] is double)
           ? json['rating']
           : double.parse(json['rating'].toString()),
-      verified: json['verified'],
-      verifiedImg: json['verified_img'],
+      verified: json['verified'] ?? "",
+      verifiedImg: json['verified_img'] ?? "",
       products: (json['products'] is num )? json['products'] : 1,
       orders: (json['orders'] is num )? json['orders'] : 1,
-      sales: json['sales'],
-      description: json['description'],
-      title: json['title'],
+      // sales: json['sales'],
+      description: json['description'] ?? "",
+      title: json['title'] ?? "",
     );
   }
 
@@ -51,7 +51,7 @@ class SellerProfileDataModel extends SellerProfile {
         'verified_img': verifiedImg,
         'products': products,
         'orders': orders,
-        'sales': sales,
+        // 'sales': sales,
         'description': description,
         'title': title,
       };

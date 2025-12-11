@@ -68,67 +68,74 @@ class _AllProductsWidgetState extends State<AllProductsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      width: double.maxFinite,
-      decoration: BoxDecoration(
-          color: (widget.isOdd)
-              ? AppColors.secondaryColor.withAlpha(120)
-              : AppColors.primaryColor,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: AppColors.greenColor,
-          )),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: CachedNetworkImage(
-              height: 0.15.height,
-              width: 0.35.width,
-              fit: BoxFit.fill,
-              imageUrl: widget.product.thumbnailImage ?? "",
-            ),
-          ),
-          0.03.width.vSpace,
-          Expanded(
-            child: Column(
-              textDirection: TextDirection.rtl,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  widget.product.name ?? "",
-                  textAlign: TextAlign.right,
-                  style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                0.1.height.hSpace,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    Text(
-                      (widget.product.userName!.length > 20)
-                          ? widget.product.userName!.substring(0, 20)
-                          : widget.product.userName ?? "غير معروف",
-                      overflow: TextOverflow.ellipsis,
-                      style:
-                          Theme.of(context).textTheme.labelMedium!.copyWith(),
-                    ),
-                    Spacer(),
-                    IconText(
-                      rate: widget.product.cityName ?? "غير معروف",
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ],
+    return InkWell(
+      onTap: () => Navigator.pushNamed(
+        context,
+        RouteNames.productDetails,
+        arguments: widget.product.slug,
       ),
-    ).hPadding(0.03.width);
+      child: Container(
+        padding: EdgeInsets.all(10),
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+            color: (widget.isOdd)
+                ? AppColors.secondaryColor.withAlpha(120)
+                : AppColors.primaryColor,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: AppColors.greenColor,
+            )),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CachedNetworkImage(
+                height: 0.15.height,
+                width: 0.35.width,
+                fit: BoxFit.fill,
+                imageUrl: widget.product.thumbnailImage ?? "",
+              ),
+            ),
+            0.03.width.vSpace,
+            Expanded(
+              child: Column(
+                textDirection: TextDirection.rtl,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.product.name ?? "",
+                    textAlign: TextAlign.right,
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  0.1.height.hSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    textDirection: TextDirection.rtl,
+                    children: [
+                      Text(
+                        (widget.product.userName!.length > 14)
+                            ? widget.product.userName!.substring(0, 14)
+                            : widget.product.userName ?? "غير معروف",
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                            Theme.of(context).textTheme.labelSmall!.copyWith(),
+                      ),
+                      Spacer(),
+                      IconText(
+                        rate: widget.product.cityName ?? "غير معروف",
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ).hPadding(0.03.width),
+    );
   }
 }

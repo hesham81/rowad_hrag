@@ -35,6 +35,48 @@ class _ProductWidgetState extends State<ProductWidget> {
       return screenWidth < 380 ? 12.0 : 14.0;
     }
 
+    String _formatDateArabic(DateTime past) {
+      final now = DateTime.now();
+      final diff = now.difference(past);
+      final int totalMinutes = diff.inMinutes;
+      final int totalHours = diff.inHours;
+      final int days = totalHours ~/ 24;
+      final int months = days ~/ 30;
+
+      if (totalMinutes < 1) return "الآن";
+      if (totalMinutes == 1) return "منذ دقيقة";
+      if (totalMinutes == 2) return "منذ دقيقتين";
+      if (totalMinutes >= 3 && totalMinutes <= 10) {
+        const arabicNumerals = ['٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠'];
+        return "منذ ${arabicNumerals[totalMinutes - 3]} دقائق";
+      }
+      if (totalMinutes < 60) return "منذ $totalMinutes دقيقة";
+
+      if (totalHours == 1) return "منذ ساعة";
+      if (totalHours == 2) return "منذ ساعتين";
+      if (totalHours >= 3 && totalHours <= 10) {
+        const arabicNumerals = ['٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠'];
+        return "منذ ${arabicNumerals[totalHours - 3]} ساعات";
+      }
+      if (totalHours < 24) return "منذ $totalHours ساعة";
+
+      if (days == 1) return "منذ يوم";
+      if (days == 2) return "منذ يومين";
+      if (days >= 3 && days <= 10) {
+        const arabicNumerals = ['٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠'];
+        return "منذ ${arabicNumerals[days - 3]} أيام";
+      }
+      if (months == 0) return "منذ $days يوم";
+
+      if (months == 1) return "منذ شهر";
+      if (months == 2) return "منذ شهرين";
+      if (months >= 3 && months <= 10) {
+        const arabicNumerals = ['٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠'];
+        return "منذ ${arabicNumerals[months - 3]} شهور";
+      }
+      return "منذ $months شهر";
+    }
+
     final double imageSize = isTablet ? 0.3.height : 0.25.height;
     final double containerWidth = isTablet ? 0.4.width : 0.7.width;
     final double padding = isTablet ? 16.0 : 10.0;
@@ -60,6 +102,7 @@ class _ProductWidgetState extends State<ProductWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
+              flex: 2,
               child: CachedNetworkImage(
                 imageUrl: widget.product.thumbnailImage,
                 height: 0.15.height,
@@ -77,6 +120,22 @@ class _ProductWidgetState extends State<ProductWidget> {
                   ),
             ),
             0.01.height.hSpace,
+            Text(
+              widget.product.userName ?? "",
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black.withAlpha(80),
+                  ),
+            ),
+            0.01.height.hSpace,
+            Text(
+              widget.product.cityName ?? "",
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black.withAlpha(80),
+                  ),
+            ),
+            0.01.height.hSpace,
             Row(
               textDirection: TextDirection.rtl,
               children: [
@@ -86,20 +145,14 @@ class _ProductWidgetState extends State<ProductWidget> {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                Spacer(),
-                if (widget.displayFavourite)
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isLiked = !isLiked;
-                      });
-                    },
-                    icon: Icon(
-                      (isLiked) ? Icons.favorite : Icons.favorite_outline,
-                      color: AppColors.secondaryColor,
-                    ),
-                  ),
+
+
               ],
+            ),
+            Text(
+              _formatDateArabic(
+                widget.product.createdAt ?? DateTime.now(),
+              ),
             ),
           ],
         ),

@@ -7,11 +7,16 @@ import 'package:route_transitions/route_transitions.dart';
 import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
+import 'package:rowad_hrag/core/widget/arrow_widget.dart';
 import 'package:rowad_hrag/core/widget/custom_elevated_button.dart';
+import 'package:rowad_hrag/core/widget/linked_text.dart';
+import 'package:rowad_hrag/core/widget/product_review_widget.dart';
 import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/plans/presentation/pages/plans_screen.dart';
 import 'package:rowad_hrag/features/product_details/data/models/message_request_data_model.dart';
+import 'package:rowad_hrag/features/product_details/data/models/product_details_data_model.dart';
 import 'package:rowad_hrag/features/product_details/presentation/widgets/message_content.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../core/services/cash_helper.dart';
 import '../../../../core/services/url_launcher_func.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -47,6 +52,23 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
     super.initState();
   }
 
+  List<String> images = [];
+  bool inited = false;
+
+  _initImages(ProductDetailsDataModel data) {
+    inited = true;
+    List<String> imagesData = [];
+
+    images = data.photos;
+    for (var image in images) {
+      image = image.replaceAll("storage", "public");
+      imagesData.add(image);
+    }
+    images = imagesData;
+    images.add("https://rowad-harag.com/public/${data.image}");
+    // setState(() {});
+  }
+
   _showMessageContent(
     String hint,
     Function(MessageRequestDataModel) onSend,
@@ -70,305 +92,189 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
     );
   }
 
+  var controller = PageController();
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<ProductDetailsCubit>();
     return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
         builder: (context, state) {
       if (state is ProductDetailsLoaded) {
+        if (!inited) {
+          _initImages(state.productDetailsDataModel);
+        }
         return Scaffold(
-          floatingActionButton: WhatsappIconButton(),
-          bottomNavigationBar: CustomElevatedButton(
-            onPressed: (token == null)
-                ? () => pushNamed(newPage: RouteNames.signIn, context: context)
-                : () {
-                    Navigator.pushNamed(
-                      context,
-                      RouteNames.plans,
-                    );
-                  },
-            child: Text(
-              "دفع الرسوم",
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: AppColors.primaryColor,
-                  ),
-            ),
-          ),
-          appBar: AppBar(
-            title: Text(
-              cubit.productDetailsDataModel?.name ?? "",
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColor,
-                  ),
-            ),
-            leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: AppColors.primaryColor,
-              ),
-            ),
-          ),
           body: SingleChildScrollView(
             child: Column(
+              textDirection: TextDirection.rtl,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                CachedNetworkImage(
-                  imageUrl: (selectedIndex == null)
-                      ? "https://rowad-harag.com/public/${state.productDetailsDataModel.image}"
-                      : state.productDetailsDataModel.photos[selectedIndex!]
-                          .replaceAll("storage", "public"),
-                  width: double.maxFinite,
-                ),
-                0.01.height.hSpace,
-                SizedBox(
-                  height: 0.15.height,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                          },
-                          child: CachedNetworkImage(
-                            imageUrl: state
-                                .productDetailsDataModel.photos[index]
-                                .replaceAll("storage", "public"),
-                            fit: BoxFit.contain,
-                            height: 0.15.height,
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => 0.01.width.vSpace,
-                    itemCount: state.productDetailsDataModel.photos.length,
-                  ),
-                ),
-                0.01.height.hSpace,
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            state.productDetailsDataModel.name ?? "",
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    0.01.height.hSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          cubit.statesDataModel?.name ?? "",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(),
-                        ).alignRight(),
-                        Text(
-                          " :  المنطقه ",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(),
-                        ).alignRight(),
-                      ],
-                    ),
-                    0.01.height.hSpace,
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     Text(
-                    //       cubit.cityData?.name ?? "",
-                    //       style: Theme.of(context)
-                    //           .textTheme
-                    //           .titleMedium!
-                    //           .copyWith(),
-                    //     ).alignRight(),
-                    //     Text(
-                    //       " :  المدينه ",
-                    //       style: Theme.of(context)
-                    //           .textTheme
-                    //           .titleMedium!
-                    //           .copyWith(),
-                    //     ).alignRight(),
-                    //   ],
-                    // ),
-                    // 0.01.height.hSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          state.productDetailsDataModel.user.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(),
-                        ),
-                        0.01.width.vSpace,
-                        Text(
-                          " : تم بواسطه",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(),
-                        ),
-                      ],
-                    ),
-                    0.01.height.hSpace,
-                    InkWell(
-                      onTap: (token == null)
-                          ? () => pushNamed(
-                              newPage: RouteNames.signIn, context: context)
-                          : () {
-                              _showMessageContent(
-                                state.productDetailsDataModel.name,
-                                cubit.sendMessage,
-                                state.productDetailsDataModel.user.id,
-                              );
-                            },
-                      child: Container(
-                        width: 0.25.width,
-                        height: 0.04.height,
-                        decoration: BoxDecoration(
-                            color: Colors.green.withAlpha(90),
-                            borderRadius: BorderRadius.circular(80)),
-                        child: Icon(
-                          Icons.message_sharp,
-                          color: Colors.black,
+                SafeArea(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ArrowWidget(),
+                      Text(
+                        "تفاصيل المنتج",
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: AppColors.greenColor,
+                            ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.share_outlined,
+                          color: AppColors.greenColor,
                         ),
                       ),
-                    ).alignRight(),
-                    0.01.height.hSpace,
-                    Row(
-                      children: [
-                        Text(
-                          state.productDetailsDataModel.unitPrice.toString() ??
-                              "",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.secondaryColor),
-                        ),
-                        Spacer(),
-                        Text(
-                          "السعر الكلي   ",
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
+                    ],
+                  ),
+                ),
+                0.03.height.hSpace,
+                Container(
+                  width: double.maxFinite,
+                  height: 0.3.height,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                      color: AppColors.greenColor,
+                      width: 1.4,
                     ),
-                    0.01.height.hSpace,
-                    Divider(),
-                    0.01.height.hSpace,
-                    Text(
-                      "وصف",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
+                  ),
+                  child: PageView(
+                    controller: controller,
+                    padEnds: false,
+                    pageSnapping: true,
+                    // 👈 Enable snapping
+                    physics: const ClampingScrollPhysics(),
+                    // or BouncingScrollPhysics() if preferred
+                    onPageChanged: (value) {
+                      setState(() {
+                        selectedIndex = value;
+                      });
+                    },
+                    children: images
+                        .map(
+                          (e) => ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: CachedNetworkImage(
+                              imageUrl: e,
+                              width: double.maxFinite,
+                            ),
                           ),
-                    ).alignRight(),
-                    0.01.height.hSpace,
-                    Text(
-                      state.productDetailsDataModel.description ?? "",
-                      textAlign: TextAlign.right,
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ).alignRight(),
-                    0.01.height.hSpace,
-                    Divider(),
-                    0.01.height.hSpace,
-                    Text(
-                      "تقيمات الإعلان",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ).alignRight(),
-                    0.01.height.hSpace,
-                    (state.productDetailsDataModel.reviews.isEmpty)
-                        ? Text(
-                            "لا يوجد تقيمات",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          )
-                        : ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return ProductDetailsReviewWidget(
-                                productDetailsReview: state
-                                    .productDetailsDataModel.reviews[index],
-                              );
-                            },
-                            separatorBuilder: (context, index) =>
-                                0.01.height.hSpace,
-                            itemCount:
-                                state.productDetailsDataModel.reviews.length,
-                          ).hPadding(0.02.width),
-                  ],
+                        )
+                        .toList(),
+                  ),
                 ),
                 0.02.height.hSpace,
-                Divider().hPadding(0.03),
+                SmoothPageIndicator(
+                  controller: controller,
+                  count: images.length,
+                  onDotClicked: (index) => setState(() {
+                    selectedIndex = index;
+                  }),
+                  effect: ColorTransitionEffect(
+                    activeDotColor: AppColors.greenColor,
+                  ),
+                ).center,
+                0.02.height.hSpace,
+                Text(
+                  state.productDetailsDataModel.name,
+                  textDirection: TextDirection.rtl,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: AppColors.greenColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                0.02.height.hSpace,
+                Text(
+                  "الوصف",
+                  textDirection: TextDirection.rtl,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(),
+                ),
+                0.02.height.hSpace,
+                ClickableText(
+                  text: state.productDetailsDataModel.description,
+                  textDirection: TextDirection.rtl,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.black.withAlpha(130),
+                      ),
+                ),
+                0.02.height.hSpace,
+                Text(
+                  "التعليقات",
+                  textDirection: TextDirection.rtl,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(),
+                ),
+                0.02.height.hSpace,
+                ListView.separated(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => ProductReviewWidget(
+                    review: state.productDetailsDataModel.reviews[index],
+                  ),
+                  separatorBuilder: (context, index) => Divider(),
+                  itemCount: state.productDetailsDataModel.reviews.length,
+                ),
+                0.02.height.hSpace,
+                Text(
+                  "السعر",
+                  textDirection: TextDirection.rtl,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(),
+                ),
+                0.02.height.hSpace,
+                Text(
+                  "${state.productDetailsDataModel.unitPrice.toString()} ريال  ",
+                  textDirection: TextDirection.rtl,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.black.withAlpha(130),
+                      ),
+                ),
                 0.02.height.hSpace,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
+                  textDirection: TextDirection.ltr,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          state.productDetailsDataModel.user.name,
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                        0.01.height.hSpace,
-                        Text(
-                          state.productDetailsDataModel.user.email,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
+                    Text(
+                      state.productDetailsDataModel.user.name,
+                      textDirection: TextDirection.rtl,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
-                    0.05.width.vSpace,
+                    0.03.width.vSpace,
                     CircleAvatar(
-                      radius: 35,
                       backgroundImage: CachedNetworkImageProvider(
                         state.productDetailsDataModel.user.avatar ??
-                            "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
+                            "data:image/png;base64,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",
                       ),
-                    ).alignRight(),
+                    ),
                   ],
-                ),
+                ).alignRight(),
                 0.02.height.hSpace,
+                CustomElevatedButton(
+                  onPressed: (token == null)
+                      ? () => pushNamed(
+                          newPage: RouteNames.signIn, context: context)
+                      : () {
+                          Navigator.pushNamed(
+                            context,
+                            RouteNames.plans,
+                          );
+                        },
+                  child: Text(
+                    "دفع الرسوم",
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+                0.04.height.hSpace,
               ],
-            ),
+            ).hPadding(0.03.width),
           ),
         );
       } else if (state is ProductDetailsError) {
@@ -413,10 +319,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
       } else {
         return Scaffold(
           body: Center(
-            child: CircularProgressIndicator(
-              backgroundColor: AppColors.secondaryColor,
-              color: AppColors.darkTeal,
-            ),
+            child: CircularProgressIndicator.adaptive(),
           ),
         );
       }
