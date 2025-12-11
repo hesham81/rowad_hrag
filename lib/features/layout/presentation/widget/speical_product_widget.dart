@@ -157,14 +157,14 @@ class _SpecialProductWidgetState extends State<SpecialProductWidget> {
             0.01.height.hSpace,
             Text(
               widget.product.name,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             0.01.height.hSpace,
             Text(
               widget.product.mainPrice ?? "",
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black.withAlpha(80),
                   ),
@@ -172,7 +172,7 @@ class _SpecialProductWidgetState extends State<SpecialProductWidget> {
             0.01.height.hSpace,
             Text(
               widget.product.userName ?? "",
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black.withAlpha(80),
                   ),
@@ -180,10 +180,15 @@ class _SpecialProductWidgetState extends State<SpecialProductWidget> {
             0.01.height.hSpace,
             Text(
               widget.product.cityName ?? "",
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black.withAlpha(80),
                   ),
+            ),
+            Text(
+              _formatDateArabic(
+                widget.product.createdAt ?? DateTime.now(),
+              ),
             ),
             Spacer(),
             CustomElevatedButton(
