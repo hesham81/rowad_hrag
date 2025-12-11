@@ -10,6 +10,7 @@ import 'package:rowad_hrag/core/widget/whatsapp_icon_button.dart';
 import 'package:rowad_hrag/features/login_to_continue/presentation/pages/login_to_continue.dart';
 import 'package:rowad_hrag/features/plans/presentation/widget/card_subscription_item.dart';
 import '../../../../core/services/cash_helper.dart';
+import 'package:rowad_hrag/core/widget/arrow_widget.dart';
 import '../manager/plans_cubit.dart';
 
 class PlansScreen extends StatefulWidget {
@@ -50,26 +51,25 @@ class _PlansScreenState extends State<PlansScreen> {
               if (state is PlansLoadedState) {
                 return Scaffold(
                   floatingActionButton: WhatsappIconButton(),
-                  appBar: AppBar(
-                    title: Text(
-                      "سداد الرسوم و  الاشتراكات",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryColor,
-                          ),
-                    ),
-                    leading: IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                  ),
                   body: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        SafeArea(
+                          child: Row(
+                            children: [
+                              ArrowWidget(),
+                              Spacer(),
+                              Text(
+                                "سداد الرسوم والاشتراكات",
+                                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.greenColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         0.01.height.hSpace,
                         Text(
                           "خطط الاشتراك",
@@ -81,6 +81,7 @@ class _PlansScreenState extends State<PlansScreen> {
                         ).alignRight(),
                         0.01.height.hSpace,
                         ListView.separated(
+                          padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) => GestureDetector(

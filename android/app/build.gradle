@@ -23,7 +23,6 @@ android {
     namespace = "com.rowad_hrag.application"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
-    buildToolVersion "36.1.0"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

@@ -2,10 +2,12 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rowad_hrag/core/constant/app_assets.dart';
+import 'package:rowad_hrag/core/extensions/align.dart';
 import 'package:rowad_hrag/core/extensions/extensions.dart';
 import 'package:rowad_hrag/core/route/route_names.dart';
 import 'package:rowad_hrag/core/theme/app_colors.dart';
 import 'package:rowad_hrag/features/sub_categories/presentation/widget/sub_category_product.dart';
+import '../../../../core/widget/arrow_widget.dart';
 import '../../../layout/data/models/sub_categories_data_model.dart';
 
 class SubCategoriesScreen extends StatefulWidget {
@@ -53,25 +55,40 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.title,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryColor,
-          ),
-        ),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.primaryColor,
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     widget.title,
+      //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
+      //       fontWeight: FontWeight.bold,
+      //       color: AppColors.primaryColor,
+      //     ),
+      //   ),
+      //   leading: IconButton(
+      //     onPressed: () => Navigator.pop(context),
+      //     icon: Icon(
+      //       Icons.arrow_back_ios,
+      //       color: AppColors.primaryColor,
+      //     ),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SafeArea(
+              child: Row(
+                children: [
+                  ArrowWidget(),
+                  Spacer(),
+                  Text(
+                    widget.title,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.greenColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             0.02.height.hSpace,
             CupertinoSearchTextField(
               controller: searchController,
@@ -83,6 +100,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
               Image.asset(AppAssets.noSearchResult)
             else
               ListView.separated(
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: searchList.length,

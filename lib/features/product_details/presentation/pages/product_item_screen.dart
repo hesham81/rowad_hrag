@@ -122,9 +122,15 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                             ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _showMessageContent(
+                            state.productDetailsDataModel.name,
+                            cubit.sendMessage,
+                            state.productDetailsDataModel.user.id,
+                          );
+                        },
                         icon: Icon(
-                          Icons.share_outlined,
+                          Icons.message_outlined,
                           color: AppColors.greenColor,
                         ),
                       ),
